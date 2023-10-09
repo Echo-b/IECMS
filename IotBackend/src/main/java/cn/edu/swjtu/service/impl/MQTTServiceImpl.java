@@ -129,9 +129,14 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         String sender = s.substring(s.indexOf("/") + 1);
         System.out.println("sender = " + sender);
+        /**
+         * 下述到达消息为嵌入式设备采集并发送至mqtt服务器的温湿度，需将温湿度进行处理存入normal_data数据表
+         * 如果温湿度过高，那么存入alter_info数据表，基准值自由设置
+         * 此外为了防止数据存入过多，应采集一段数据然后求平均值在进行存入，或者设备端控制发送数据的时间
+         */
         String str = new String(mqttMessage.getPayload());
         System.out.println("str = " + str);
-       // handle(sender, str);
+
     }
 
     public static void handle(String sender, String str) {
