@@ -1,0 +1,36 @@
+## pro start configure
+server:
+  port: 8080
+
+## database configure
+spring:
+    devtools:
+      restart:
+        enabled: false #开启热部署
+        additional-paths: src/main/java
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/iott?characterEncoding=utf8&serverTimezone=UTC
+      username: echo
+      password: bsb010306
+
+
+## mqtt configure
+mqtt:
+  address: tcp://127.0.0.1:1883
+  client_id: iot_sub
+  user_name: admin
+  password: public
+  subTopic: device_msg
+  pubTopic: control_msg
+  keep_alive: 60
+  timeout: 60
+
+## token
+jwt:
+  expire: 604800
+  secret: "qYYjXt7s1C*nEC%9RCwQGFA$YwPr$Jrj"
+
+## mybatis configure
+mybatis:
+  mapper-locations: classpath:cn/edu/cnu/iiot/mapper/*.xml

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cnu.iiot.mapper.DeviceMapper">
+    <insert id="addDevice">
+        insert into device (did,deviceName,status,longitude,latitude)
+        values (#{did},#{deviceName},#{status},#{longitude},#{latitude});
+    </insert>
+
+
+    <update id="modifyStatus">
+        update device
+        set status = #{status}
+        where did = #{did};
+    </update>
+
+    <delete id="deleteById">
+        delete
+        from device
+        where did = #{did};
+    </delete>
+</mapper>
