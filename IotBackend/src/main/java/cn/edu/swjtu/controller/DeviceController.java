@@ -46,7 +46,7 @@ public class DeviceController {
     }
 
     @PostMapping("/control")
-    public ResponseData controlDevice(@RequestBody ControllInfo c) {
+    public ResponseData controlDevice(ControllInfo c) {
         System.out.println("c = " + c);
         return mqttService.pubMqttMsg(c);
     }

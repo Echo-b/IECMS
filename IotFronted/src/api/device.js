@@ -40,17 +40,9 @@ export function deleteDevice(did) {
   })
 }
 
-export function DeviceAction(form) {
-  return request({
-    url: '/device/action',
-    method: 'post',
-    params: form
-  })
-}
-
 export function DeviceControll(form) {
   return request({
-    url: '/device/controll',
+    url: '/device/control',
     method: 'post',
     params: form
   })

@@ -87,9 +87,14 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                 }
             }
             else {
-                MqttMessage message = new MqttMessage();
-                message.setPayload(c.getCommand().getBytes());
+                String encodeCommand = "";
                 // 此处command可能需要进一步解析
+                switch (c.getCommand()){
+                    case "LEDON" : encodeCommand = "{\"LED\":1}"; break;
+                    case "LEDOFF" : encodeCommand = "{\"LED\":0}"; break;
+                }
+                MqttMessage message = new MqttMessage();
+                message.setPayload(encodeCommand.getBytes());
                 System.out.println("message = " + message);
                 this.client.publish(c.getTopic(),message);
                 System.out.println("消息推送至mqtt server成功");

@@ -220,22 +220,7 @@ void OneNet_RevPro(unsigned char *cmd)
 				UsartPrintf(USART_DEBUG, "Error before: [%s]\n", cJSON_GetErrorPtr());
 			else
 			{
-				json_value = cJSON_GetObjectItem(json, "LED_SW");
-				//					UsartPrintf(USART_DEBUG,"json_value: [%s]\n",json_value->string);
-				//					UsartPrintf(USART_DEBUG,"json_value: [%s]\n",json_value->valuestring);
-				//					if(strstr(json_value->valuestring,"LED") != NULL)
-				//					{
-				//						json_value = cJSON_GetObjectItem(json , "value");
-				//						if(json_value->valueint) LED_ON();//开灯
-				//						else LED_OFF();//关灯
-				//					}
-				//					else
-				//					{
-				//						json_value = cJSON_GetObjectItem(json , "value");
-				//						if(json_value->valueint)alarmFlag = 1;//打开报警器
-				//						else alarmFlag = 0;//关闭报警器
-				//						alarm_is_free=0;//上位机控制跟手动控制具有一样的优先级 优先于自动控制，因此要把alarm_is_free 归0
-				//					}
+				json_value = cJSON_GetObjectItem(json, "LED");
 				if (json_value->valueint) // json_value > 0且为整形
 				{
 					LED_ON();

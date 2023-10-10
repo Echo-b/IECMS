@@ -88,7 +88,7 @@ int main(void)
 			/********** 温湿度传感器获取数据**************/
 			DHT11_Read_Data(&humidityH, &humidityL, &temperatureH, &temperatureL);
 		}
-		if (++timeCount >= 300) // 发送间隔5s
+		if (++timeCount >= 600) // 发送间隔5s
 		{
 			Led_Status = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0); // 读取LED0的状态
 			DEBUG_LOG("==================================================================================");

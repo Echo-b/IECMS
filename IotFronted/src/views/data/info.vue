@@ -43,7 +43,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center" width="200">
+      <el-table-column label="操作" align="center" width="300">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -54,7 +54,12 @@
             size="mini"
             type="success"
             @click="handleExpand(scope.row.did)"
-          >查看数据图</el-button>
+          >查看温度图</el-button>
+          <el-button
+            size="mini"
+            type="success"
+            @click="handleExpand(scope.row.did)"
+          >查看湿度图</el-button>
         </template>
       </el-table-column>
     </el-table>

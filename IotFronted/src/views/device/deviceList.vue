@@ -42,8 +42,7 @@
             size="mini"
             type="success"
             @click="handleExpand(scope.row.did)"
-            >详细</el-button
-          >
+            >详细</el-button>
         </template>
       </el-table-column>
     </el-table>

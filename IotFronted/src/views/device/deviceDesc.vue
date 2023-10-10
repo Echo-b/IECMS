@@ -46,47 +46,34 @@
           <i class="el-icon-video-play" />
           动作
         </template>
-
-        <el-dropdown style="margin-right:1rem" size="small" @command="handleOpenCommand">
-          <el-button
-            size="mini"
-            type="primary"
-          >打开<i class="el-icon-arrow-down el-icon--right" /></el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="opennow">立即打开</el-dropdown-item>
-            <el-dropdown-item command="delayopen">延时打开</el-dropdown-item>
-
-          </el-dropdown-menu>
-        </el-dropdown>
-
-        <el-dropdown size="small" @command="handleCloseCommand">
-          <el-button
-            size="mini"
-            type="danger"
-          >关闭<i class="el-icon-arrow-down el-icon--right" /></el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="closenow">立即关闭</el-dropdown-item>
-            <el-dropdown-item command="delayclose">延时关闭</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <el-button
+          size="mini"
+          type="primary"
+          @click="handleOpenCommand"
+        >打开</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleCloseCommand"
+        >关闭</el-button>
 
       </el-descriptions-item>
     </el-descriptions>
-    <model-vue :did="device.did" />
+    <!-- <model-vue :did="device.did" /> -->
 
   </div>
 
 </template>
 
 <script>
-import { getDeviceById, DeviceAction, DeviceControll } from '@/api/device'
+import { getDeviceById, DeviceControll } from '@/api/device'
 
-import modelVue from './model.vue'
+// import modelVue from './model.vue'
 
 export default {
-  components: {
-    modelVue
-  },
+  // components: {
+  //   modelVue
+  // },
   data() {
     return {
       device: {
@@ -108,14 +95,14 @@ export default {
     }
   },
   methods: {
-    handleOpenCommand(c) {
+    handleOpenCommand() {
       const form = {
-        deviceName: this.device.deviceName,
         did: this.device.did,
-        topic: '/topics/led/sub',
-        command: 'LEDON'
+        command: 'LEDON',
+        deviceName: this.device.deviceName,
+        topic: '/topics/led/sub'
       }
-      DeviceAction(form).then((res) => {
+      DeviceControll(form).then((res) => {
         this.$notify({
           title: '设置完毕',
           message: res.msg,
@@ -125,14 +112,14 @@ export default {
         console.log(res)
       })
     },
-    handleCloseCommand(c) {
+    handleCloseCommand() {
       const form = {
-        deviceName: this.device.deviceName,
         did: this.device.did,
-        topic: '/topics/led/sub',
-        command: 'LEDOFF'
+        command: 'LEDOFF',
+        deviceName: this.device.deviceName,
+        topic: '/topics/led/sub'
       }
-      DeviceAction(form).then((res) => {
+      DeviceControll(form).then((res) => {
         this.$notify({
           title: '设置完毕',
           message: res.msg,

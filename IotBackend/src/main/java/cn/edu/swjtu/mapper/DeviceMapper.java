@@ -31,8 +31,8 @@ public interface DeviceMapper {
     @Select("select count(*) from device;")
     int countDeviceNum();
 
-    @Insert("insert into controll_info_record (did,deviceName,topic,command) values" +
-            "(#{did},#{deviceName},#{command},#{topic})")
+    @Insert("insert into command_record (did,command,deviceName,topic) values" +
+            "(#{did},#{command},#{deviceName},#{topic})")
     int DeviceControll(ControllInfo c);
 
 
