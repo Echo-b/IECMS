@@ -100,7 +100,8 @@ export default {
         did: this.device.did,
         command: 'LEDON',
         deviceName: this.device.deviceName,
-        topic: '/topics/led/sub'
+        topic: '/topics/led/sub',
+        date: ''
       }
       DeviceControll(form).then((res) => {
         this.$notify({

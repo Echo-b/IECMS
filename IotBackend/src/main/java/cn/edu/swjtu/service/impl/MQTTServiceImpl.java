@@ -9,6 +9,8 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static cn.edu.swjtu.utils.DateUtil.getDate;
+
 
 /**
  * 此类为mqtt各种操作的实现
@@ -89,6 +91,7 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
             else {
                 String encodeCommand = "";
                 // 此处command可能需要进一步解析
+                // 推送至mqtt的消息可以重新封装成标准的json格式，这样便于嵌入式部分解析
                 switch (c.getCommand()){
                     case "LEDON" : encodeCommand = "{\"LED\":1}"; break;
                     case "LEDOFF" : encodeCommand = "{\"LED\":0}"; break;
@@ -98,7 +101,8 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                 System.out.println("message = " + message);
                 this.client.publish(c.getTopic(),message);
                 System.out.println("消息推送至mqtt server成功");
-                // 推送至mqtt的消息可以重新封装成标准的json格式，这样便于嵌入式部分解析
+
+                c.setDate(getDate());
                 if(mapper.DeviceControll(c) == 1){
                     System.out.println("消息记录已存储至数据库");
                 }

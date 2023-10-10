@@ -8,4 +8,5 @@ public class ControllInfo {
     private String command;
     private String deviceName;
     private String topic;
+    private String date;
 }
