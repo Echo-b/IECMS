@@ -180,7 +180,7 @@ void OneNet_RevPro(unsigned char *cmd)
 
 	short result = 0;
 
-	cJSON *json, *json_value;
+	cJSON *json = NULL;
 
 	char *dataPtr = NULL;
 	char numBuf[10];
@@ -215,13 +215,36 @@ void OneNet_RevPro(unsigned char *cmd)
 			DEBUG_LOG("topic: %s, topic_len: %d, payload: %s, payload_len: %d\r\n",
 					  cmdid_topic, topic_len, req_payload, req_len);
 			// 对数据包req_payload进行JSON格式解析
+			cJSON *cjson_command = NULL;
+			cJSON *cjson_led = NULL;
+			cJSON *cjson_led_status = NULL;
+			cJSON *cjson_htSensor = NULL;
+			cJSON *cjson_temperture = NULL;
+			cJSON *cjson_humidity = NULL;
+			cJSON *cjson_device_status = NULL;
 			json = cJSON_Parse(req_payload);
+			
 			if (!json)
 				UsartPrintf(USART_DEBUG, "Error before: [%s]\n", cJSON_GetErrorPtr());
 			else
 			{
-				json_value = cJSON_GetObjectItem(json, "LED");
-				if (json_value->valueint) // json_value > 0且为整形
+				/* 依次根据名称提取JSON数据（键值对） */
+				cjson_command = cJSON_GetObjectItem(json, "data");
+
+				/* 解析嵌套json数据 */
+				cjson_led = cJSON_GetObjectItem(cjson_command, "led");
+				cjson_htSensor = cJSON_GetObjectItem(cjson_command, "htSensor");
+
+				/* 解析led */
+				cjson_led_status = cJSON_GetObjectItem(cjson_led, "led_status");
+				
+
+				/* 解析htSensor数据 */
+				cjson_temperture = cJSON_GetObjectItem(cjson_htSensor, "temperature");
+				cjson_humidity = cJSON_GetObjectItem(cjson_htSensor, "humidity");
+				cjson_device_status = cJSON_GetObjectItem(cjson_htSensor, "status");			
+				
+				if (strcmp(cjson_led->valuestring,"on") == 0) // led status 为 on
 				{
 					LED_ON();
 				}

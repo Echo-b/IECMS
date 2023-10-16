@@ -5,6 +5,9 @@ import cn.edu.swjtu.mapper.DeviceMapper;
 import cn.edu.swjtu.pojo.ControllInfo;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.MQTTService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.tomcat.util.json.JSONParser;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,15 +92,49 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                 }
             }
             else {
-                String encodeCommand = "";
-                // 此处command可能需要进一步解析
-                // 推送至mqtt的消息可以重新封装成标准的json格式，这样便于嵌入式部分解析
+                /**
+                 * Command控制指令格式
+                 * {
+                 *     "command":{
+                 *         "led":{
+                 *             "status":"on"
+                 *         },
+                 *         "htSensor":{
+                 *             "temperature":23,
+                 *             "humidity":28,
+                 *             "status":"on"
+                 *         }
+                 *     }
+                 * }
+                 */
+                
+//              String defaultJson = "{\r\n  \"command\":{\r\n \"led\":{\"status\":\"on\"},\r\n \"htSensor\":{\r\n \"temperture\":23,\r\n \"humidity\":28,\r\n  \"status\":\"on\"\r\n }\r\n }\r\n}";
+ 
+                JSONObject root = new JSONObject();
+                JSONObject command = new JSONObject();
+                JSONObject led = new JSONObject();
+                JSONObject htSensor = new JSONObject();
+                
                 switch (c.getCommand()){
-                    case "LEDON" : encodeCommand = "{\"LED\":1}"; break;
-                    case "LEDOFF" : encodeCommand = "{\"LED\":0}"; break;
+                    case "LEDON" : {
+                        led.put("status","on");
+                        break;
+                    } 
+                    case "LEDOFF" : {
+                        led.put("status","off");
+                        break;
+                    } 
                 }
+                
+                // 推送至mqtt的消息重新封装成标准的json格式，这样便于嵌入式部分解析
+                command.put("led",led);
+                command.put("htSensor",htSensor);
+                root.put("command",command);
+
+                System.out.println("root = " + root);
+                
                 MqttMessage message = new MqttMessage();
-                message.setPayload(encodeCommand.getBytes());
+                message.setPayload(root.toJSONString().getBytes());
                 System.out.println("message = " + message);
                 this.client.publish(c.getTopic(),message);
                 System.out.println("消息推送至mqtt server成功");
