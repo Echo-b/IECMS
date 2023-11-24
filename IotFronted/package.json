@@ -22,6 +22,7 @@
     "echarts": "^5.3.3",
     "element-ui": "2.15.7",
     "js-cookie": "2.2.0",
+    "js-sha256": "^0.10.1",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 @Mapper
 public interface UserMapper {
-    @Select("select password from user where username = #{username};")
-    String getSingleUserInfo(String username);
+    @Select("select * from user where username = #{username};")
+    User getSingleUserInfo(String username);
 
     @Select("select * from user;")
     ArrayList<User> getAllUser();

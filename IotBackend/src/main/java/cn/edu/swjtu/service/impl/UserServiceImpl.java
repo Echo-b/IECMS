@@ -17,15 +17,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseData UserLogin(User u) {
-//        ResponseData r = new ResponseData();
-        String password = new String();
+//        ResponseData r = new ResponseData()
+        User user = new User();
         try {
-            password = mapper.getSingleUserInfo(u.getUsername());
-            System.out.println(password);
+            user = mapper.getSingleUserInfo(u.getUsername());
+            System.out.println(user.getPassword_hash());
         }catch (Exception e) {
             e.printStackTrace();
         }
-        if(password.equals(u.getPassword())){
+        if(user.getPassword_hash().equals(u.getPassword_hash())){
             System.out.println(u.getUsername());
             String token  = JwtUtils.generateToken(u.getUsername());
             return ResponseData.success("登录成功").data("token",token);
@@ -41,7 +41,8 @@ public class UserServiceImpl implements UserService {
 //        String url = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
         //String avatar = GenerateAvatar.generate(username);
         String avatar = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
-        return ResponseData.success("success").data("name",username).data("avatar",avatar);
+        User user = mapper.getSingleUserInfo(username);
+        return ResponseData.success("success").data("name",username).data("avatar",user.getAvatar()).data("roles",user.getRoles());
     }
 
     @Override
@@ -51,14 +52,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseData UpdatePassword(updatePassword up) {
-        String password = new String();
+        User user = new User();
         try {
-            password = mapper.getSingleUserInfo(up.getUsername());
-            System.out.println(password);
+            user = mapper.getSingleUserInfo(up.getUsername());
+            System.out.println(user.getPassword_hash());
         }catch (Exception e) {
             e.printStackTrace();
         }
-        if(password.equals(up.getOldPassword())){
+        if(user.getPassword_hash().equals(up.getOldPassword())){
             int flag = 0;
             try {
                 flag = mapper.UpdatePassword(up.getNewPassword(),up.getUsername());

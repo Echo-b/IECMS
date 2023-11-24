@@ -6,7 +6,8 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    roles: ''
   }
 }
 
@@ -24,16 +25,19 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
   }
 }
 
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { username, password_hash } = userInfo
     return new Promise((resolve, reject) => {
       // 调用login方法发送网络请求
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ username: username.trim(), password_hash: password_hash }).then(response => {
         const { data } = response
         // vuex
         commit('SET_TOKEN', data.token)
@@ -56,10 +60,13 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar } = data
+        console.log(data)
+
+        const { name, avatar, roles } = data
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_ROLES', roles)
         resolve(data)
       }).catch(error => {
         reject(error)

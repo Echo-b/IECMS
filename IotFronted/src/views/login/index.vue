@@ -109,8 +109,14 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          const hash256 = require('js-sha256').sha256
+          const loginform = {
+            username: this.loginForm.username,
+            // password_hash: this.loginForm.password
+            password_hash: hash256(`sa1t.${this.loginForm.password}.114514`)
+          }
           // vuex
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
+          this.$store.dispatch('user/login', loginform).then(() => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {
