@@ -1,8 +1,15 @@
 import request from '@/utils/request'
 
-export function getDevice(pageNum) {
+export function getAllDevice() {
   return request({
     url: '/device/all',
+    method: 'get'
+  })
+}
+
+export function getAppointPageDevice(pageNum) {
+  return request({
+    url: '/device/appointpage',
     method: 'get',
     params: { pageNum }
   })

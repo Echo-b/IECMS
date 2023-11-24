@@ -1,11 +1,12 @@
 package cn.edu.swjtu.service;
 
-import cn.edu.swjtu.pojo.ControllInfo;
 import cn.edu.swjtu.pojo.Device;
 import cn.edu.swjtu.result.ResponseData;
 
 public interface DeviceService {
-    ResponseData getDevices(int pageNum);
+    ResponseData getAppointPageDevices(int pageNum);
+
+    ResponseData getAllDevices();
 
     ResponseData getDeviceById(int did);
 
@@ -14,7 +15,5 @@ public interface DeviceService {
     ResponseData addDevice(Device device);
 
     ResponseData editDevice(Device device);
-
-    int controllDevice(ControllInfo c);
 
 }

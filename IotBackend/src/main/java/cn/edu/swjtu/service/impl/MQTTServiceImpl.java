@@ -2,12 +2,11 @@ package cn.edu.swjtu.service.impl;
 
 import cn.edu.swjtu.config.MQTTConfig;
 import cn.edu.swjtu.mapper.DeviceMapper;
-import cn.edu.swjtu.pojo.ControllInfo;
+import cn.edu.swjtu.mapper.RecordMapper;
+import cn.edu.swjtu.pojo.CommandInfo;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.MQTTService;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.tomcat.util.json.JSONParser;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
     private MQTTConfig mqttConfig;
 
     @Autowired
-    private DeviceMapper mapper;
+    private RecordMapper mapper;
 
     private MqttClient client;
     private MqttConnectOptions options;
@@ -83,7 +82,7 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
     }
 
     @Override
-    public ResponseData pubMqttMsg(ControllInfo c) {
+    public ResponseData pubMqttMsg(CommandInfo c) {
         try {
             if(!this.client.isConnected()){
                 this.connectMQTT();
@@ -140,14 +139,15 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                 System.out.println("消息推送至mqtt server成功");
 
                 c.setDate(getDate());
-                if(mapper.DeviceControll(c) == 1){
+                if(mapper.InsertCommandRecord(c) == 1){
                     System.out.println("消息记录已存储至数据库");
+                    return ResponseData.success("success");
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return ResponseData.success("success");
+        return ResponseData.error("failure");
     }
 
     @Override

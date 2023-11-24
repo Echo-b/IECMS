@@ -9,8 +9,6 @@
 <script>
 import AMapLoader from '@amap/amap-jsapi-loader'
 
-import { getDevice } from '@/api/device.js'
-
 export default {
   name: 'DeviceLocation',
   data() {
@@ -26,7 +24,7 @@ export default {
   methods: {
     initAMap() {
       AMapLoader.load({
-        key: '21effbff713251548c41dc216cbe8b38', // 设置您的key
+        key: 'dfe9c96259c1f0b0bc5ecb5be433ed40', // 设置您的key
         version: '2.0',
         plugin: [
           'AMap.Autocomplete',
@@ -79,15 +77,15 @@ export default {
     removeMarker() {
       this.map.remove(this.markerList)
       this.markerList.splice(0, this.markerList.length)
-    },
-    getCurrentDevice() {
-      getDevice().then((res) => {
-        this.devices = res.data.items.devices
-        this.$store.dispatch('page/setdevices', this.devices).then(() => {
-          console.log('devices init')
-        })
-      })
     }
+    // getCurrentDevice() {
+    //   getDevice().then((res) => {
+    //     this.devices = res.data.items.devices
+    //     this.$store.dispatch('page/setdevices', this.devices).then(() => {
+    //       console.log('devices init')
+    //     })
+    //   })
+    // }
   }
 }
 </script>

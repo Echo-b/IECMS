@@ -1,6 +1,6 @@
 package cn.edu.swjtu.controller;
 
-import cn.edu.swjtu.pojo.ControllInfo;
+import cn.edu.swjtu.pojo.CommandInfo;
 import cn.edu.swjtu.pojo.Device;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.DeviceService;
@@ -16,13 +16,14 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
-    @Autowired
-    private MQTTService mqttService;
-
-    @GetMapping("/all")
-    public ResponseData getDevices(@RequestParam(defaultValue = "1") int pageNum) {
+    @GetMapping("/appointpage")
+    public ResponseData getAppointPageDevices(@RequestParam(defaultValue = "1") int pageNum) {
         System.out.println("pageNum = " + pageNum);
-        return deviceService.getDevices(pageNum);
+        return deviceService.getAppointPageDevices(pageNum);
+    }
+    @GetMapping("/all")
+    public ResponseData getAppointPageDevices() {
+        return deviceService.getAllDevices();
     }
 
     @PostMapping("/add")
@@ -43,12 +44,6 @@ public class DeviceController {
     @PostMapping("/edit")
     public ResponseData editDevice(Device device){
         return deviceService.editDevice(device);
-    }
-
-    @PostMapping("/control")
-    public ResponseData controlDevice(ControllInfo c) {
-        System.out.println("c = " + c);
-        return mqttService.pubMqttMsg(c);
     }
 
 }

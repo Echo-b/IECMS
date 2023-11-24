@@ -1,6 +1,6 @@
 package cn.edu.swjtu.service;
 
-import cn.edu.swjtu.pojo.ControllInfo;
+import cn.edu.swjtu.pojo.CommandInfo;
 import cn.edu.swjtu.result.ResponseData;
 
 public interface MQTTService {
@@ -15,7 +15,7 @@ public interface MQTTService {
      * @param topic
      * @param msg
      */
-    public ResponseData pubMqttMsg(ControllInfo c);
+    public ResponseData pubMqttMsg(CommandInfo c);
 
     /**
      * 连接mqtt

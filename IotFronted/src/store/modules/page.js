@@ -1,7 +1,8 @@
 const getDefaultState = () => {
   return {
     pagenum: 1,
-    devices: []
+    devices: [],
+    curdevices: []
   }
 }
 
@@ -16,6 +17,9 @@ const mutations = {
   },
   SET_DEVICE: (state, devices) => {
     state.devices = devices
+  },
+  SET_CURDEVICE: (state, curdevices) => {
+    state.curdevices = curdevices
   }
 }
 
@@ -30,6 +34,12 @@ const actions = {
   setdevices({ commit }, devices) {
     return new Promise(resolve => {
       commit('SET_DEVICE', devices)
+      resolve()
+    })
+  },
+  setcurdevices({ commit }, curdevices) {
+    return new Promise(resolve => {
+      commit('SET_CURDEVICE', curdevices)
       resolve()
     })
   },

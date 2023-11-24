@@ -11,35 +11,35 @@
           <i class="el-icon-user" />
           设备ID
         </template>
-        {{ this.device.did }}
+        {{ device.did }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-mobile-phone" />
           设备名称
         </template>
-        {{ this.device.deviceName }}
+        {{ device.deviceName }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-location-outline" />
           设备状态
         </template>
-        <el-tag size="small">{{ this.device.status }}</el-tag>
+        <el-tag size="small">{{ device.status }}</el-tag>
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-tickets" />
           设备经度
         </template>
-        {{ this.device.longitude }}
+        {{ device.longitude }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-office-building" />
           设备纬度
         </template>
-        {{ this.device.latitude }}
+        {{ device.latitude }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
@@ -66,7 +66,8 @@
 </template>
 
 <script>
-import { getDeviceById, DeviceControll } from '@/api/device'
+import { getDeviceById } from '@/api/device'
+import { insertRecord } from '@/api/record'
 
 // import modelVue from './model.vue'
 
@@ -101,16 +102,19 @@ export default {
         command: 'LEDON',
         deviceName: this.device.deviceName,
         topic: '/topics/led/sub',
-        date: ''
+        date: '',
+        operator: this.$store.getters.name
       }
-      DeviceControll(form).then((res) => {
-        this.$notify({
-          title: '设置完毕',
-          message: res.msg,
-          type: res.type,
-          duration: 2000
-        })
-        console.log(res)
+      insertRecord(form).then((res) => {
+        if (res.success) {
+          this.$notify({
+            title: '设置完毕',
+            message: res.msg,
+            type: res.type,
+            duration: 2000
+          })
+          console.log(res)
+        }
       })
     },
     handleCloseCommand() {
@@ -118,16 +122,19 @@ export default {
         did: this.device.did,
         command: 'LEDOFF',
         deviceName: this.device.deviceName,
-        topic: '/topics/led/sub'
+        topic: '/topics/led/sub',
+        operator: this.$store.getters.name
       }
-      DeviceControll(form).then((res) => {
-        this.$notify({
-          title: '设置完毕',
-          message: res.msg,
-          type: res.type,
-          duration: 2000
-        })
-        console.log(res)
+      insertRecord(form).then((res) => {
+        if (res.success) {
+          this.$notify({
+            title: '设置完毕',
+            message: res.msg,
+            type: res.type,
+            duration: 2000
+          })
+          console.log(res)
+        }
       })
     }
   }

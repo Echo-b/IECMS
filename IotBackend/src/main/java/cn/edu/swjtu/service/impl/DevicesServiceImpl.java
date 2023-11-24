@@ -2,7 +2,6 @@ package cn.edu.swjtu.service.impl;
 
 import cn.edu.swjtu.dto.GetDevicesResp;
 import cn.edu.swjtu.mapper.DeviceMapper;
-import cn.edu.swjtu.pojo.ControllInfo;
 import cn.edu.swjtu.pojo.Device;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.DeviceService;
@@ -25,12 +24,26 @@ public class DevicesServiceImpl implements DeviceService {
     }
 
     @Override
-    public ResponseData getDevices(int pageNum) {
+    public ResponseData getAppointPageDevices(int pageNum) {
         int total = 0;
         GetDevicesResp resp = new GetDevicesResp();
         try {
             int num = (pageNum - 1) * 10;
-            resp.devices = mapper.getDevices(num);
+            resp.devices = mapper.getAppointPageDevices(num);
+            total = mapper.countDeviceNum();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("resp.devices = " + resp.devices.size());
+        return ResponseData.success("success").data("items", resp).data("size", resp.devices.size()).data("total", total);
+    }
+
+    @Override
+    public ResponseData getAllDevices() {
+        int total = 0;
+        GetDevicesResp resp = new GetDevicesResp();
+        try {
+            resp.devices = mapper.getAllDevices();
             total = mapper.countDeviceNum();
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,17 +100,6 @@ public class DevicesServiceImpl implements DeviceService {
         } else {
             return ResponseData.error("edit failure");
         }
-    }
-
-    @Override
-    public int controllDevice(ControllInfo c){
-        int res = 0;
-        try {
-            res = mapper.DeviceControll(c);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return  res;
     }
 
 }

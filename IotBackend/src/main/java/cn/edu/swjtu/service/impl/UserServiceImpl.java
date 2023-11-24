@@ -39,7 +39,8 @@ public class UserServiceImpl implements UserService {
         String username = JwtUtils.getClaimsByToken(token).getSubject();
         System.out.println("username = " + username);
 //        String url = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
-        String avatar = GenerateAvatar.generate(username);
+        //String avatar = GenerateAvatar.generate(username);
+        String avatar = "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
         return ResponseData.success("success").data("name",username).data("avatar",avatar);
     }
 

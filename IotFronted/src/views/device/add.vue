@@ -1,6 +1,6 @@
 <template>
   <table-template
-    :form="this.form"
+    :form="form"
     @changeShow="cancelShow"
     @editTable="onSubmit"
   />
@@ -40,14 +40,26 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.form)
-      this.form.status = 'off'
-      addDevice(this.form).then((res) => {
-        this.$message({
-          message: '添加成功',
-          type: 'success'
+      var devices = this.$store.getters.devices
+      if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
+        this.form.status = 'off'
+        addDevice(this.form).then((res) => {
+          this.$message({
+            message: '添加成功',
+            type: 'success'
+          })
         })
-      })
-      this.$router.push({ path: '/device/list' })
+        devices.push(this.form)
+        this.$store.dispatch('page/setdevices', devices).then(() => {
+          console.log(devices)
+        })
+        this.$router.push({ path: '/device/list' })
+      } else {
+        this.$message({
+          message: '设备ID已存在',
+          type: 'warning'
+        })
+      }
     },
     cancelShow() {
       this.editShow = false
