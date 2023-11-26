@@ -8,14 +8,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/iott?characterEncoding=utf8&serverTimezone=UTC
     username: root
-    password: bsb010306
+    password: mysqlGlZtl20011223
 
 ## mqtt configure
 mqtt:
   address: tcp://127.0.0.1:1883
   client_id: iot_sub
   user_name: admin
-  password: bsb010306
+  password: ztl20011223
   subTopic: /topics/led/pub
   pubTopic: devPubTopics
   keep_alive: 60
