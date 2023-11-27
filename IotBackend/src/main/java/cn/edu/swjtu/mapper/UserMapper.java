@@ -14,7 +14,7 @@ public interface UserMapper {
     @Select("select * from user;")
     ArrayList<User> getAllUser();
 
-    @Update("update user set password = #{newPassword} where username = #{username};")
-    int UpdatePassword(String newPassword, String username);
+    @Update("update user set avatar = #{avatar}, email = #{email} where username = #{username};")
+    int UpdateUserInfo(User u);
 
 }

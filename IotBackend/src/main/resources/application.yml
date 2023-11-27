@@ -26,3 +26,8 @@ jwt:
   expire: 604800
   secret: "qYYjXt7s1C*nEC%9RCwQGFA$YwPr$Jrj"
 
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: cn.edu.swjtu
+
+images.path: D:/IECMS/IECMS/IotFronted/src/assets/images/
