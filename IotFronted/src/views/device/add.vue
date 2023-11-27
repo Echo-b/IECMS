@@ -1,19 +1,28 @@
 <template>
-  <table-template
-    :form="form"
-    @changeShow="cancelShow"
-    @editTable="onSubmit"
-  />
+  <el-tabs type="border-card" v-model="activeName">
+    <el-tab-pane label="用户管理" name="first">
+      <table-template
+      :form="form"
+      @changeShow="cancelShow"
+      @editTable="onSubmit"/>
+    </el-tab-pane>
+    <el-tab-pane label="提交进度" name="second">
+      <progressTemplate></progressTemplate>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 <script>
 import { addDevice, getDeviceById } from '@/api/device'
 
 import tableTemplate from './components/tableTemplate.vue'
+import progressTemplate from './components/progressTemplate.vue'
+
 
 export default {
 
   components: {
-    tableTemplate
+    tableTemplate,
+    progressTemplate
   },
   data() {
     return {
@@ -22,9 +31,10 @@ export default {
         longitude: 0.0,
         latitude: 0.0,
         status: 'off',
-        did: 1
+        did: 1,
       },
-      editShow: true
+      editShow: true,
+      activeName: 'first'
     }
   },
 
