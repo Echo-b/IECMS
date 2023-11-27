@@ -12,4 +12,5 @@ public class Device {
     private String creator;
     private Integer group_id;
     private String type;
+    private int insert_flag;
 }

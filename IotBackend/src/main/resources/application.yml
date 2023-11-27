@@ -30,4 +30,4 @@ mybatis:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: cn.edu.swjtu
 
-images.path: E:/Work/课程项目/IECMS/IotFronted/src/assets/images/
+images.path: /IotFronted/src/assets/images/
