@@ -19,10 +19,11 @@ public class User {
         this.password_hash = password_hash;
     }
 
-    public User(String username, String avatar, String email) {
+    public User(String username, String avatar, String email, String uid) {
         this.username = username;
         this.avatar = avatar;
         this.email = email;
+        this.uid = uid;
     }
     public User(){}
 }

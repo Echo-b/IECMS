@@ -86,7 +86,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.xfvape.uid</groupId>
             <artifactId>uid-generator</artifactId>
@@ -119,7 +118,6 @@
             <artifactId>javax.annotation-api</artifactId>
             <version>1.3.2</version>
         </dependency>
-
     </dependencies>
 
     <build>

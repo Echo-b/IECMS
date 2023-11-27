@@ -5,9 +5,12 @@ import { resetRouter } from '@/router'
 const getDefaultState = () => {
   return {
     token: getToken(),
+    uid: '',
     name: '',
     avatar: '',
-    roles: ''
+    roles: '',
+    groupid: 0,
+    email: ''
   }
 }
 
@@ -28,6 +31,15 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_GROUP_ID: (state, groupid) => {
+    state.groupid = groupid
+  },
+  SET_EMAIL: (state, email) => {
+    state.email = email
+  },
+  SET_UID: (state, uid) => {
+    state.uid = uid
   }
 }
 
@@ -62,11 +74,14 @@ const actions = {
 
         console.log(data)
 
-        const { name, avatar, roles } = data
+        const { uid, name, avatar, roles, groupid, email } = data
 
+        commit('SET_UID', uid)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLES', roles)
+        commit('SET_GROUP_ID', groupid)
+        commit('SET_EMAIL', email)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -93,6 +108,21 @@ const actions = {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
+      resolve()
+    })
+  },
+
+  // set avatar
+  setAvatar({ commit }, avatar) {
+    return new Promise((resolve) => {
+      commit('SET_AVATAR', avatar)
+      resolve()
+    })
+  },
+
+  setEmail({ commit }, email) {
+    return new Promise((resolve) => {
+      commit('SET_EMAIL', email)
       resolve()
     })
   }

@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         String username = JwtUtils.getClaimsByToken(token).getSubject();
         System.out.println("username = " + username);
         User user = mapper.getSingleUserInfo(username);
-        return ResponseData.success("success").data("name",username).data("avatar",user.getAvatar()).data("roles",user.getRoles()).data("email",user.getEmail()).data("groupid",user.getGroup_id());
+        return ResponseData.success("success").data("uid",user.getUid()).data("name",username).data("avatar",user.getAvatar()).data("roles",user.getRoles()).data("email",user.getEmail()).data("groupid",user.getGroup_id());
     }
 
     @Override
