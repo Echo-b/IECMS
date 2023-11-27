@@ -6,10 +6,10 @@ import com.xfvape.uid.utils.DockerUtils;
 import com.xfvape.uid.utils.NetUtils;
 import com.xfvape.uid.worker.WorkerIdAssigner;
 import com.xfvape.uid.worker.WorkerNodeType;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 public class DisposableWorkerIdAssigner implements WorkerIdAssigner {

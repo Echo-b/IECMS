@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class TodoList {
     private int tid;
-    private Long uid;
-    private int did;
-    private String things;
+    private String date;
+    private String apply;
+    private String deviceName;
+    private int status;
 }
