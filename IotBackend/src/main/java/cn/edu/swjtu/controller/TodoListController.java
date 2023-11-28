@@ -15,6 +15,7 @@ public class TodoListController {
 
     @PostMapping("/add")
     ResponseData addTodoListTask(TodoList t){
+        System.out.println("t = " + t);
         return todoListService.addTodoListTask(t);
     }
 

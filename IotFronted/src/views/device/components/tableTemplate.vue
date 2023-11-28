@@ -34,29 +34,6 @@
         </el-select>
       </el-form-item>
     </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="cancelShow">重 置</el-button>
-      <el-button 
-        type="primary" 
-        @click="onConfirm"
-        :disabled="submitButtonDisabled">下一步</el-button>
-    </div>
-    <el-dialog :visible.sync="dialogVisible" title="请确认添加信息" width="40%" @close="cancelDialog">
-      <!-- el-descriptions 显示设备信息 -->
-      <el-descriptions :bordered="true" size="small" column="1">
-        <el-descriptions-item label="设备ID">{{ form.did }}</el-descriptions-item>
-        <el-descriptions-item label="设备名称">{{ form.deviceName }}</el-descriptions-item>
-        <el-descriptions-item label="设备状态">{{ form.status }}</el-descriptions-item>
-        <el-descriptions-item label="设备经度">{{ form.longitude }}</el-descriptions-item>
-        <el-descriptions-item label="设备纬度">{{ form.latitude }}</el-descriptions-item>
-      </el-descriptions>
-
-      <!-- 操作按钮 -->
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="cancelDialog">上一步</el-button>
-        <el-button type="primary" @click="onSubmit">确定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -66,7 +43,7 @@ export default {
     // 监听表单数据的变化，一旦变化就执行验证方法
     form: {
       handler() {
-        this.validateForm();
+        // this.validateForm();
       },
       deep: true,
     },
@@ -80,22 +57,11 @@ export default {
       status: "off",
       did: 0,
       type: ""
-    },
-    editShow: false
+    }
   },
   methods: {
     onSubmit() {
       this.$emit('editTable')
-    },
-    cancelShow() {
-      this.$refs.form.resetFields();
-      this.$emit('changeShow');
-    },
-    onConfirm() {
-      this.dialogVisible = true;
-    },
-    cancelDialog() {
-      this.dialogVisible = false;
     },
     validateDid() {
       // 验证设备ID的方法，可在失去焦点时调用
@@ -165,8 +131,6 @@ export default {
         { pattern: /^-?\d+(\.\d+)?$/, message: '请输入数字或小数', trigger: 'blur' },
         { validator: this.validateLatitudeRange, trigger: 'blur' }
       ],
-      dialogVisible: false,
-      submitButtonDisabled: true,
     };
   }
 }
