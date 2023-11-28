@@ -11,8 +11,8 @@ public interface UserMapper {
     @Select("select * from user where username = #{username};")
     User getSingleUserInfo(String username);
 
-    @Select("select * from user;")
-    ArrayList<User> getAllUser();
+    @Select("select * from user where group_id = #{group_id};")
+    ArrayList<User> getAllGroupUser(int group_id);
 
     @Update("update user set username = #{username}, avatar = #{avatar}, email = #{email} where uid = #{uid};")
     int UpdateUserInfo(User u);

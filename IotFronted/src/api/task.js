@@ -1,16 +1,32 @@
 import request from '@/utils/request'
 
-export function update(data) {
+export function updateTodoListTask(data) {
   return request({
     url: '/task/update',
     method: 'post',
-    data 
+    data
   })
 }
 
-export function get() {
+export function getAllTodoListTask() {
   return request({
-    url: '/task/get',
+    url: '/task/all',
     method: 'get'
+  })
+}
+
+export function getTodoListTaskById(tid) {
+  return request({
+    url: '/task/appoint',
+    method: 'get',
+    params: { tid }
+  })
+}
+
+export function addTodoListTask(data) {
+  return request({
+    url: '/task/add',
+    method: 'post',
+    data
   })
 }
