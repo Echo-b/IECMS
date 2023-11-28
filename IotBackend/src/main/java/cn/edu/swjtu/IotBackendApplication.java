@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("cn.edu.swjtu.mapper")
+
 public class IotBackendApplication {
 
     public static void main(String[] args) {

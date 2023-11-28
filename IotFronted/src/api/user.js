@@ -23,9 +23,9 @@ export function logout() {
   })
 }
 
-export function updatePassoword(data) {
+export function updateUserInfo(data) {
   return request({
-    url: 'user/update',
+    url: '/user/update',
     method: 'post',
     data
   })

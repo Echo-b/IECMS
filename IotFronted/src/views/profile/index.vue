@@ -48,7 +48,10 @@ export default {
     ...mapGetters([
       'name',
       'avatar',
-      'roles'
+      'roles',
+      'gropuid',
+      'email',
+      'uid'
     ])
   },
   created() {
@@ -59,8 +62,10 @@ export default {
       this.user = {
         name: this.name,
         role: this.roles,
-        email: 'admin@test.com',
-        avatar: this.avatar
+        email: this.email,
+        avatar: this.avatar,
+        groupid: this.groupid,
+        uid: this.uid
       }
     }
   }
