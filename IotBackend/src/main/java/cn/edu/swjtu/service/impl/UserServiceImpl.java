@@ -7,6 +7,8 @@ import cn.edu.swjtu.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -51,5 +53,17 @@ public class UserServiceImpl implements UserService {
            return ResponseData.success("更新信息成功");
         }
         return ResponseData.error("更新信息失败");
+    }
+
+    @Override
+    public ResponseData getAllGroupUser(int group_id) {
+        try{
+            ArrayList<User> groups = mapper.getAllGroupUser(group_id);
+            if(groups.size() > 0)
+                return ResponseData.success("获取小组用户数据成功").data("groups",groups).data("groups_number",groups.size());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+       return ResponseData.error("获取小组用户数据失败");
     }
 }

@@ -8,4 +8,5 @@ public interface UserService {
     ResponseData GetUserInfo(String token);
     ResponseData UserLogout();
     ResponseData UpdateUserInfo(User u);
+    ResponseData getAllGroupUser(int group_id);
 }
