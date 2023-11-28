@@ -8,5 +8,6 @@ public class TodoList {
     private String date;
     private String apply;
     private String deviceName;
+    private int did;
     private int status;
 }
