@@ -8,13 +8,30 @@
         <el-input v-model="form.deviceName" @blur="validateDName"/>
       </el-form-item>
       <el-form-item label="设备状态">
-        <el-input v-model="form.status" />
+        <el-select v-model="form.status" placeholder="请选择设备状态">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="设备经度" prop="longitude" :rules="longitudeRules">
         <el-input v-model="form.longitude" @blur="validateLongitude"/>
       </el-form-item>
       <el-form-item label="设备纬度" prop="latitude" :rules="latitudeRules">
         <el-input v-model="form.latitude" @blur="validateLatitude"/>
+      </el-form-item>
+      <el-form-item label="设备类型">
+        <el-select v-model="form.type" placeholder="请选择设备类型">
+          <el-option
+            v-for="item in options1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -24,6 +41,22 @@
         @click="onConfirm"
         :disabled="submitButtonDisabled">下一步</el-button>
     </div>
+    <el-dialog :visible.sync="dialogVisible" title="请确认添加信息" width="40%" @close="cancelDialog">
+      <!-- el-descriptions 显示设备信息 -->
+      <el-descriptions :bordered="true" size="small" column="1">
+        <el-descriptions-item label="设备ID">{{ form.did }}</el-descriptions-item>
+        <el-descriptions-item label="设备名称">{{ form.deviceName }}</el-descriptions-item>
+        <el-descriptions-item label="设备状态">{{ form.status }}</el-descriptions-item>
+        <el-descriptions-item label="设备经度">{{ form.longitude }}</el-descriptions-item>
+        <el-descriptions-item label="设备纬度">{{ form.latitude }}</el-descriptions-item>
+      </el-descriptions>
+
+      <!-- 操作按钮 -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelDialog">上一步</el-button>
+        <el-button type="primary" @click="onSubmit">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -45,7 +78,8 @@ export default {
       longitude: 0.0,
       latitude: 0.0,
       status: "off",
-      did: 0
+      did: 0,
+      type: ""
     },
     editShow: false
   },

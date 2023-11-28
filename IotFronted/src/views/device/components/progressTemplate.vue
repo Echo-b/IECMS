@@ -13,6 +13,13 @@
         </el-steps>
       </template>
     </el-table-column>
+    <el-table-column label="操作" width="400">
+      <template slot-scope="scope">
+        <el-button type="primary" @click="handleButton1(scope.row)">详情</el-button>
+        <el-button type="success" @click="handleButton2(scope.row)">撤销</el-button>
+        <el-button type="danger" @click="handleButton3(scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
   </el-table>
 </template>
 
