@@ -137,9 +137,10 @@ CREATE TABLE `device_action` (
   `deviceName` varchar(50) NOT NULL,
   `action` varchar(50) DEFAULT NULL,
   `param` varchar(50) DEFAULT NULL,
-  `dno` int NOT NULL AUTO_INCREMENT,
+  `aid` int NOT NULL AUTO_INCREMENT,
   `date` varchar(50) NOT NULL,
-  PRIMARY KEY (`dno`)
+  `did` int NOT NULL,
+  PRIMARY KEY (`aid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -149,7 +150,7 @@ CREATE TABLE `device_action` (
 
 LOCK TABLES `device_action` WRITE;
 /*!40000 ALTER TABLE `device_action` DISABLE KEYS */;
-INSERT INTO `device_action` VALUES ('1','closenow',NULL,1,'2022-08-15 08:17:02'),('1','delayopen','2min',2,'2022-08-15 08:17:02'),('2','opennow',NULL,3,'2022-08-15 08:17:02'),('2','delayclose','2min',4,'2022-08-15 08:17:02'),('air-condition','opennow','',5,'2022-09-30 00:09:58'),('air-condition','delayopen','2min',6,'2022-09-30 00:10:02'),('air-condition','closenow','',7,'2022-09-30 00:10:04'),('air-condition','delayclose','2min',8,'2022-09-30 00:10:06'),('fringe','opennow','',9,'2022-09-30 11:17:43'),('fringe','delayclose','2min',10,'2022-09-30 11:17:50'),('fringe','closenow','',11,'2022-09-30 11:21:26'),('fringe','delayclose','2min',12,'2022-09-30 11:21:29'),('sensor','delayclose','2min',13,'2022-09-30 11:22:58'),('sensor','closenow','',14,'2022-09-30 11:23:34'),('air-condition','closenow','',15,'2022-09-30 13:33:06'),('air-condition','closenow','',16,'2022-09-30 13:34:31'),('air-condition','delayclose','2min',17,'2022-09-30 13:34:57'),('air-condition','delayclose','2min',18,'2022-09-30 13:49:43'),('air-condition','opennow','',19,'2022-09-30 13:54:34'),('air-condition','delayopen','2min',20,'2022-09-30 13:54:39'),('air-condition','closenow','',21,'2022-09-30 13:55:07'),('air-condition','delayclose','2min',22,'2022-09-30 13:55:13'),('air-condition','opennow','',23,'2022-09-30 15:10:22'),('fringe','delayopen','2min',24,'2022-10-01 14:03:24'),('fringe','delayclose','2min',25,'2022-10-01 14:04:06'),('fringe','delayopen','2min',26,'2022-10-01 14:04:31'),('fringe','delayclose','2min',27,'2022-10-01 14:27:50'),('sensor','delayopen','2min',28,'2022-10-01 14:34:14'),('air-condition','closenow','',29,'2022-10-03 21:00:01'),('sensor','delayclose','2min',30,'2022-10-03 21:01:11');
+INSERT INTO `device_action` VALUES ('1','closenow',NULL,1,'2022-08-15 08:17:02',0),('1','delayopen','2min',2,'2022-08-15 08:17:02',0),('2','opennow',NULL,3,'2022-08-15 08:17:02',0),('2','delayclose','2min',4,'2022-08-15 08:17:02',0),('air-condition','opennow','',5,'2022-09-30 00:09:58',0),('air-condition','delayopen','2min',6,'2022-09-30 00:10:02',0),('air-condition','closenow','',7,'2022-09-30 00:10:04',0),('air-condition','delayclose','2min',8,'2022-09-30 00:10:06',0),('fringe','opennow','',9,'2022-09-30 11:17:43',0),('fringe','delayclose','2min',10,'2022-09-30 11:17:50',0),('fringe','closenow','',11,'2022-09-30 11:21:26',0),('fringe','delayclose','2min',12,'2022-09-30 11:21:29',0),('sensor','delayclose','2min',13,'2022-09-30 11:22:58',0),('sensor','closenow','',14,'2022-09-30 11:23:34',0),('air-condition','closenow','',15,'2022-09-30 13:33:06',0),('air-condition','closenow','',16,'2022-09-30 13:34:31',0),('air-condition','delayclose','2min',17,'2022-09-30 13:34:57',0),('air-condition','delayclose','2min',18,'2022-09-30 13:49:43',0),('air-condition','opennow','',19,'2022-09-30 13:54:34',0),('air-condition','delayopen','2min',20,'2022-09-30 13:54:39',0),('air-condition','closenow','',21,'2022-09-30 13:55:07',0),('air-condition','delayclose','2min',22,'2022-09-30 13:55:13',0),('air-condition','opennow','',23,'2022-09-30 15:10:22',0),('fringe','delayopen','2min',24,'2022-10-01 14:03:24',0),('fringe','delayclose','2min',25,'2022-10-01 14:04:06',0),('fringe','delayopen','2min',26,'2022-10-01 14:04:31',0),('fringe','delayclose','2min',27,'2022-10-01 14:27:50',0),('sensor','delayopen','2min',28,'2022-10-01 14:34:14',0),('air-condition','closenow','',29,'2022-10-03 21:00:01',0),('sensor','delayclose','2min',30,'2022-10-03 21:01:11',0);
 /*!40000 ALTER TABLE `device_action` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,4 +274,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-28 12:55:45
+-- Dump completed on 2023-11-28 13:08:34
