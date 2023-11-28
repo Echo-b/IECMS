@@ -1,5 +1,6 @@
 package cn.edu.swjtu.mapper;
 import cn.edu.swjtu.pojo.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -17,4 +18,7 @@ public interface UserMapper {
     @Update("update user set username = #{username}, avatar = #{avatar}, email = #{email} where uid = #{uid};")
     int UpdateUserInfo(User u);
 
+    @Insert("insert into user (uid,username,password_hash,avatar,roles,group_id,email) " +
+            "values (#{uid},#{username},#{password_hash},#{avatar},#{roles},#{group_id},#{email});")
+    int addGroupUser(User u);
 }

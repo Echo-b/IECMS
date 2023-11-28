@@ -33,4 +33,8 @@ public class UserController {
         System.out.println("u = " + u);
         return userService.UpdateUserInfo(u);
     }
+    @GetMapping("/groups")
+    public ResponseData getAllGroupUser(int group_id){
+        return userService.getAllGroupUser(group_id);
+    }
 }

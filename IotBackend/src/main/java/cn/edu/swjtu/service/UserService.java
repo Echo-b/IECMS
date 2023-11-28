@@ -9,4 +9,5 @@ public interface UserService {
     ResponseData UserLogout();
     ResponseData UpdateUserInfo(User u);
     ResponseData getAllGroupUser(int group_id);
+    ResponseData addGroupUser(User u);
 }

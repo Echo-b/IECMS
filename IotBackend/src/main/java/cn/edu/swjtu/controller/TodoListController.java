@@ -14,7 +14,7 @@ public class TodoListController {
     private TodoListService todoListService;
 
     @PostMapping("/add")
-    ResponseData addTodoListTask(TodoList t){
+    ResponseData addTodoListTask(@RequestBody TodoList t){
         return todoListService.addTodoListTask(t);
     }
 

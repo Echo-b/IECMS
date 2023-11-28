@@ -4,6 +4,7 @@ import cn.edu.swjtu.mapper.TodoListMapper;
 import cn.edu.swjtu.pojo.TodoList;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.TodoListService;
+import cn.edu.swjtu.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class TodoListServiceImpl implements TodoListService {
     @Override
     public ResponseData addTodoListTask(TodoList t) {
         try{
+            t.setDate(DateUtil.getDate());
             if(mapper.addTodoListTask(t) > 0)
                 return ResponseData.success("增加任务成功");
         }catch (Exception e){

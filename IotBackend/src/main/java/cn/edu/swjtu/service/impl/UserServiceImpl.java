@@ -60,10 +60,22 @@ public class UserServiceImpl implements UserService {
         try{
             ArrayList<User> groups = mapper.getAllGroupUser(group_id);
             if(groups.size() > 0)
-                return ResponseData.success("获取小组用户数据成功").data("groups",groups).data("groups_number",groups.size());
+                return ResponseData.success("获取小组用户数据成功").data("groups",groups).data("groups_nums",groups.size());
         } catch (Exception e){
             e.printStackTrace();
         }
        return ResponseData.error("获取小组用户数据失败");
+    }
+
+    @Override
+    public ResponseData addGroupUser(User u) {
+        try {
+            if(mapper.addGroupUser(u) > 0){
+                return ResponseData.success("成功添加小组成员");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseData.error("添加小组成员失败");
     }
 }
