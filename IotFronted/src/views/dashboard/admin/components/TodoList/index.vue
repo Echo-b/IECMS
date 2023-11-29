@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { getAllTodoListTask } from '@/api/task.js'
 import Todo from './Todo.vue'
 
 const STORAGE_KEY = 'todos'
@@ -46,16 +47,6 @@ const filters = {
   active: todos => todos.filter(todo => !todo.done),
   completed: todos => todos.filter(todo => todo.done)
 }
-const defalutList = [
-  { text: 'star this repository', done: false },
-  { text: 'fork this repository', done: false },
-  { text: 'follow author', done: false },
-  { text: 'vue-element-admin', done: true },
-  { text: 'vue', done: true },
-  { text: 'element-ui', done: true },
-  { text: 'axios', done: true },
-  { text: 'webpack', done: true }
-]
 export default {
   components: { Todo },
   filters: {
@@ -66,8 +57,8 @@ export default {
     return {
       visibility: 'all',
       filters,
-      // todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || defalutList
-      todos: defalutList
+      // todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      todos: []
     }
   },
   computed: {
@@ -81,7 +72,24 @@ export default {
       return this.todos.filter(todo => !todo.done).length
     }
   },
+  created() {
+    this.fetchData()
+  },
   methods: {
+    fetchData() {
+      getAllTodoListTask().then((res) => {
+        console.log(res)
+        res.data.tasks.forEach((item) => {
+          var tmpdone = false
+          var tmptext = 'handle ' + item.apply + ' add ' + item.deviceName + ' request'
+          if (item.status === 1) {
+            tmpdone = true
+          }
+          this.todos.push({ text: tmptext, done: tmpdone })
+        })
+        // this.setLocalStorage()
+      })
+    },
     setLocalStorage() {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
     },
