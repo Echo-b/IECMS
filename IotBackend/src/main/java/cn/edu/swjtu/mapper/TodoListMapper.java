@@ -22,5 +22,5 @@ public interface TodoListMapper {
     int addTodoListTask(TodoList t);
 
     @Update("update todolist set status = {status} where tid = {tid};")
-    int updateTodoListTask(int tid);
+    int updateTodoListTask(TodoList t);
 }
