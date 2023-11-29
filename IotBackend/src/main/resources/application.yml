@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/iott?characterEncoding=utf8&serverTimezone=UTC
     username: root
-    password: mysqlGlZtl20011223
+    password: bsb010306
 
 ## mqtt configure
 mqtt:

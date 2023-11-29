@@ -30,3 +30,11 @@ export function updateUserInfo(data) {
     data
   })
 }
+
+export function getAllGroupUser(group_id) {
+  return request({
+    url: '/user/groups',
+    method: 'get',
+    params: { group_id }
+  })
+}

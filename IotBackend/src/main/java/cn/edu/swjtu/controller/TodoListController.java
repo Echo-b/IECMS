@@ -30,7 +30,7 @@ public class TodoListController {
     }
 
     @PostMapping("/update")
-    ResponseData updateTodoListTask(TodoList t){
+    ResponseData updateTodoListTask(@RequestBody TodoList t){
         return todoListService.updateTodoListTask(t);
     }
 }

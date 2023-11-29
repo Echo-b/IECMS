@@ -46,7 +46,6 @@ export default {
       this.currentRow = {};
     },
   },
-  
   data() {
     return {
       tableData: [],

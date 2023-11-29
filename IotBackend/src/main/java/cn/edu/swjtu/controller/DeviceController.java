@@ -1,10 +1,8 @@
 package cn.edu.swjtu.controller;
 
-import cn.edu.swjtu.pojo.CommandInfo;
 import cn.edu.swjtu.pojo.Device;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.DeviceService;
-import cn.edu.swjtu.service.MQTTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +25,7 @@ public class DeviceController {
     }
 
     @PostMapping("/add")
-    public ResponseData addDevice(Device device){
+    public ResponseData addDevice(@RequestBody Device device){
         return deviceService.addDevice(device);
     }
 
@@ -42,7 +40,7 @@ public class DeviceController {
     }
 
     @PostMapping("/edit")
-    public ResponseData editDevice(Device device){
+    public ResponseData editDevice(@RequestBody Device device){
         return deviceService.editDevice(device);
     }
 
