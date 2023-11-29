@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `alert_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `alert_info` (
-  `dno` int NOT NULL AUTO_INCREMENT,
-  `temperature` float NOT NULL,
-  `sender` varchar(30) NOT NULL,
-  `date` datetime NOT NULL,
-  `did` int NOT NULL,
-  PRIMARY KEY (`dno`)
+                              `dno` int NOT NULL AUTO_INCREMENT,
+                              `temperature` float NOT NULL,
+                              `sender` varchar(30) NOT NULL,
+                              `date` datetime NOT NULL,
+                              `did` int NOT NULL,
+                              PRIMARY KEY (`dno`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,11 +50,11 @@ DROP TABLE IF EXISTS `average_temperature`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `average_temperature` (
-  `dno` int NOT NULL AUTO_INCREMENT,
-  `did` int NOT NULL,
-  `temperature` float NOT NULL,
-  `date` varchar(50) NOT NULL,
-  PRIMARY KEY (`dno`)
+                                       `dno` int NOT NULL AUTO_INCREMENT,
+                                       `did` int NOT NULL,
+                                       `temperature` float NOT NULL,
+                                       `date` varchar(50) NOT NULL,
+                                       PRIMARY KEY (`dno`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -76,15 +76,16 @@ DROP TABLE IF EXISTS `command_record`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `command_record` (
-  `did` int NOT NULL,
-  `command` varchar(255) NOT NULL,
-  `deviceName` varchar(64) NOT NULL,
-  `topic` varchar(64) NOT NULL,
-  `date` datetime NOT NULL,
-  `operator` varchar(40) NOT NULL,
-  `cid` int NOT NULL,
-  PRIMARY KEY (`cid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                                  `did` int NOT NULL,
+                                  `command` varchar(255) NOT NULL,
+                                  `deviceName` varchar(64) NOT NULL,
+                                  `topic` varchar(64) DEFAULT NULL,
+                                  `date` datetime NOT NULL,
+                                  `operator` varchar(40) DEFAULT NULL,
+                                  `cid` int NOT NULL AUTO_INCREMENT,
+                                  `param` varchar(256) DEFAULT NULL,
+                                  PRIMARY KEY (`cid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +94,7 @@ CREATE TABLE `command_record` (
 
 LOCK TABLES `command_record` WRITE;
 /*!40000 ALTER TABLE `command_record` DISABLE KEYS */;
-INSERT INTO `command_record` VALUES (1,'LEDON','air-condition','/topics/led/sub','2023-10-11 11:01:06','admin',1);
+INSERT INTO `command_record` VALUES (1,'LEDON','air-condition','/topics/led/sub','2023-10-11 11:01:06','admin',1,NULL);
 /*!40000 ALTER TABLE `command_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,18 +106,30 @@ DROP TABLE IF EXISTS `device`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `device` (
-  `did` int NOT NULL AUTO_INCREMENT,
-  `deviceName` varchar(20) NOT NULL,
-  `status` varchar(8) NOT NULL,
-  `longitude` float NOT NULL,
-  `latitude` float NOT NULL,
-  `creator` varchar(60) NOT NULL,
-  `group_id` int NOT NULL,
-  `type` varchar(40) NOT NULL,
-  `insert_flag` int NOT NULL,
-  PRIMARY KEY (`did`)
+                          `did` int NOT NULL AUTO_INCREMENT,
+                          `deviceName` varchar(20) NOT NULL,
+                          `status` varchar(8) NOT NULL,
+                          `longitude` float NOT NULL,
+                          `latitude` float NOT NULL,
+                          `creator` varchar(60) NOT NULL,
+                          `group_id` int NOT NULL,
+                          `type` varchar(40) NOT NULL,
+                          `insert_flag` int NOT NULL,
+                          PRIMARY KEY (`did`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+Create Trigger trigger_Add after INSERT on device for each row
+begin
+    INSERT into command_record(did, command, deviceName, date, operator)
+    VALUES(new.did, 'Add_device', new.deviceName, now(), new.creator);
+end;
+
+Create Trigger trigger_Delete after delete on device for each row
+begin
+    INSERT into command_record(did, command, deviceName, date, operator)
+    VALUES(old.did, 'Delete_device', old.deviceName, now(), old.creator);
+end;
+
 
 --
 -- Dumping data for table `device`
@@ -129,34 +142,6 @@ INSERT INTO `device` VALUES (1,'air-condition','on',116.37,39.86,'admin',0,'publ
 UNLOCK TABLES;
 
 --
--- Table structure for table `device_action`
---
-
-DROP TABLE IF EXISTS `device_action`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `device_action` (
-  `deviceName` varchar(50) NOT NULL,
-  `action` varchar(50) DEFAULT NULL,
-  `param` varchar(50) DEFAULT NULL,
-  `aid` int NOT NULL AUTO_INCREMENT,
-  `date` varchar(50) NOT NULL,
-  `did` int NOT NULL,
-  PRIMARY KEY (`aid`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `device_action`
---
-
-LOCK TABLES `device_action` WRITE;
-/*!40000 ALTER TABLE `device_action` DISABLE KEYS */;
-INSERT INTO `device_action` VALUES ('1','closenow',NULL,1,'2022-08-15 08:17:02',0),('1','delayopen','2min',2,'2022-08-15 08:17:02',0),('2','opennow',NULL,3,'2022-08-15 08:17:02',0),('2','delayclose','2min',4,'2022-08-15 08:17:02',0),('air-condition','opennow','',5,'2022-09-30 00:09:58',0),('air-condition','delayopen','2min',6,'2022-09-30 00:10:02',0),('air-condition','closenow','',7,'2022-09-30 00:10:04',0),('air-condition','delayclose','2min',8,'2022-09-30 00:10:06',0),('fringe','opennow','',9,'2022-09-30 11:17:43',0),('fringe','delayclose','2min',10,'2022-09-30 11:17:50',0),('fringe','closenow','',11,'2022-09-30 11:21:26',0),('fringe','delayclose','2min',12,'2022-09-30 11:21:29',0),('sensor','delayclose','2min',13,'2022-09-30 11:22:58',0),('sensor','closenow','',14,'2022-09-30 11:23:34',0),('air-condition','closenow','',15,'2022-09-30 13:33:06',0),('air-condition','closenow','',16,'2022-09-30 13:34:31',0),('air-condition','delayclose','2min',17,'2022-09-30 13:34:57',0),('air-condition','delayclose','2min',18,'2022-09-30 13:49:43',0),('air-condition','opennow','',19,'2022-09-30 13:54:34',0),('air-condition','delayopen','2min',20,'2022-09-30 13:54:39',0),('air-condition','closenow','',21,'2022-09-30 13:55:07',0),('air-condition','delayclose','2min',22,'2022-09-30 13:55:13',0),('air-condition','opennow','',23,'2022-09-30 15:10:22',0),('fringe','delayopen','2min',24,'2022-10-01 14:03:24',0),('fringe','delayclose','2min',25,'2022-10-01 14:04:06',0),('fringe','delayopen','2min',26,'2022-10-01 14:04:31',0),('fringe','delayclose','2min',27,'2022-10-01 14:27:50',0),('sensor','delayopen','2min',28,'2022-10-01 14:34:14',0),('air-condition','closenow','',29,'2022-10-03 21:00:01',0),('sensor','delayclose','2min',30,'2022-10-03 21:01:11',0);
-/*!40000 ALTER TABLE `device_action` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `normal_data`
 --
 
@@ -164,11 +149,11 @@ DROP TABLE IF EXISTS `normal_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `normal_data` (
-  `dno` int NOT NULL AUTO_INCREMENT,
-  `did` int NOT NULL,
-  `temperature` float NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY (`dno`)
+                               `dno` int NOT NULL AUTO_INCREMENT,
+                               `did` int NOT NULL,
+                               `temperature` float NOT NULL,
+                               `date` datetime NOT NULL,
+                               PRIMARY KEY (`dno`)
 ) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,14 +175,14 @@ DROP TABLE IF EXISTS `todolist`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `todolist` (
-  `tid` int NOT NULL AUTO_INCREMENT,
-  `date` datetime NOT NULL,
-  `apply` varchar(40) DEFAULT NULL,
-  `deviceName` varchar(60) NOT NULL,
-  `did` int NOT NULL,
-  `status` int NOT NULL,
-  PRIMARY KEY (`tid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                            `tid` int NOT NULL AUTO_INCREMENT,
+                            `date` datetime NOT NULL,
+                            `apply` varchar(40) DEFAULT NULL,
+                            `deviceName` varchar(60) NOT NULL,
+                            `did` int NOT NULL,
+                            `status` int NOT NULL,
+                            PRIMARY KEY (`tid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +191,6 @@ CREATE TABLE `todolist` (
 
 LOCK TABLES `todolist` WRITE;
 /*!40000 ALTER TABLE `todolist` DISABLE KEYS */;
-INSERT INTO `todolist` VALUES (1,'2023-11-29 12:33:37','echo','sensor1',15,0),(2,'2023-11-29 12:33:37','echo','sensor2',16,0),(3,'2023-11-29 12:33:37','yyx','sensor3',17,0),(4,'2023-11-29 12:33:37','ztl','sensor4',18,1),(5,'2023-11-29 12:33:37','dcx','sensor5',19,1);
 /*!40000 ALTER TABLE `todolist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,14 +202,14 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `username` varchar(30) NOT NULL,
-  `password_hash` varchar(512) NOT NULL,
-  `avatar` varchar(100) NOT NULL,
-  `roles` varchar(40) NOT NULL,
-  `group_id` int DEFAULT NULL,
-  `email` varchar(60) DEFAULT NULL,
-  `uid` varchar(256) NOT NULL,
-  PRIMARY KEY (`uid`)
+                        `username` varchar(30) NOT NULL,
+                        `password_hash` varchar(512) NOT NULL,
+                        `avatar` varchar(100) NOT NULL,
+                        `roles` varchar(40) NOT NULL,
+                        `group_id` int DEFAULT NULL,
+                        `email` varchar(60) DEFAULT NULL,
+                        `uid` varchar(256) NOT NULL,
+                        PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -235,7 +219,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('admin','def823239cd714d6f18cda2a2b9e1369046125716c43d27a1256753ac72164b0','56e1efca-cd04-4904-820b-da3a679ea9b3.jpg','admin',1,'demo@test','8154532213648629760'),('echo','310647c17748fd6731a1fcf4b4106bf86399975af6388b1ff91ea93aa4a92c2e','f778738c-e4f8-4870-b634-56703b4acafe.gif','editor',1,NULL,'8154532213648629761'),('yyx','310647c17748fd6731a1fcf4b4106bf86399975af6388b1ff91ea93aa4a92c2e','f778738c-e4f8-4870-b634-56703b4acafe.gif','editor',1,NULL,'8154532213648629762'),('ztl','310647c17748fd6731a1fcf4b4106bf86399975af6388b1ff91ea93aa4a92c2e','f778738c-e4f8-4870-b634-56703b4acafe.gif','editor',1,NULL,'8154532213648629763'),('dcx','310647c17748fd6731a1fcf4b4106bf86399975af6388b1ff91ea93aa4a92c2e','f778738c-e4f8-4870-b634-56703b4acafe.gif','editor',1,NULL,'8154532213648629764'),('bai','310647c17748fd6731a1fcf4b4106bf86399975af6388b1ff91ea93aa4a92c2e','f778738c-e4f8-4870-b634-56703b4acafe.gif','editor',1,NULL,'8154532213648629765'),('test','310647c17748fd6731a1fcf4b4106bf86399975af6388b1ff91ea93aa4a92c2e','f778738c-e4f8-4870-b634-56703b4acafe.gif','editor',1,NULL,'8154532213648629766'),('hhh','310647c17748fd6731a1fcf4b4106bf86399975af6388b1ff91ea93aa4a92c2e','f778738c-e4f8-4870-b634-56703b4acafe.gif','editor',1,NULL,'8154532213648629767');
+INSERT INTO `user` VALUES ('echo','310647c17748fd6731a1fcf4b4106bf86399975af6388b1ff91ea93aa4a92c2e','f778738c-e4f8-4870-b634-56703b4acafe.gif','editor',1,NULL,'8154532213648629760'),('admin','def823239cd714d6f18cda2a2b9e1369046125716c43d27a1256753ac72164b0','56e1efca-cd04-4904-820b-da3a679ea9b3.jpg','admin',1,'demo@test','8154532213648629761');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,15 +231,15 @@ DROP TABLE IF EXISTS `worker_node`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `worker_node` (
-  `ID` bigint NOT NULL AUTO_INCREMENT COMMENT 'auto increment id',
-  `HOST_NAME` varchar(64) NOT NULL COMMENT 'host name',
-  `PORT` varchar(64) NOT NULL COMMENT 'port',
-  `TYPE` int NOT NULL COMMENT 'node type: CONTAINER(1), ACTUAL(2), FAKE(3)',
-  `LAUNCH_DATE` date NOT NULL COMMENT 'launch date',
-  `MODIFIED` timestamp NOT NULL COMMENT 'modified time',
-  `CREATED` timestamp NOT NULL COMMENT 'created time',
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='DB WorkerID Assigner for UID Generator';
+                               `ID` bigint NOT NULL AUTO_INCREMENT COMMENT 'auto increment id',
+                               `HOST_NAME` varchar(64) NOT NULL COMMENT 'host name',
+                               `PORT` varchar(64) NOT NULL COMMENT 'port',
+                               `TYPE` int NOT NULL COMMENT 'node type: CONTAINER(1), ACTUAL(2), FAKE(3)',
+                               `LAUNCH_DATE` date NOT NULL COMMENT 'launch date',
+                               `MODIFIED` timestamp NOT NULL COMMENT 'modified time',
+                               `CREATED` timestamp NOT NULL COMMENT 'created time',
+                               PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='DB WorkerID Assigner for UID Generator';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -264,7 +248,7 @@ CREATE TABLE `worker_node` (
 
 LOCK TABLES `worker_node` WRITE;
 /*!40000 ALTER TABLE `worker_node` DISABLE KEYS */;
-INSERT INTO `worker_node` VALUES (13,'192.168.7.1','1701001722632-33439',2,'2023-11-26','2023-11-26 12:28:42','2023-11-26 12:28:42'),(14,'192.168.7.1','1701065661883-10464',2,'2023-11-27','2023-11-27 06:14:21','2023-11-27 06:14:21'),(15,'192.168.7.1','1701066687883-99341',2,'2023-11-27','2023-11-27 06:31:27','2023-11-27 06:31:27'),(16,'192.168.7.1','1701066861760-79489',2,'2023-11-27','2023-11-27 06:34:21','2023-11-27 06:34:21'),(17,'192.168.7.1','1701066988392-12395',2,'2023-11-27','2023-11-27 06:36:28','2023-11-27 06:36:28'),(18,'192.168.7.1','1701067327067-49437',2,'2023-11-27','2023-11-27 06:42:07','2023-11-27 06:42:07'),(19,'192.168.7.1','1701067466121-61403',2,'2023-11-27','2023-11-27 06:44:26','2023-11-27 06:44:26'),(20,'192.168.7.1','1701067523747-26520',2,'2023-11-27','2023-11-27 06:45:23','2023-11-27 06:45:23'),(21,'192.168.7.1','1701067627778-41658',2,'2023-11-27','2023-11-27 06:47:07','2023-11-27 06:47:07'),(22,'192.168.7.1','1701067690572-33864',2,'2023-11-27','2023-11-27 06:48:10','2023-11-27 06:48:10'),(23,'192.168.7.1','1701068203440-15605',2,'2023-11-27','2023-11-27 06:56:43','2023-11-27 06:56:43'),(24,'192.168.7.1','1701068563273-83135',2,'2023-11-27','2023-11-27 07:02:43','2023-11-27 07:02:43'),(25,'192.168.7.1','1701068865942-88363',2,'2023-11-27','2023-11-27 07:07:45','2023-11-27 07:07:45'),(26,'192.168.7.1','1701068887356-48503',2,'2023-11-27','2023-11-27 07:08:07','2023-11-27 07:08:07'),(27,'192.168.7.1','1701068906717-48031',2,'2023-11-27','2023-11-27 07:08:26','2023-11-27 07:08:26'),(28,'192.168.7.1','1701069319681-30147',2,'2023-11-27','2023-11-27 07:15:19','2023-11-27 07:15:19'),(29,'192.168.7.1','1701069574487-49703',2,'2023-11-27','2023-11-27 07:19:34','2023-11-27 07:19:34'),(30,'192.168.7.1','1701088146258-11232',2,'2023-11-27','2023-11-27 12:29:06','2023-11-27 12:29:06'),(31,'192.168.7.1','1701091019946-12390',2,'2023-11-27','2023-11-27 13:16:59','2023-11-27 13:16:59'),(32,'192.168.7.1','1701176848724-83422',2,'2023-11-28','2023-11-28 13:07:28','2023-11-28 13:07:28'),(33,'192.168.7.1','1701177213667-82214',2,'2023-11-28','2023-11-28 13:13:33','2023-11-28 13:13:33'),(34,'192.168.7.1','1701177266480-84058',2,'2023-11-28','2023-11-28 13:14:26','2023-11-28 13:14:26'),(35,'192.168.7.1','1701177319375-28359',2,'2023-11-28','2023-11-28 13:15:19','2023-11-28 13:15:19'),(36,'192.168.7.1','1701182909870-56360',2,'2023-11-28','2023-11-28 14:48:29','2023-11-28 14:48:29'),(37,'192.168.7.1','1701230827041-94477',2,'2023-11-29','2023-11-29 04:07:07','2023-11-29 04:07:07'),(38,'192.168.7.1','1701232502088-17396',2,'2023-11-29','2023-11-29 04:35:02','2023-11-29 04:35:02');
+INSERT INTO `worker_node` VALUES (13,'192.168.7.1','1701001722632-33439',2,'2023-11-26','2023-11-26 12:28:42','2023-11-26 12:28:42'),(14,'192.168.7.1','1701065661883-10464',2,'2023-11-27','2023-11-27 06:14:21','2023-11-27 06:14:21'),(15,'192.168.7.1','1701066687883-99341',2,'2023-11-27','2023-11-27 06:31:27','2023-11-27 06:31:27'),(16,'192.168.7.1','1701066861760-79489',2,'2023-11-27','2023-11-27 06:34:21','2023-11-27 06:34:21'),(17,'192.168.7.1','1701066988392-12395',2,'2023-11-27','2023-11-27 06:36:28','2023-11-27 06:36:28'),(18,'192.168.7.1','1701067327067-49437',2,'2023-11-27','2023-11-27 06:42:07','2023-11-27 06:42:07'),(19,'192.168.7.1','1701067466121-61403',2,'2023-11-27','2023-11-27 06:44:26','2023-11-27 06:44:26'),(20,'192.168.7.1','1701067523747-26520',2,'2023-11-27','2023-11-27 06:45:23','2023-11-27 06:45:23'),(21,'192.168.7.1','1701067627778-41658',2,'2023-11-27','2023-11-27 06:47:07','2023-11-27 06:47:07'),(22,'192.168.7.1','1701067690572-33864',2,'2023-11-27','2023-11-27 06:48:10','2023-11-27 06:48:10'),(23,'192.168.7.1','1701068203440-15605',2,'2023-11-27','2023-11-27 06:56:43','2023-11-27 06:56:43'),(24,'192.168.7.1','1701068563273-83135',2,'2023-11-27','2023-11-27 07:02:43','2023-11-27 07:02:43'),(25,'192.168.7.1','1701068865942-88363',2,'2023-11-27','2023-11-27 07:07:45','2023-11-27 07:07:45'),(26,'192.168.7.1','1701068887356-48503',2,'2023-11-27','2023-11-27 07:08:07','2023-11-27 07:08:07'),(27,'192.168.7.1','1701068906717-48031',2,'2023-11-27','2023-11-27 07:08:26','2023-11-27 07:08:26'),(28,'192.168.7.1','1701069319681-30147',2,'2023-11-27','2023-11-27 07:15:19','2023-11-27 07:15:19'),(29,'192.168.7.1','1701069574487-49703',2,'2023-11-27','2023-11-27 07:19:34','2023-11-27 07:19:34'),(30,'192.168.7.1','1701088146258-11232',2,'2023-11-27','2023-11-27 12:29:06','2023-11-27 12:29:06'),(31,'192.168.7.1','1701091019946-12390',2,'2023-11-27','2023-11-27 13:16:59','2023-11-27 13:16:59'),(32,'192.168.31.114','1701149502657-86858',2,'2023-11-28','2023-11-28 05:31:42','2023-11-28 05:31:42'),(33,'192.168.114.222','1701162370540-86108',2,'2023-11-28','2023-11-28 09:06:10','2023-11-28 09:06:10'),(34,'192.168.114.222','1701164648019-94084',2,'2023-11-28','2023-11-28 09:44:08','2023-11-28 09:44:08'),(35,'192.168.114.222','1701164666777-21235',2,'2023-11-28','2023-11-28 09:44:26','2023-11-28 09:44:26'),(36,'192.168.114.222','1701164916871-58882',2,'2023-11-28','2023-11-28 09:48:36','2023-11-28 09:48:36'),(37,'192.168.114.222','1701171005712-57824',2,'2023-11-28','2023-11-28 11:30:05','2023-11-28 11:30:05'),(38,'192.168.114.222','1701171061197-25422',2,'2023-11-28','2023-11-28 11:31:01','2023-11-28 11:31:01'),(39,'192.168.114.222','1701171261295-4607',2,'2023-11-28','2023-11-28 11:34:21','2023-11-28 11:34:21'),(40,'192.168.114.222','1701171544092-66608',2,'2023-11-28','2023-11-28 11:39:04','2023-11-28 11:39:04'),(41,'192.168.114.222','1701171766168-47363',2,'2023-11-28','2023-11-28 11:42:46','2023-11-28 11:42:46'),(42,'192.168.114.222','1701172757523-68981',2,'2023-11-28','2023-11-28 11:59:17','2023-11-28 11:59:17'),(43,'192.168.114.222','1701173038111-18197',2,'2023-11-28','2023-11-28 12:03:58','2023-11-28 12:03:58'),(44,'192.168.114.222','1701176704045-59746',2,'2023-11-28','2023-11-28 13:05:04','2023-11-28 13:05:04'),(45,'192.168.114.222','1701176841634-31102',2,'2023-11-28','2023-11-28 13:07:21','2023-11-28 13:07:21'),(46,'192.168.114.222','1701177169784-33294',2,'2023-11-28','2023-11-28 13:12:49','2023-11-28 13:12:49'),(47,'192.168.114.222','1701177248111-6774',2,'2023-11-28','2023-11-28 13:14:08','2023-11-28 13:14:08'),(48,'192.168.114.222','1701177351536-59365',2,'2023-11-28','2023-11-28 13:15:51','2023-11-28 13:15:51'),(49,'192.168.114.222','1701177822431-46149',2,'2023-11-28','2023-11-28 13:23:42','2023-11-28 13:23:42'),(50,'192.168.114.222','1701178889412-1718',2,'2023-11-28','2023-11-28 13:41:29','2023-11-28 13:41:29'),(51,'192.168.114.222','1701178980849-75454',2,'2023-11-28','2023-11-28 13:43:00','2023-11-28 13:43:00'),(52,'192.168.114.222','1701179040128-38355',2,'2023-11-28','2023-11-28 13:44:00','2023-11-28 13:44:00'),(53,'192.168.114.222','1701179171620-78534',2,'2023-11-28','2023-11-28 13:46:11','2023-11-28 13:46:11'),(54,'192.168.114.222','1701179455523-98016',2,'2023-11-28','2023-11-28 13:50:55','2023-11-28 13:50:55'),(55,'192.168.114.222','1701179523940-5202',2,'2023-11-28','2023-11-28 13:52:03','2023-11-28 13:52:03'),(56,'192.168.114.222','1701179667595-54406',2,'2023-11-28','2023-11-28 13:54:27','2023-11-28 13:54:27'),(57,'192.168.114.222','1701179780214-56154',2,'2023-11-28','2023-11-28 13:56:20','2023-11-28 13:56:20'),(58,'192.168.114.222','1701179801346-39033',2,'2023-11-28','2023-11-28 13:56:41','2023-11-28 13:56:41'),(59,'192.168.114.222','1701179866998-70571',2,'2023-11-28','2023-11-28 13:57:47','2023-11-28 13:57:47'),(60,'192.168.114.222','1701179927528-65562',2,'2023-11-28','2023-11-28 13:58:47','2023-11-28 13:58:47'),(61,'192.168.114.222','1701180155734-1320',2,'2023-11-28','2023-11-28 14:02:35','2023-11-28 14:02:35'),(62,'192.168.114.222','1701180199956-13799',2,'2023-11-28','2023-11-28 14:03:20','2023-11-28 14:03:20'),(63,'192.168.114.222','1701180459463-39640',2,'2023-11-28','2023-11-28 14:07:39','2023-11-28 14:07:39'),(64,'192.168.114.222','1701180510999-82568',2,'2023-11-28','2023-11-28 14:08:31','2023-11-28 14:08:31'),(65,'192.168.114.222','1701180972190-65830',2,'2023-11-28','2023-11-28 14:16:12','2023-11-28 14:16:12'),(66,'192.168.114.222','1701180993158-27410',2,'2023-11-28','2023-11-28 14:16:33','2023-11-28 14:16:33'),(67,'192.168.114.222','1701181110889-23380',2,'2023-11-28','2023-11-28 14:18:30','2023-11-28 14:18:30'),(68,'192.168.114.222','1701181197906-109',2,'2023-11-28','2023-11-28 14:19:57','2023-11-28 14:19:57'),(69,'192.168.114.222','1701181339428-9631',2,'2023-11-28','2023-11-28 14:22:19','2023-11-28 14:22:19'),(70,'192.168.114.222','1701181474367-5286',2,'2023-11-28','2023-11-28 14:24:34','2023-11-28 14:24:34'),(71,'192.168.114.222','1701181649851-96043',2,'2023-11-28','2023-11-28 14:27:29','2023-11-28 14:27:29'),(72,'192.168.114.222','1701181905373-33458',2,'2023-11-28','2023-11-28 14:31:45','2023-11-28 14:31:45'),(73,'192.168.114.222','1701181946656-86553',2,'2023-11-28','2023-11-28 14:32:26','2023-11-28 14:32:26'),(74,'192.168.34.1','1701223915187-77134',2,'2023-11-29','2023-11-29 02:11:55','2023-11-29 02:11:55'),(75,'192.168.34.1','1701224311361-41511',2,'2023-11-29','2023-11-29 02:18:31','2023-11-29 02:18:31'),(76,'192.168.34.1','1701224368587-11899',2,'2023-11-29','2023-11-29 02:19:28','2023-11-29 02:19:28'),(77,'192.168.34.1','1701224441946-42191',2,'2023-11-29','2023-11-29 02:20:41','2023-11-29 02:20:41');
 /*!40000 ALTER TABLE `worker_node` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -277,4 +261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-29 15:39:05
+-- Dump completed on 2023-11-29 17:00:36
