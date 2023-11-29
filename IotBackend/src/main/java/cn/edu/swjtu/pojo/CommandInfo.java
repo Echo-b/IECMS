@@ -10,4 +10,6 @@ public class CommandInfo {
     private String topic;
     private String date;
     private String operator;
+    private int cid;
+    private String param;
 }

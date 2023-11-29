@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 @Mapper
 public interface RecordMapper {
-    @Insert("insert into command_record (did,command,deviceName,topic,date,operator) values" +
-            "(#{did},#{command},#{deviceName},#{topic},#{date},#{operator})")
+    @Insert("insert into command_record (did,command,deviceName,topic,date,operator,param) values" +
+            "(#{did},#{command},#{deviceName},#{topic},#{date},#{operator},#{param})")
     int InsertCommandRecord(CommandInfo c);
 
     @Select("select * from command_record where operator = #{operator}")

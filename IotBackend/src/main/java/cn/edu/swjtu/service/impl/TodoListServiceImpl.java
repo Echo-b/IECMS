@@ -55,7 +55,7 @@ public class TodoListServiceImpl implements TodoListService {
     @Override
     public ResponseData updateTodoListTask(TodoList t) {
         try{
-            if(mapper.updateTodoListTask(t.getTid()) > 0)
+            if(mapper.updateTodoListTask(t) > 0)
                 return ResponseData.success("更新任务成功");
         }catch (Exception e){
             e.printStackTrace();
