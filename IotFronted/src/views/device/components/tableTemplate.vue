@@ -34,6 +34,11 @@
         </el-select>
       </el-form-item>
     </el-form>
+    <el-button @click="cancelShow">重 置</el-button>
+      <el-button 
+        type="primary" 
+        @click="onConfirm"
+        :disabled="submitButtonDisabled">下一步</el-button>
   </div>
 </template>
 
@@ -43,7 +48,7 @@ export default {
     // 监听表单数据的变化，一旦变化就执行验证方法
     form: {
       handler() {
-        // this.validateForm();
+        this.validateForm();
       },
       deep: true,
     },
@@ -62,6 +67,14 @@ export default {
   methods: {
     onSubmit() {
       this.$emit('editTable')
+    },
+    onConfirm() {
+      this.$emit('confirm')
+    },
+    cancelShow() {
+      this.editShow = false
+      this.$refs.form.resetFields();
+      // this.$emit('changeShow');
     },
     validateDid() {
       // 验证设备ID的方法，可在失去焦点时调用
@@ -131,6 +144,7 @@ export default {
         { pattern: /^-?\d+(\.\d+)?$/, message: '请输入数字或小数', trigger: 'blur' },
         { validator: this.validateLatitudeRange, trigger: 'blur' }
       ],
+      submitButtonDisabled: true,
     };
   }
 }
