@@ -1,10 +1,8 @@
 package cn.edu.swjtu.controller;
 
-import cn.edu.swjtu.pojo.CommandInfo;
 import cn.edu.swjtu.pojo.Device;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.DeviceService;
-import cn.edu.swjtu.service.MQTTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
