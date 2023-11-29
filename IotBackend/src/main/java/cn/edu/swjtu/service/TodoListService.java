@@ -11,4 +11,5 @@ public interface TodoListService {
     ResponseData findTodoListTaskById(int tid);
 
     ResponseData updateTodoListTask(TodoList t);
+    ResponseData deleteTaskById(int tid);
 }

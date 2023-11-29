@@ -62,4 +62,16 @@ public class TodoListServiceImpl implements TodoListService {
         }
         return ResponseData.error("更新数据失败");
     }
+
+    @Override
+    public ResponseData deleteTaskById(int tid) {
+        try {
+            if(mapper.deleteTaskById(tid) > 0 ){
+                return ResponseData.success("成功撤销申请");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseData.error("撤销申请失败");
+    }
 }
