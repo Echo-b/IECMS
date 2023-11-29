@@ -21,6 +21,6 @@ public interface TodoListMapper {
             "values (#{tid},#{date},#{apply},#{deviceName},#{did},#{status});")
     int addTodoListTask(TodoList t);
 
-    @Update("update todolist set status = {status} where tid = {tid};")
+    @Update("update todolist set status = #{status} where tid = #{tid};")
     int updateTodoListTask(TodoList t);
 }
