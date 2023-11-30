@@ -4,16 +4,24 @@ import cn.edu.swjtu.pojo.User;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.UserService;
 import cn.edu.swjtu.utils.JwtUtils;
+import com.alibaba.fastjson.JSONObject;
+import com.xfvape.uid.UidGenerator;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+
+import static java.lang.Long.parseLong;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper mapper;
+
+    @Resource
+    private UidGenerator uidGenerator;
 
     @Override
     public ResponseData UserLogin(User u) {
@@ -77,5 +85,12 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return ResponseData.error("添加小组成员失败");
+    }
+
+    @Override
+    public String UidToDateString(String username) {
+        User u = mapper.getSingleUserInfo(username);
+        JSONObject createinfo= JSONObject.parseObject(uidGenerator.parseUID(parseLong(u.getUid())));
+        return createinfo.get("timestamp").toString();
     }
 }

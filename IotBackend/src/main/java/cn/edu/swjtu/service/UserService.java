@@ -10,4 +10,5 @@ public interface UserService {
     ResponseData UpdateUserInfo(User u);
     ResponseData getAllGroupUser(int group_id);
     ResponseData addGroupUser(User u);
+    String UidToDateString(String username);
 }
