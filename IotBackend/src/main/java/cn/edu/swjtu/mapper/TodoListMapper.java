@@ -1,10 +1,7 @@
 package cn.edu.swjtu.mapper;
 
 import cn.edu.swjtu.pojo.TodoList;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
 
@@ -23,4 +20,7 @@ public interface TodoListMapper {
 
     @Update("update todolist set status = #{status} where tid = #{tid};")
     int updateTodoListTask(TodoList t);
+
+    @Delete("delete from todolist where tid = #{tid};")
+    int deleteTaskById(int tid);
 }

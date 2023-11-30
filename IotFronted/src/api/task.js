@@ -30,3 +30,11 @@ export function addTodoListTask(data) {
     data
   })
 }
+
+export function deleteTaskById(tid) {
+  return request({
+    url: '/task/delete',
+    method: 'delete',
+    params: { tid }
+  })
+}

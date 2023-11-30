@@ -33,4 +33,9 @@ public class TodoListController {
     ResponseData updateTodoListTask(@RequestBody TodoList t){
         return todoListService.updateTodoListTask(t);
     }
+
+    @DeleteMapping("/delete")
+    ResponseData deleteTaskById(int tid) {
+        return todoListService.deleteTaskById(tid);
+    }
 }
