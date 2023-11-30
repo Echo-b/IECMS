@@ -93,14 +93,13 @@ export default {
           data: ['expected', 'actual']
         },
         series: [{
-          name: 'expected', itemStyle: {
-            normal: {
-              color: '#FF005A',
-              lineStyle: {
-                color: '#FF005A',
-                width: 2
-              }
-            }
+          name: 'expected',
+          itemStyle: {
+            color: '#FF005A'
+          },
+          lineStyle: {
+            color: '#FF005A',
+            width: 2
           },
           smooth: true,
           type: 'line',
@@ -113,16 +112,14 @@ export default {
           smooth: true,
           type: 'line',
           itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
-                color: '#3888fa',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
-              }
-            }
+            color: '#3888fa'
+          },
+          lineStyle: {
+            color: '#3888fa',
+            width: 2
+          },
+          areaStyle: {
+            color: '#f3f8ff'
           },
           data: actualData,
           animationDuration: 2800,

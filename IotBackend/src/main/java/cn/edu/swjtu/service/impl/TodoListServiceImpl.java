@@ -19,7 +19,6 @@ public class TodoListServiceImpl implements TodoListService {
     @Override
     public ResponseData addTodoListTask(TodoList t) {
         try{
-            t.setStatus(0);
             t.setDate(DateUtil.getDate());
             if(mapper.addTodoListTask(t) > 0)
                 return ResponseData.success("增加任务成功");
