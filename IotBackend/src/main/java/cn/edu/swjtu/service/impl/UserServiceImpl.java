@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static java.lang.Long.parseLong;
 
@@ -22,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UidGenerator uidGenerator;
+
+    private String[] weeks = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+    private String[] zhweeks = {"星期一","星期二","星期三","星期四","星期五","星期六","星期日"};
 
     @Override
     public ResponseData UserLogin(User u) {
@@ -91,6 +95,10 @@ public class UserServiceImpl implements UserService {
     public String UidToDateString(String username) {
         User u = mapper.getSingleUserInfo(username);
         JSONObject createinfo= JSONObject.parseObject(uidGenerator.parseUID(parseLong(u.getUid())));
-        return createinfo.get("timestamp").toString();
+        String day = createinfo.get("timestamp").toString();
+
+        // map chinese literal into english literal
+        int index = Arrays.binarySearch(zhweeks,day);
+        return weeks[index];
     }
 }

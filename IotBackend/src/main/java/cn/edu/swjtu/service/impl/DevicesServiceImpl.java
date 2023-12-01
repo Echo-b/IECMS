@@ -39,11 +39,11 @@ public class DevicesServiceImpl implements DeviceService {
     }
 
     @Override
-    public ResponseData getAllDevices() {
+    public ResponseData getAllGroupDevices(int group_id) {
         int total = 0;
         GetDevicesResp resp = new GetDevicesResp();
         try {
-            resp.devices = mapper.getAllDevices();
+            resp.devices = mapper.getAllGroupDevices(group_id);
             total = mapper.countDeviceNum();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function getAllDevice() {
+export function getAllGroupDevice(group_id) {
   return request({
     url: '/device/all',
-    method: 'get'
+    method: 'get',
+    params: { group_id }
   })
 }
 

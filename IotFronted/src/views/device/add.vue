@@ -37,7 +37,7 @@
 </template>
 <script>
 import { addDevice, getDeviceById } from '@/api/device'
-import { addTodoListTask } from "@/api/task"
+import { addTodoListTask } from '@/api/task'
 import tableTemplate from './components/tableTemplate.vue'
 import progressTemplate from './components/progressTemplate.vue'
 

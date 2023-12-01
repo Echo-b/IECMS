@@ -13,8 +13,8 @@ public interface DeviceMapper {
     @Select("select * from device limit #{num},10")
     ArrayList<Device> getAppointPageDevices(int num);
 
-    @Select("select * from device")
-    ArrayList<Device> getAllDevices();
+    @Select("select * from device where group_id = #{group_id}")
+    ArrayList<Device> getAllGroupDevices(int group_id);
 
     @Insert("replace into device(did, deviceName, status, longitude, latitude) values (#{did}," +
             "#{deviceName},#{status},#{longitude},#{latitude});")

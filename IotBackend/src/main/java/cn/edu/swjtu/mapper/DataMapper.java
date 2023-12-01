@@ -53,8 +53,8 @@ public interface DataMapper {
      *
      * @return
      */
-    @Select("select count(*) from normal_data;")
-    int countNoramlDataTotalNum();
+    @Select("select * from normal_data;")
+    ArrayList<NormalData> getAllNormalData();
 
     /**
      * @author echobai
@@ -92,8 +92,8 @@ public interface DataMapper {
      *
      * @return
      */
-    @Select("select count(*) from alert_info;")
-    int countAlertDataTotalNum();
+    @Select("select * from alert_info;")
+    ArrayList<AlertInfo> getAllAlertData();
 
     @Select("select * from alert_info where did = #{did} order by date DESC limit 1")
     AlertInfo getNewestAlertData(int did);
