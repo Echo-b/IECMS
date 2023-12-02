@@ -24,8 +24,8 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseData UserLogout(){
-        return userService.UserLogout();
+    public ResponseData UserLogout(String token){
+        return userService.UserLogout(token);
     }
 
     @PostMapping("/update")

@@ -6,7 +6,7 @@ import cn.edu.swjtu.result.ResponseData;
 public interface UserService {
     ResponseData UserLogin(User u);
     ResponseData GetUserInfo(String token);
-    ResponseData UserLogout();
+    ResponseData UserLogout(String token);
     ResponseData UpdateUserInfo(User u);
     ResponseData getAllGroupUser(int group_id);
     ResponseData addGroupUser(User u);

@@ -3,8 +3,10 @@ package cn.edu.swjtu.pojo;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Data
-public class User {
+public class User implements Serializable {
     private String uid;
     private String username;
     private String password_hash;

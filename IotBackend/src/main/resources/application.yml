@@ -9,6 +9,13 @@ spring:
     url: jdbc:mysql://localhost:3306/iott?characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: bsb010306
+  application:
+    name: redis
+    data:
+      redis:
+        host: 127.0.0.1
+        port: 6379
+        database: 0
 
 ## mqtt configure
 mqtt:
@@ -20,6 +27,8 @@ mqtt:
   pubTopic: devPubTopics
   keep_alive: 60
   timeout: 60
+
+
 
 ## token
 jwt:

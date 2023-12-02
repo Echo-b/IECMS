@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xfvape.uid.UidGenerator;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UidGenerator uidGenerator;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     private String[] weeks = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
     private String[] zhweeks = {"星期一","星期二","星期三","星期四","星期五","星期六","星期日"};
@@ -40,6 +44,8 @@ public class UserServiceImpl implements UserService {
         if(user.getPassword_hash().equals(u.getPassword_hash())){
             System.out.println(u.getUsername());
             String token  = JwtUtils.generateToken(u.getUsername());
+            // redis store current user
+            redisTemplate.opsForValue().set(u.getUsername(),user);
             return ResponseData.success("登录成功").data("token",token);
         } else {
             return ResponseData.error("用户名或密码错误");
@@ -50,18 +56,28 @@ public class UserServiceImpl implements UserService {
     public ResponseData GetUserInfo(String token) {
         String username = JwtUtils.getClaimsByToken(token).getSubject();
         System.out.println("username = " + username);
-        User user = mapper.getSingleUserInfo(username);
+        // from redis get user info
+        User user = (User) redisTemplate.opsForValue().get(username);
+        System.out.println("user = " + user);
+//        User user = mapper.getSingleUserInfo(username);
         return ResponseData.success("success").data("uid",user.getUid()).data("name",username).data("avatar",user.getAvatar()).data("roles",user.getRoles()).data("email",user.getEmail()).data("groupid",user.getGroup_id());
     }
 
     @Override
-    public ResponseData UserLogout() {
+    public ResponseData UserLogout(String token) {
+        //remove current user from redis
+        String username = JwtUtils.getClaimsByToken(token).getSubject();
+        redisTemplate.delete(username);
         return ResponseData.success("success");
     }
 
     @Override
     public ResponseData UpdateUserInfo(User u) {
        if(mapper.UpdateUserInfo(u) > 0 ){
+           // remove old user info and restore update info
+           redisTemplate.delete(u.getUsername());
+           User user = mapper.getSingleUserInfo(u.getUsername());
+           redisTemplate.opsForValue().set(user.getUsername(),user);
            return ResponseData.success("更新信息成功");
         }
         return ResponseData.error("更新信息失败");
@@ -93,7 +109,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String UidToDateString(String username) {
-        User u = mapper.getSingleUserInfo(username);
+//        User u = mapper.getSingleUserInfo(username);
+        User u = (User) redisTemplate.opsForValue().get(username);
         JSONObject createinfo= JSONObject.parseObject(uidGenerator.parseUID(parseLong(u.getUid())));
         String day = createinfo.get("timestamp").toString();
 
