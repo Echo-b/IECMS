@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService {
     public ResponseData UpdateUserInfo(User u) {
        if(mapper.UpdateUserInfo(u) > 0 ){
            // remove old user info and restore update info
-           redisTemplate.delete(u.getUsername());
            User user = mapper.getSingleUserInfo(u.getUsername());
            redisTemplate.opsForValue().set(user.getUsername(),user);
            return ResponseData.success("更新信息成功");
