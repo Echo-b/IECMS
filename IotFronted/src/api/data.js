@@ -71,3 +71,19 @@ export function getAverageTemperature(did) {
     params: { did }
   })
 }
+
+export function getChartData(username) {
+  return request({
+    url: '/data/chart/get',
+    method: 'get',
+    params: { username }
+  })
+}
+
+export function getTotalNums(username) {
+  return request({
+    url: '/data/chart/total',
+    method: 'get',
+    params: { username }
+  })
+}

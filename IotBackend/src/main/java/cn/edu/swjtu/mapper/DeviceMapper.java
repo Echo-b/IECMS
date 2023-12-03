@@ -26,8 +26,8 @@ public interface DeviceMapper {
     @Delete("delete from device where did = #{did};")
     int deleteById(int did);
 
-    @Insert("insert into device (did,deviceName,status,longitude,latitude,creator,group_id,type,insert_flag)" +
-            "values (#{did},#{deviceName},#{status},#{longitude},#{latitude},#{creator},#{group_id},#{type},#{insert_flag});")
+    @Insert("insert into device (did,deviceName,status,longitude,latitude,creator,group_id,type,insert_flag,date)" +
+            "values (#{did},#{deviceName},#{status},#{longitude},#{latitude},#{creator},#{group_id},#{type},#{insert_flag},sysdate());")
     int addDevice(Device device);
 
     @Select("select count(*) from device;")

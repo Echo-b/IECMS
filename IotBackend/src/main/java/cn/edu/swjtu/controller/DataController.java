@@ -1,8 +1,11 @@
 package cn.edu.swjtu.controller;
 import cn.edu.swjtu.result.ResponseData;
+import cn.edu.swjtu.service.ChartDataService;
 import cn.edu.swjtu.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
 
 @RestController
 @CrossOrigin
@@ -10,6 +13,19 @@ import org.springframework.web.bind.annotation.*;
 public class DataController {
     @Autowired
     private DataService dataService;
+
+    @Autowired
+    private ChartDataService chartDataService;
+
+    @GetMapping("/chart/get")
+    public ResponseData getChartData(String username) throws ParseException {
+        return chartDataService.getChartData(username);
+    }
+
+    @GetMapping("/chart/total")
+    public ResponseData getTotalNums(String username) throws ParseException {
+        return chartDataService.getTotalNums(username);
+    }
 
     @GetMapping("/normal/all")
     public ResponseData getNormalData(@RequestParam(defaultValue = "1") int pageNum) {

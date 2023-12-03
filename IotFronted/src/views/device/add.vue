@@ -49,6 +49,7 @@ export default {
         status: 'off',
         did: 1,
         type: '',
+        date: '',
         insert_flag: this.$store.getters.roles === 'admin',
         creator: this.$store.getters.name,
         group_id: this.$store.getters.groupid

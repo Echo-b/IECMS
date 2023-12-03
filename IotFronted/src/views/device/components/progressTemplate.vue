@@ -25,7 +25,7 @@
     </el-table>
     <el-dialog :visible="dialogVisible" title="申请记录详情" @close="closeDetailDialog">
       <el-descriptions :bordered="true" size="medium" border>
-        <el-descriptions-item label="申请日期">{{ date }}</el-descriptions-item>
+        <el-descriptions-item label="申请日期">{{ detailData.date }}</el-descriptions-item>
         <el-descriptions-item label="设备id">{{ detailData.did }}</el-descriptions-item>
         <el-descriptions-item label="设备名称">{{ detailData.deviceName }}</el-descriptions-item>
         <el-descriptions-item label="申请人">{{ detailData.creator }}</el-descriptions-item>
@@ -57,10 +57,10 @@ export default {
         longitude: 0.0,
         status: '',
         type: '',
+        date: '',
         insert_flag: 0,
         group_id: 0
       },
-      date: '',
       taskstatus: 0,
       statusmap: {
         1: '审核中',
@@ -70,7 +70,7 @@ export default {
       }
     }
   },
-  created() {
+  created: function() {
     getAllTodoListTask().then((response) => {
       this.tableData = response.data.tasks.map(item => {
         return {

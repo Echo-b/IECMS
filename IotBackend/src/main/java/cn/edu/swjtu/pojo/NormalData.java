@@ -2,8 +2,10 @@ package cn.edu.swjtu.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class NormalData {
+public class NormalData  implements Serializable {
     private int did;
     private int dno;
     private String date;

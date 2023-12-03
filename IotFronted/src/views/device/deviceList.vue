@@ -101,6 +101,7 @@ export default {
         status: 'off',
         did: 1,
         type: '',
+        date: '',
         insert_flag: 0,
         creator: '',
         group_id: 0
