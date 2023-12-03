@@ -6,7 +6,7 @@ import cn.edu.swjtu.result.ResponseData;
 public interface DeviceService {
     ResponseData getAppointPageDevices(int pageNum);
 
-    ResponseData getAllDevices();
+    ResponseData getAllGroupDevices(int group_id);
 
     ResponseData getDeviceById(int did);
 

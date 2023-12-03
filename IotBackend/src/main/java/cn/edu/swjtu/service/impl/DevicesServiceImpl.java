@@ -39,11 +39,11 @@ public class DevicesServiceImpl implements DeviceService {
     }
 
     @Override
-    public ResponseData getAllDevices() {
+    public ResponseData getAllGroupDevices(int group_id) {
         int total = 0;
         GetDevicesResp resp = new GetDevicesResp();
         try {
-            resp.devices = mapper.getAllDevices();
+            resp.devices = mapper.getAllGroupDevices(group_id);
             total = mapper.countDeviceNum();
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,17 +74,14 @@ public class DevicesServiceImpl implements DeviceService {
 
     @Override
     public ResponseData addDevice(Device device) {
-        int res = 0;
         try {
-            res = mapper.addDevice(device);
+            if(mapper.addDevice(device) > 0) {
+                return ResponseData.success("add success");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (res == 1) {
-            return ResponseData.success("add success");
-        } else {
-            return ResponseData.error("add failure");
-        }
+        return ResponseData.error("add failure");
     }
 
     @Override

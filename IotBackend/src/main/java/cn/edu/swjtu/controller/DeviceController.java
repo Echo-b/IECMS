@@ -20,12 +20,13 @@ public class DeviceController {
         return deviceService.getAppointPageDevices(pageNum);
     }
     @GetMapping("/all")
-    public ResponseData getAppointPageDevices() {
-        return deviceService.getAllDevices();
+    public ResponseData getAllGroupDevices(int group_id) {
+        return deviceService.getAllGroupDevices(group_id);
     }
 
     @PostMapping("/add")
     public ResponseData addDevice(@RequestBody Device device){
+        System.out.println("device = " + device);
         return deviceService.addDevice(device);
     }
 

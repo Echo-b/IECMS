@@ -73,7 +73,7 @@
 import {
   deleteDevice,
   getAppointPageDevice,
-  getAllDevice,
+  getAllGroupDevice,
   editDevice
 } from '@/api/device.js'
 
@@ -99,7 +99,11 @@ export default {
         longitude: 0.0,
         latitude: 0.0,
         status: 'off',
-        did: 1
+        did: 1,
+        type: '',
+        insert_flag: 0,
+        creator: '',
+        group_id: 0
       },
       search: ''
     }
@@ -122,7 +126,7 @@ export default {
     }
   },
   created: function() {
-    getAllDevice().then((response) => {
+    getAllGroupDevice(this.$store.getters.groupid).then((response) => {
       this.allDevices = response.data.items.devices
       this.$store.dispatch('page/setdevices', this.allDevices).then(() => {
         console.log('devices init')

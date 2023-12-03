@@ -5,19 +5,19 @@
         :form="form"
         @confirm="onConfirm"
       />
- 
     </el-tab-pane>
     <el-tab-pane label="提交进度" name="second">
       <progressTemplate />
     </el-tab-pane>
     <el-dialog :visible.sync="dialogVisible" title="请确认添加信息" width="40%" @close="cancelDialog">
       <!-- el-descriptions 显示设备信息 -->
-      <el-descriptions :bordered="true" size="small" column=1>
+      <el-descriptions :bordered="true" size="small" column="1">
         <el-descriptions-item label="设备ID">{{ form.did }}</el-descriptions-item>
         <el-descriptions-item label="设备名称">{{ form.deviceName }}</el-descriptions-item>
         <el-descriptions-item label="设备状态">{{ form.status }}</el-descriptions-item>
         <el-descriptions-item label="设备经度">{{ form.longitude }}</el-descriptions-item>
         <el-descriptions-item label="设备纬度">{{ form.latitude }}</el-descriptions-item>
+        <el-descriptions-item label="设备类型">{{ form.type }}</el-descriptions-item>
       </el-descriptions>
 
       <!-- 操作按钮 -->
@@ -30,7 +30,7 @@
 </template>
 <script>
 import { addDevice, getDeviceById } from '@/api/device'
-import { addTodoListTask } from "@/api/task"
+import { addTodoListTask } from '@/api/task'
 import tableTemplate from './components/tableTemplate.vue'
 import progressTemplate from './components/progressTemplate.vue'
 
@@ -47,11 +47,15 @@ export default {
         longitude: 0.0,
         latitude: 0.0,
         status: 'off',
-        did: 1
+        did: 1,
+        type: '',
+        insert_flag: this.$store.getters.roles === 'admin',
+        creator: this.$store.getters.name,
+        group_id: this.$store.getters.groupid
       },
       editShow: true,
       activeName: 'first',
-      dialogVisible: false,
+      dialogVisible: false
     }
   },
 
@@ -68,14 +72,20 @@ export default {
     onSubmit() {
       var devices = this.$store.getters.devices
       if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
+        this.addTask()
         this.form.status = 'off'
         addDevice(this.form).then((res) => {
-          this.$message({
-            message: '申请成功',
-            type: 'success'
-          })
+          if (res.success) {
+            this.$message({
+              message: '申请成功',
+              type: 'success'
+            })
+          }
         })
-        devices.push(this.form)
+        // admin don't need request
+        if (this.form.insert_flag) {
+          devices.push(this.form)
+        }
         this.$store.dispatch('page/setdevices', devices).then(() => {
           console.log(devices)
         })
@@ -86,37 +96,39 @@ export default {
           type: 'warning'
         })
       }
-      if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
-        const t = {
-        apply: this.$store.getters.name,
-        deviceName: this.form.deviceName,
-        did: this.form.did,
-        status: 1
-        };
-        addTodoListTask(t)
-      }
+      // if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
+      //   const t = {
+      //     apply: this.$store.getters.name,
+      //     deviceName: this.form.deviceName,
+      //     did: this.form.did,
+      //     status: 1
+      //   }
+      //   addTodoListTask(t)
+      // }
     },
     onConfirm() {
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     cancelDialog() {
-      this.dialogVisible = false;
+      this.dialogVisible = false
     },
-    addTask(){
+    addTask() {
       const t = {
         apply: this.$store.getters.name,
         deviceName: this.form.deviceName,
         did: this.form.did,
         status: 1
-      };
-      console.log(t);
+      }
+      console.log(t)
       addTodoListTask(t).then(res => {
-        console.log(res)
+        if (res.success) {
+          this.$message({
+            message: '申请已提交',
+            type: 'success'
+          })
+        }
       })
     }
   }
 }
 </script>
-
-<style>
-</style>

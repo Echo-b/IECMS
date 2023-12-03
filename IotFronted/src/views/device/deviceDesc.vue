@@ -82,7 +82,11 @@ export default {
         longitude: 0.0,
         latitude: 0.0,
         status: 'off',
-        did: 1
+        did: 1,
+        type: '',
+        insert_flag: 0,
+        creator: '',
+        group_id: 0
       },
       size: ''
     }

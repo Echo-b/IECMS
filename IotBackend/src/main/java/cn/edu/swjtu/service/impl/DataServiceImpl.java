@@ -24,7 +24,7 @@ public class DataServiceImpl implements DataService {
         try {
             int num = (pageNum - 1) * 10;
             normalData = mapper.getNormalData(num);
-            total = mapper.countNoramlDataTotalNum();
+            total = mapper.getAllNormalData().size();
         }catch (Exception e){
             e.printStackTrace();
             return ResponseData.error("failure");
@@ -78,7 +78,7 @@ public class DataServiceImpl implements DataService {
         try {
             int num = (pageNum - 1) * 10;
             alertInfos = mapper.getAlertData(num);
-            total = mapper.countAlertDataTotalNum();
+            total = mapper.getAllAlertData().size();
         } catch (Exception e){
             e.printStackTrace();
             return ResponseData.error("failure");
