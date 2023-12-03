@@ -1,6 +1,5 @@
 package cn.edu.swjtu.service.impl;
 
-import cn.edu.swjtu.mapper.DataMapper;
 import cn.edu.swjtu.mapper.DeviceMapper;
 import cn.edu.swjtu.mapper.UserMapper;
 import cn.edu.swjtu.pojo.AlertInfo;
@@ -26,16 +25,12 @@ import static java.lang.Long.parseLong;
 public class ChartDataServiceImpl implements ChartDataService {
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private DeviceMapper deviceMapper;
     @Resource
     private UidGenerator uidGenerator;
 
     @Autowired
     private RedisTemplate redisTemplate;
-
-    private String[] weeks = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+    
     private String[] zhweeks = {"星期一","星期二","星期三","星期四","星期五","星期六","星期日"};
 
 
