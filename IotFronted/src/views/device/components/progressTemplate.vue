@@ -25,7 +25,7 @@
     </el-table>
     <el-dialog :visible="dialogVisible" title="申请记录详情" @close="closeDetailDialog">
       <el-descriptions :bordered="true" size="medium" border>
-        <el-descriptions-item label="申请日期">{{ detailData.date.split(' ')[0] }}</el-descriptions-item>
+        <el-descriptions-item label="申请日期">{{ date }}</el-descriptions-item>
         <el-descriptions-item label="设备id">{{ detailData.did }}</el-descriptions-item>
         <el-descriptions-item label="设备名称">{{ detailData.deviceName }}</el-descriptions-item>
         <el-descriptions-item label="申请人">{{ detailData.creator }}</el-descriptions-item>
@@ -43,6 +43,7 @@
 import { getAllTodoListTask, updateTodoListTask, getTodoListTaskById, deleteTaskById } from '@/api/task.js'
 import { getDeviceById } from '@/api/device.js'
 export default {
+  inject: ['reload'],
   data() {
     return {
       tableData: [],
@@ -52,12 +53,14 @@ export default {
         creator: '',
         did: 0,
         deviceName: '',
-        date: '',
         latitude: 0.0,
         longitude: 0.0,
         status: '',
-        type: ''
+        type: '',
+        insert_flag: 0,
+        group_id: 0
       },
+      date: '',
       taskstatus: 0,
       statusmap: {
         1: '审核中',
@@ -82,14 +85,15 @@ export default {
   },
   methods: {
     showDetail(row) {
-      this.dialogVisible = true
       getTodoListTaskById(row.tid).then((res) => {
+        this.date = res.data.task.date.split(' ')[0]
         this.taskstatus = res.data.task.status
         // response.data.task.did
         getDeviceById(res.data.task.did).then((res1) => {
           this.detailData = res1.data.item
         })
       })
+      this.dialogVisible = true
       console.log(11111)
       console.log(this.detailData)
     },
@@ -103,20 +107,31 @@ export default {
     },
     deteleapply(row) {
     // 使用 confirm 函数显示确认框
-      if (confirm('确定要删除吗？')) {
-        // 用户点击了确认按钮
-        deleteTaskById(row.tid)
-        this.$message({
-          message: '删除成功！',
-          type: 'success'
+      this.$confirm('此操作将删除该次申请, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteTaskById(row.tid).then((res) => {
+          if (res.success) {
+            this.reload()
+            this.$message({
+              message: '删除成功！',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: '删除失败！',
+              type: 'error'
+            })
+          }
         })
-      } else {
-        // 用户点击了取消按钮，不执行删除操作
+      }).catch(() => {
         this.$message({
-          message: '取消删除',
-          type: 'info'
+          type: 'info',
+          message: '已取消删除'
         })
-      }
+      })
     },
     cancelapply(row) {
       const t = {
@@ -124,11 +139,17 @@ export default {
         status: 5
       }
       updateTodoListTask(t).then((response) => {
-        console.log(response)
-      })
-      this.$message({
-        message: '撤销成功',
-        type: 'success'
+        if (response.success) {
+          this.$message({
+            message: '撤销成功',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: '撤销失败',
+            type: 'error'
+          })
+        }
       })
     },
     getStepIcon(status) {
