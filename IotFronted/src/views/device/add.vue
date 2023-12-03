@@ -23,7 +23,7 @@
       <!-- 操作按钮 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelDialog">上一步</el-button>
-        <el-button type="primary" @click="addTask()">确定</el-button>
+        <el-button type="primary" @click="onSubmit()">确定</el-button>
       </span>
     </el-dialog>
   </el-tabs>
@@ -66,13 +66,12 @@ export default {
 
   methods: {
     onSubmit() {
-      console.log(this.form)
       var devices = this.$store.getters.devices
       if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
         this.form.status = 'off'
         addDevice(this.form).then((res) => {
           this.$message({
-            message: '添加成功',
+            message: '申请成功',
             type: 'success'
           })
         })
@@ -87,6 +86,15 @@ export default {
           type: 'warning'
         })
       }
+      if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
+        const t = {
+        apply: this.$store.getters.name,
+        deviceName: this.form.deviceName,
+        did: this.form.did,
+        status: 1
+        };
+        addTodoListTask(t)
+      }
     },
     onConfirm() {
       this.dialogVisible = true;
@@ -99,7 +107,7 @@ export default {
         apply: this.$store.getters.name,
         deviceName: this.form.deviceName,
         did: this.form.did,
-        status: 0
+        status: 1
       };
       console.log(t);
       addTodoListTask(t).then(res => {
