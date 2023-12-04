@@ -80,12 +80,12 @@ export default {
       getAllTodoListTask().then((res) => {
         console.log(res)
         res.data.tasks.forEach((item) => {
-          var tmpdone = false
+          var tmpdone = true
           var tmptext = 'handle ' + item.apply + ' add ' + item.deviceName + ' request'
           if (item.status === 1) {
-            tmpdone = true
+            tmpdone = false
           }
-          this.todos.push({ text: tmptext, done: tmpdone })
+          this.todos.push({ text: tmptext, done: tmpdone, did: item.did, tid: item.tid })
         })
         // this.setLocalStorage()
       })

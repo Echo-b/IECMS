@@ -24,19 +24,19 @@ export function getDeviceById(did) {
   })
 }
 
-export function addDevice(form) {
+export function addDevice(data) {
   return request({
     url: '/device/add',
     method: 'post',
-    params: form
+    data
   })
 }
 
-export function editDevice(form) {
+export function editDevice(data) {
   return request({
     url: '/device/edit',
     method: 'post',
-    params: form
+    data
   })
 }
 
@@ -48,11 +48,18 @@ export function deleteDevice(did) {
   })
 }
 
-export function DeviceControll(form) {
+export function DeviceControll(data) {
   return request({
     url: '/device/control',
     method: 'post',
-    params: form
+    data
   })
 }
 
+export function changeDeviceFlag(did) {
+  return request({
+    url: '/device/change',
+    method: 'post',
+    params: { did }
+  })
+}

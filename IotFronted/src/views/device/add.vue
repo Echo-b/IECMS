@@ -1,18 +1,10 @@
 <template>
   <el-tabs v-model="activeName" type="border-card">
-    <el-tab-pane label="用户管理" name="first">
+    <el-tab-pane label="添加设备" name="first">
       <table-template
         :form="form"
-        @changeShow="cancelShow"
-        @editTable="onSubmit"
+        @confirm="onConfirm"
       />
-
-      <el-button @click="cancelShow">重 置</el-button>
-      <el-button 
-        type="primary" 
-        @click="onConfirm"
-        :disabled="submitButtonDisabled">下一步</el-button>
- 
     </el-tab-pane>
     <el-tab-pane label="提交进度" name="second">
       <progressTemplate />
@@ -25,12 +17,13 @@
         <el-descriptions-item label="设备状态">{{ form.status }}</el-descriptions-item>
         <el-descriptions-item label="设备经度">{{ form.longitude }}</el-descriptions-item>
         <el-descriptions-item label="设备纬度">{{ form.latitude }}</el-descriptions-item>
+        <el-descriptions-item label="设备类型">{{ form.type }}</el-descriptions-item>
       </el-descriptions>
 
       <!-- 操作按钮 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelDialog">上一步</el-button>
-        <el-button type="primary" @click="addTask()">确定</el-button>
+        <el-button type="primary" @click="onSubmit()">确定</el-button>
       </span>
     </el-dialog>
   </el-tabs>
@@ -54,12 +47,16 @@ export default {
         longitude: 0.0,
         latitude: 0.0,
         status: 'off',
-        did: 1
+        did: 1,
+        type: '',
+        date: '',
+        insert_flag: 0,
+        creator: this.$store.getters.name,
+        group_id: this.$store.getters.groupid
       },
       editShow: true,
       activeName: 'first',
-      dialogVisible: false,
-      submitButtonDisabled: false
+      dialogVisible: false
     }
   },
 
@@ -74,17 +71,25 @@ export default {
 
   methods: {
     onSubmit() {
-      console.log(this.form)
       var devices = this.$store.getters.devices
       if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
+        this.addTask()
         this.form.status = 'off'
+        if (this.$store.getters.roles === 'admin') {
+          this.form.insert_flag = 1
+        }
         addDevice(this.form).then((res) => {
-          this.$message({
-            message: '添加成功',
-            type: 'success'
-          })
+          if (res.success) {
+            this.$message({
+              message: '申请成功',
+              type: 'success'
+            })
+          }
         })
-        devices.push(this.form)
+        // admin don't need request
+        if (this.form.insert_flag) {
+          devices.push(this.form)
+        }
         this.$store.dispatch('page/setdevices', devices).then(() => {
           console.log(devices)
         })
@@ -95,36 +100,39 @@ export default {
           type: 'warning'
         })
       }
+      // if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
+      //   const t = {
+      //     apply: this.$store.getters.name,
+      //     deviceName: this.form.deviceName,
+      //     did: this.form.did,
+      //     status: 1
+      //   }
+      //   addTodoListTask(t)
+      // }
     },
-    cancelShow() {
-      this.editShow = false
-    },
-    // cancelShow() {
-    //   this.editShow = false
-    //   this.$refs.form.resetFields();
-    //   this.$emit('changeShow');
-    // },
     onConfirm() {
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     cancelDialog() {
-      this.dialogVisible = false;
+      this.dialogVisible = false
     },
-    addTask(){
+    addTask() {
       const t = {
         apply: this.$store.getters.name,
         deviceName: this.form.deviceName,
         did: this.form.did,
-        status: 0
-      };
-      console.log(t);
+        status: this.$store.getters.roles === 'admin' ? 3 : 1
+      }
+      console.log(t)
       addTodoListTask(t).then(res => {
-        console.log(res)
+        if (res.success) {
+          this.$message({
+            message: '申请已提交',
+            type: 'success'
+          })
+        }
       })
     }
   }
 }
 </script>
-
-<style>
-</style>

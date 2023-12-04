@@ -26,6 +26,7 @@ public class DeviceController {
 
     @PostMapping("/add")
     public ResponseData addDevice(@RequestBody Device device){
+        System.out.println("device = " + device);
         return deviceService.addDevice(device);
     }
 
@@ -42,6 +43,11 @@ public class DeviceController {
     @PostMapping("/edit")
     public ResponseData editDevice(@RequestBody Device device){
         return deviceService.editDevice(device);
+    }
+
+    @PostMapping("/change")
+    public ResponseData changeDeviceFlag(int did){
+        return deviceService.changeDeviceFlag(did);
     }
 
 }

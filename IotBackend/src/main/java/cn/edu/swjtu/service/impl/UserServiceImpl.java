@@ -4,17 +4,11 @@ import cn.edu.swjtu.pojo.User;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.UserService;
 import cn.edu.swjtu.utils.JwtUtils;
-import com.alibaba.fastjson.JSONObject;
-import com.xfvape.uid.UidGenerator;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import static java.lang.Long.parseLong;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,14 +16,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper mapper;
 
-    @Resource
-    private UidGenerator uidGenerator;
-
     @Autowired
     private RedisTemplate redisTemplate;
 
-    private String[] weeks = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-    private String[] zhweeks = {"星期一","星期二","星期三","星期四","星期五","星期六","星期日"};
 
     @Override
     public ResponseData UserLogin(User u) {
@@ -75,7 +64,6 @@ public class UserServiceImpl implements UserService {
     public ResponseData UpdateUserInfo(User u) {
        if(mapper.UpdateUserInfo(u) > 0 ){
            // remove old user info and restore update info
-           redisTemplate.delete(u.getUsername());
            User user = mapper.getSingleUserInfo(u.getUsername());
            redisTemplate.opsForValue().set(user.getUsername(),user);
            return ResponseData.success("更新信息成功");
@@ -107,15 +95,4 @@ public class UserServiceImpl implements UserService {
         return ResponseData.error("添加小组成员失败");
     }
 
-    @Override
-    public String UidToDateString(String username) {
-//        User u = mapper.getSingleUserInfo(username);
-        User u = (User) redisTemplate.opsForValue().get(username);
-        JSONObject createinfo= JSONObject.parseObject(uidGenerator.parseUID(parseLong(u.getUid())));
-        String day = createinfo.get("timestamp").toString();
-
-        // map chinese literal into english literal
-        int index = Arrays.binarySearch(zhweeks,day);
-        return weeks[index];
-    }
 }

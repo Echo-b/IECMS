@@ -2,8 +2,10 @@ package cn.edu.swjtu.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Device {
+public class Device implements Serializable {
     private Integer did;
     private String deviceName;
     private String status;
@@ -13,4 +15,5 @@ public class Device {
     private Integer group_id;
     private String type;
     private int insert_flag;
+    private String date;
 }

@@ -52,7 +52,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
         },
         series: [
           {
@@ -62,13 +62,11 @@ export default {
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: 0, name: 'Mon' },
-              { value: 0, name: 'Tue' },
-              { value: 0, name: 'Wed' },
-              { value: 0, name: 'Thu' },
-              { value: 0, name: 'Fri' },
-              { value: 0, name: 'Sat' },
-              { value: 0, name: 'Sun' }
+              { value: 320, name: 'Industries' },
+              { value: 240, name: 'Technology' },
+              { value: 149, name: 'Forex' },
+              { value: 100, name: 'Gold' },
+              { value: 59, name: 'Forecasts' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600

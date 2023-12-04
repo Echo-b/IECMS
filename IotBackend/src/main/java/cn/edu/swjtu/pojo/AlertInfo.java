@@ -2,8 +2,10 @@ package cn.edu.swjtu.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class AlertInfo {
+public class AlertInfo  implements Serializable {
     private int dno;
     private int did;
     private float temperature;

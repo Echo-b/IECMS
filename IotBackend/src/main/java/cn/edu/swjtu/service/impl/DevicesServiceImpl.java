@@ -74,32 +74,38 @@ public class DevicesServiceImpl implements DeviceService {
 
     @Override
     public ResponseData addDevice(Device device) {
-        int res = 0;
         try {
-            res = mapper.addDevice(device);
+            if(mapper.addDevice(device) > 0) {
+                return ResponseData.success("add success");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (res == 1) {
-            return ResponseData.success("add success");
-        } else {
-            return ResponseData.error("add failure");
-        }
+        return ResponseData.error("add failure");
     }
 
     @Override
     public ResponseData editDevice(Device device) {
-        int res = 0;
         try {
-            res = mapper.editDevice(device);
+            if(mapper.editDevice(device) > 0) {
+                return ResponseData.success("success");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (res == 1) {
-            return ResponseData.success("success");
-        } else {
-            return ResponseData.error("edit failure");
+        return ResponseData.error("edit failure");
+    }
+
+    @Override
+    public ResponseData changeDeviceFlag(int did) {
+        try {
+            if(mapper.changeDeviceFlag(did) > 0){
+                return ResponseData.success("设备标志已更新");
+            }
+        }catch(Exception e){
+         e.printStackTrace();
         }
+        return ResponseData.error("设备标志更新失败");
     }
 
 }

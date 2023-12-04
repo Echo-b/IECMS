@@ -28,8 +28,6 @@ mqtt:
   keep_alive: 60
   timeout: 60
 
-
-
 ## token
 jwt:
   expire: 604800
