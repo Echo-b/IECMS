@@ -82,10 +82,10 @@ export default {
         res.data.tasks.forEach((item) => {
           var tmpdone = false
           var tmptext = 'handle ' + item.apply + ' add ' + item.deviceName + ' request'
-          if (item.status === 1) {
+          if (item.status === 3) {
             tmpdone = true
           }
-          this.todos.push({ text: tmptext, done: tmpdone })
+          this.todos.push({ text: tmptext, done: tmpdone, did: item.did, tid: item.tid })
         })
         // this.setLocalStorage()
       })

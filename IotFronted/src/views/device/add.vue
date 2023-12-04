@@ -50,7 +50,7 @@ export default {
         did: 1,
         type: '',
         date: '',
-        insert_flag: this.$store.getters.roles === 'admin',
+        insert_flag: 0,
         creator: this.$store.getters.name,
         group_id: this.$store.getters.groupid
       },
@@ -75,6 +75,9 @@ export default {
       if (devices.findIndex((item) => item.did === Number(this.form.did)) === -1) {
         this.addTask()
         this.form.status = 'off'
+        if (this.$store.getters.roles === 'admin') {
+          this.form.insert_flag = 1
+        }
         addDevice(this.form).then((res) => {
           if (res.success) {
             this.$message({
@@ -118,7 +121,7 @@ export default {
         apply: this.$store.getters.name,
         deviceName: this.form.deviceName,
         did: this.form.did,
-        status: 1
+        status: this.$store.getters.roles === 'admin' ? 3 : 1
       }
       console.log(t)
       addTodoListTask(t).then(res => {

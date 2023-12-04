@@ -56,3 +56,10 @@ export function DeviceControll(data) {
   })
 }
 
+export function changeDeviceFlag(did) {
+  return request({
+    url: '/device/change',
+    method: 'post',
+    params: { did }
+  })
+}

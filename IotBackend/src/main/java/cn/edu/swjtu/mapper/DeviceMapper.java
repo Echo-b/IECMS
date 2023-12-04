@@ -10,10 +10,10 @@ import java.util.ArrayList;
 @Mapper
 public interface DeviceMapper {
 
-    @Select("select * from device limit #{num},10")
+    @Select("select * from device where insert_flag = 1 limit #{num},10")
     ArrayList<Device> getAppointPageDevices(int num);
 
-    @Select("select * from device where group_id = #{group_id}")
+    @Select("select * from device where group_id = #{group_id} and insert_flag = 1")
     ArrayList<Device> getAllGroupDevices(int group_id);
 
     @Insert("replace into device(did, deviceName, status, longitude, latitude) values (#{did}," +
@@ -32,5 +32,8 @@ public interface DeviceMapper {
 
     @Select("select count(*) from device;")
     int countDeviceNum();
+
+    @Update("update device set insert_flag = 1 where did = #{did}")
+    int changeDeviceFlag(int did);
 
 }

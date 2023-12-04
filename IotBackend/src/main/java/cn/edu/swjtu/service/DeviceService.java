@@ -15,5 +15,6 @@ public interface DeviceService {
     ResponseData addDevice(Device device);
 
     ResponseData editDevice(Device device);
+    ResponseData changeDeviceFlag(int did);
 
 }

@@ -17,9 +17,10 @@
       </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
-          <el-button type="primary" @click="showDetail(scope.row)">详情</el-button>
+          <el-button type="primary" :disabled="forbidDetailBtn(scope.row)" @click="showDetail(scope.row)">详情</el-button>
           <el-button type="success" :disabled="isCancelDisabled(scope.row)" @click="cancelapply(scope.row)">撤销</el-button>
           <el-button type="danger" @click="deteleapply(scope.row)">删除</el-button>
+          <el-button v-if="btnflag" type="primary" :disabled="forbidAgreeBtn(scope.row)" @click="agreeapply(scope.row)">同意</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -41,14 +42,14 @@
 
 <script>
 import { getAllTodoListTask, updateTodoListTask, getTodoListTaskById, deleteTaskById } from '@/api/task.js'
-import { getDeviceById } from '@/api/device.js'
+import { getDeviceById, deleteDevice, changeDeviceFlag } from '@/api/device.js'
 export default {
   inject: ['reload'],
   data() {
     return {
       tableData: [],
       dialogVisible: false,
-      currentRow: {},
+      btnflag: this.$store.getters.roles === 'admin',
       detailData: {
         creator: '',
         did: 0,
@@ -72,15 +73,29 @@ export default {
   },
   created: function() {
     getAllTodoListTask().then((response) => {
-      this.tableData = response.data.tasks.map(item => {
-        return {
-          date: item.date.split(' ')[0], // 提取日期部分
-          apply: item.apply,
-          deviceName: item.deviceName,
-          status: item.status,
-          tid: item.tid
-        }
-      })
+      if (this.$store.getters.roles === 'admin') {
+        this.tableData = response.data.tasks.map(item => {
+          return {
+            date: item.date.split(' ')[0], // 提取日期部分
+            apply: item.apply,
+            deviceName: item.deviceName,
+            status: item.status,
+            tid: item.tid,
+            did: item.did
+          }
+        })
+      } else {
+        this.tableData = response.data.tasks.filter(task => task.apply === this.$store.getters.name).map(item => {
+          return {
+            date: item.date.split(' ')[0], // 提取日期部分
+            apply: item.apply,
+            deviceName: item.deviceName,
+            status: item.status,
+            tid: item.tid,
+            did: item.did
+          }
+        })
+      }
     })
   },
   methods: {
@@ -96,6 +111,12 @@ export default {
       this.dialogVisible = true
       console.log(11111)
       console.log(this.detailData)
+    },
+    forbidDetailBtn(row) {
+      return [4, 5].includes(row.status)
+    },
+    forbidAgreeBtn(row) {
+      return [3, 4, 5].includes(row.status)
     },
     isCancelDisabled(row) {
     // 如果当前行的 status 是 3（审核通过）, 4（审核未通过）, 5（已撤销），则禁用按钮
@@ -114,19 +135,33 @@ export default {
       }).then(() => {
         deleteTaskById(row.tid).then((res) => {
           if (res.success) {
-            this.reload()
-            this.$message({
-              message: '删除成功！',
-              type: 'success'
-            })
-          } else {
-            this.$message({
-              message: '删除失败！',
-              type: 'error'
-            })
+            // remove device by did
+            if (row.status === 4 || row.status === 5) {
+              this.reload()
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              })
+            } else {
+              deleteDevice(row.did).then((res1) => {
+                if (res1.success) {
+                  this.reload()
+                  this.$message({
+                    message: '删除成功！',
+                    type: 'success'
+                  })
+                } else {
+                  this.$message({
+                    message: '删除失败！',
+                    type: 'error'
+                  })
+                }
+              })
+            }
           }
         })
       }).catch(() => {
+        console.log(row)
         this.$message({
           type: 'info',
           message: '已取消删除'
@@ -140,14 +175,43 @@ export default {
       }
       updateTodoListTask(t).then((response) => {
         if (response.success) {
-          this.$message({
-            message: '撤销成功',
-            type: 'success'
+          deleteDevice(row.did).then((res) => {
+            if (res.success) {
+              this.reload()
+              this.$message({
+                message: '撤销成功',
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                message: '撤销失败',
+                type: 'error'
+              })
+            }
           })
-        } else {
-          this.$message({
-            message: '撤销失败',
-            type: 'error'
+        }
+      })
+    },
+    agreeapply(row) {
+      const t = {
+        tid: row.tid,
+        status: 3
+      }
+      updateTodoListTask(t).then((response) => {
+        if (response.success) {
+          changeDeviceFlag(row.did).then((res) => {
+            if (res.success) {
+              this.reload()
+              this.$message({
+                message: '申请已处理',
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                message: '处理失败',
+                type: 'error'
+              })
+            }
           })
         }
       })

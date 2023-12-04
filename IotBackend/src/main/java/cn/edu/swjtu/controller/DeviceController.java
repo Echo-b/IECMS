@@ -45,4 +45,9 @@ public class DeviceController {
         return deviceService.editDevice(device);
     }
 
+    @PostMapping("/change")
+    public ResponseData changeDeviceFlag(int did){
+        return deviceService.changeDeviceFlag(did);
+    }
+
 }
