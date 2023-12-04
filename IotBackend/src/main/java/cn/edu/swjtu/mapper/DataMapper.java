@@ -104,9 +104,9 @@ public interface DataMapper {
             "group by did limit 10;")
     ArrayList<TData> getData(int did);
 
-    @Insert("insert into average_temperature (did, temperature, date) values (#{did},#{temperature},#{date});")
+    @Insert("insert into average_data (did, temperature, date) values (#{did},#{temperature},#{date});")
     void insertAverageTemperature(TData a);
 
-    @Select("select did,temperature,date from average_temperature where did = #{did} ;")
+    @Select("select did,temperature,date from average_data where did = #{did} ;")
     ArrayList<TData> getAverageTemperature(int did);
 }

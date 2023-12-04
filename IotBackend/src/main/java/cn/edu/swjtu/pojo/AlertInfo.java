@@ -9,6 +9,8 @@ public class AlertInfo  implements Serializable {
     private int dno;
     private int did;
     private float temperature;
+    private float humidity;
+    private float light;
     private String sender;
     private String date;
 

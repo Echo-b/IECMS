@@ -87,3 +87,10 @@ export function getTotalNums(username) {
     params: { username }
   })
 }
+
+export function getPieData() {
+  return request({
+    url: '/data/chart/pie',
+    method: 'get'
+  })
+}

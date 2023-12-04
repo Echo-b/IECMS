@@ -10,6 +10,8 @@ public class NormalData  implements Serializable {
     private int dno;
     private String date;
     private float temperature;
+    private float humidity;
+    private float light;
 
 
     public NormalData(int dno, int did, float temperature,String date) {
