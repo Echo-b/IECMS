@@ -63,3 +63,11 @@ export function changeDeviceFlag(did) {
     params: { did }
   })
 }
+
+export function getThresholdDevices(username) {
+  return request({
+    url: '/device/threshold/all',
+    method: 'get',
+    params: { username }
+  })
+}

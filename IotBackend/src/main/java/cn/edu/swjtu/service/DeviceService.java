@@ -17,4 +17,6 @@ public interface DeviceService {
     ResponseData editDevice(Device device);
     ResponseData changeDeviceFlag(int did);
 
+    ResponseData getThresholdDevices(String username);
+
 }

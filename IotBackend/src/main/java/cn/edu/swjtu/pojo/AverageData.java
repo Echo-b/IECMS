@@ -3,7 +3,7 @@ package cn.edu.swjtu.pojo;
 import lombok.Data;
 
 @Data
-public class AverageTemperature {
+public class AverageData {
     private int dno;
     private int did;
     private float temperature;

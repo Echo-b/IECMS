@@ -6,8 +6,12 @@ import cn.edu.swjtu.pojo.Device;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.DeviceService;
 import cn.edu.swjtu.service.MQTTService;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class DevicesServiceImpl implements DeviceService {
@@ -106,6 +110,25 @@ public class DevicesServiceImpl implements DeviceService {
          e.printStackTrace();
         }
         return ResponseData.error("设备标志更新失败");
+    }
+
+    @Override
+    public ResponseData getThresholdDevices(String username) {
+        try {
+            ArrayList<Device> thresholdDevice = mapper.getThresholdDevices(username);
+            JSONArray thresDevice = new JSONArray();
+            for(Device device : thresholdDevice){
+                JSONObject item = new JSONObject();
+                item.put("did",device.getDid());
+                item.put("deviceName",device.getDeviceName());
+                item.put("type",device.getType());
+                thresDevice.add(item);
+            }
+            return ResponseData.success("获取阈值设备信息成功").data("thresDevice",thresDevice);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseData.error("获取阈值设备信息失败");
     }
 
 }

@@ -89,7 +89,7 @@ CREATE TABLE `command_record` (
   `cid` int NOT NULL AUTO_INCREMENT,
   `param` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`cid`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ CREATE TABLE `command_record` (
 
 LOCK TABLES `command_record` WRITE;
 /*!40000 ALTER TABLE `command_record` DISABLE KEYS */;
-INSERT INTO `command_record` VALUES (1,'LEDON','air-condition','/topics/led/sub','2023-10-11 11:01:06','admin',1,NULL),(1,'Add_device','air-condition',NULL,'2023-11-29 09:18:19','admin',3,NULL),(2,'Add_device','sensor',NULL,'2023-11-29 09:18:19','admin',4,NULL),(3,'Add_device','fringe',NULL,'2023-11-29 09:18:19','admin',5,NULL),(4,'Add_device','测试设备4',NULL,'2023-11-29 09:18:19','echo',6,NULL),(5,'Add_device','摄像头',NULL,'2023-11-29 09:18:19','echo',7,NULL),(6,'Add_device','测试设备6',NULL,'2023-11-29 09:18:19','echo',8,NULL),(7,'Add_device','测试设备7',NULL,'2023-11-29 09:18:19','echo',9,NULL),(8,'Add_device','测试8',NULL,'2023-11-29 09:18:19','admin',10,NULL),(9,'Add_device','测试11',NULL,'2023-11-29 09:18:19','admin',11,NULL),(10,'Add_device','测试设备10',NULL,'2023-11-29 09:18:19','echo',12,NULL),(11,'Add_device','测试设备11',NULL,'2023-11-29 09:18:19','admin',13,NULL),(14,'Add_device','sdf',NULL,'2023-12-03 18:02:41','admin',14,NULL),(12,'Delete_device','sdf',NULL,'2023-12-04 12:09:03','admin',15,NULL),(12,'Add_device','demo',NULL,'2023-12-04 12:13:57','admin',16,NULL),(12,'Delete_device','demo',NULL,'2023-12-04 12:20:03','admin',17,NULL),(12,'Add_device','demo',NULL,'2023-12-04 12:20:29','admin',18,NULL),(12,'Delete_device','demo',NULL,'2023-12-04 12:28:11','admin',19,NULL),(12,'Add_device','sd',NULL,'2023-12-04 12:30:45','admin',20,NULL),(13,'Add_device','sdfdsfd',NULL,'2023-12-04 12:32:26','admin',21,NULL),(13,'Delete_device','sdfdsfd',NULL,'2023-12-04 12:33:14','admin',22,NULL),(12,'Delete_device','sd',NULL,'2023-12-04 12:33:16','admin',23,NULL),(12,'Add_device','demo',NULL,'2023-12-04 12:45:49','admin',24,NULL),(12,'Delete_device','demo',NULL,'2023-12-04 12:46:08','admin',25,NULL),(12,'Add_device','demo',NULL,'2023-12-04 12:50:46','admin',26,NULL),(13,'Add_device','test',NULL,'2023-12-04 12:53:44','echo',27,NULL),(14,'Add_device','tesss',NULL,'2023-12-04 12:54:38','echo',28,NULL),(14,'Delete_device','tesss',NULL,'2023-12-04 13:06:34','echo',29,NULL),(13,'Delete_device','test',NULL,'2023-12-04 13:15:09','echo',30,NULL),(13,'Add_device','sdfsdf',NULL,'2023-12-04 13:16:12','echo',31,NULL),(14,'Add_device','sdfsd',NULL,'2023-12-04 13:16:36','echo',32,NULL),(15,'Add_device','sdfsddfd',NULL,'2023-12-04 13:16:48','echo',33,NULL),(15,'Delete_device','sdfsddfd',NULL,'2023-12-04 13:17:01','echo',34,NULL),(13,'Delete_device','sdfsdf',NULL,'2023-12-04 13:18:11','echo',35,NULL),(1,'Add_device','air-condition',NULL,'2023-12-04 07:58:24','admin',36,NULL),(2,'Add_device','sensor',NULL,'2023-12-04 07:58:24','admin',37,NULL),(3,'Add_device','fringe',NULL,'2023-12-04 07:58:24','admin',38,NULL),(4,'Add_device','测试设备4',NULL,'2023-12-04 07:58:24','echo',39,NULL),(5,'Add_device','摄像头',NULL,'2023-12-04 07:58:24','echo',40,NULL),(6,'Add_device','测试设备6',NULL,'2023-12-04 07:58:24','echo',41,NULL),(7,'Add_device','测试设备7',NULL,'2023-12-04 07:58:24','echo',42,NULL),(8,'Add_device','测试8',NULL,'2023-12-04 07:58:24','admin',43,NULL),(9,'Add_device','测试11',NULL,'2023-12-04 07:58:24','admin',44,NULL),(10,'Add_device','测试设备10',NULL,'2023-12-04 07:58:24','echo',45,NULL),(11,'Add_device','测试设备11',NULL,'2023-12-04 07:58:24','admin',46,NULL),(12,'Add_device','demo',NULL,'2023-12-04 07:58:24','admin',47,NULL),(14,'Add_device','sdfsd',NULL,'2023-12-04 07:58:24','echo',48,NULL),(15,'Add_device','sensor15',NULL,'2023-12-04 16:04:18','echo',49,NULL);
+INSERT INTO `command_record` VALUES (1,'LEDON','air-condition','/topics/led/sub','2023-10-11 11:01:06','admin',1,NULL),(1,'Add_device','air-condition',NULL,'2023-11-29 09:18:19','admin',3,NULL),(2,'Add_device','sensor',NULL,'2023-11-29 09:18:19','admin',4,NULL),(3,'Add_device','fringe',NULL,'2023-11-29 09:18:19','admin',5,NULL),(4,'Add_device','测试设备4',NULL,'2023-11-29 09:18:19','echo',6,NULL),(5,'Add_device','摄像头',NULL,'2023-11-29 09:18:19','echo',7,NULL),(6,'Add_device','测试设备6',NULL,'2023-11-29 09:18:19','echo',8,NULL),(7,'Add_device','测试设备7',NULL,'2023-11-29 09:18:19','echo',9,NULL),(8,'Add_device','测试8',NULL,'2023-11-29 09:18:19','admin',10,NULL),(9,'Add_device','测试11',NULL,'2023-11-29 09:18:19','admin',11,NULL),(10,'Add_device','测试设备10',NULL,'2023-11-29 09:18:19','echo',12,NULL),(11,'Add_device','测试设备11',NULL,'2023-11-29 09:18:19','admin',13,NULL),(14,'Add_device','sdf',NULL,'2023-12-03 18:02:41','admin',14,NULL),(12,'Delete_device','sdf',NULL,'2023-12-04 12:09:03','admin',15,NULL),(12,'Add_device','demo',NULL,'2023-12-04 12:13:57','admin',16,NULL),(12,'Delete_device','demo',NULL,'2023-12-04 12:20:03','admin',17,NULL),(12,'Add_device','demo',NULL,'2023-12-04 12:20:29','admin',18,NULL),(12,'Delete_device','demo',NULL,'2023-12-04 12:28:11','admin',19,NULL),(12,'Add_device','sd',NULL,'2023-12-04 12:30:45','admin',20,NULL),(13,'Add_device','sdfdsfd',NULL,'2023-12-04 12:32:26','admin',21,NULL),(13,'Delete_device','sdfdsfd',NULL,'2023-12-04 12:33:14','admin',22,NULL),(12,'Delete_device','sd',NULL,'2023-12-04 12:33:16','admin',23,NULL),(12,'Add_device','demo',NULL,'2023-12-04 12:45:49','admin',24,NULL),(12,'Delete_device','demo',NULL,'2023-12-04 12:46:08','admin',25,NULL),(12,'Add_device','demo',NULL,'2023-12-04 12:50:46','admin',26,NULL),(13,'Add_device','test',NULL,'2023-12-04 12:53:44','echo',27,NULL),(14,'Add_device','tesss',NULL,'2023-12-04 12:54:38','echo',28,NULL),(14,'Delete_device','tesss',NULL,'2023-12-04 13:06:34','echo',29,NULL),(13,'Delete_device','test',NULL,'2023-12-04 13:15:09','echo',30,NULL),(13,'Add_device','sdfsdf',NULL,'2023-12-04 13:16:12','echo',31,NULL),(14,'Add_device','sdfsd',NULL,'2023-12-04 13:16:36','echo',32,NULL),(15,'Add_device','sdfsddfd',NULL,'2023-12-04 13:16:48','echo',33,NULL),(15,'Delete_device','sdfsddfd',NULL,'2023-12-04 13:17:01','echo',34,NULL),(13,'Delete_device','sdfsdf',NULL,'2023-12-04 13:18:11','echo',35,NULL),(1,'Add_device','air-condition',NULL,'2023-12-04 07:58:24','admin',36,NULL),(2,'Add_device','sensor',NULL,'2023-12-04 07:58:24','admin',37,NULL),(3,'Add_device','fringe',NULL,'2023-12-04 07:58:24','admin',38,NULL),(4,'Add_device','测试设备4',NULL,'2023-12-04 07:58:24','echo',39,NULL),(5,'Add_device','摄像头',NULL,'2023-12-04 07:58:24','echo',40,NULL),(6,'Add_device','测试设备6',NULL,'2023-12-04 07:58:24','echo',41,NULL),(7,'Add_device','测试设备7',NULL,'2023-12-04 07:58:24','echo',42,NULL),(8,'Add_device','测试8',NULL,'2023-12-04 07:58:24','admin',43,NULL),(9,'Add_device','测试11',NULL,'2023-12-04 07:58:24','admin',44,NULL),(10,'Add_device','测试设备10',NULL,'2023-12-04 07:58:24','echo',45,NULL),(11,'Add_device','测试设备11',NULL,'2023-12-04 07:58:24','admin',46,NULL),(12,'Add_device','demo',NULL,'2023-12-04 07:58:24','admin',47,NULL),(14,'Add_device','sdfsd',NULL,'2023-12-04 07:58:24','echo',48,NULL),(15,'Add_device','sensor15',NULL,'2023-12-04 16:04:18','echo',49,NULL),(1,'Add_device','air-condition',NULL,'2023-12-04 13:16:28','admin',50,NULL),(2,'Add_device','sensor',NULL,'2023-12-04 13:16:28','admin',51,NULL),(3,'Add_device','fringe',NULL,'2023-12-04 13:16:28','admin',52,NULL),(4,'Add_device','测试设备4',NULL,'2023-12-04 13:16:28','echo',53,NULL),(5,'Add_device','摄像头',NULL,'2023-12-04 13:16:28','echo',54,NULL),(6,'Add_device','测试设备6',NULL,'2023-12-04 13:16:28','echo',55,NULL),(7,'Add_device','测试设备7',NULL,'2023-12-04 13:16:28','echo',56,NULL),(8,'Add_device','测试8',NULL,'2023-12-04 13:16:28','admin',57,NULL),(9,'Add_device','测试11',NULL,'2023-12-04 13:16:28','admin',58,NULL),(10,'Add_device','测试设备10',NULL,'2023-12-04 13:16:28','echo',59,NULL),(11,'Add_device','测试设备11',NULL,'2023-12-04 13:16:28','admin',60,NULL),(12,'Add_device','demo',NULL,'2023-12-04 13:16:28','admin',61,NULL),(14,'Add_device','sdfsd',NULL,'2023-12-04 13:16:28','echo',62,NULL),(15,'Add_device','sensor15',NULL,'2023-12-04 13:16:28','echo',63,NULL);
 /*!40000 ALTER TABLE `command_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +123,6 @@ CREATE TABLE `device` (
   PRIMARY KEY (`did`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 Create Trigger trigger_Add after INSERT on device for each row
 begin
     INSERT into command_record(did, command, deviceName, date, operator)
@@ -141,7 +140,7 @@ end;
 
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` VALUES (1,'air-condition','on',116.37,39.86,'admin',0,'public',1,'2023-12-03 19:07:31'),(2,'sensor','off',121.47,31.23,'admin',0,'public',1,'2023-12-01 19:07:35'),(3,'fringe','off',110.21,22.66,'admin',0,'public',1,'2023-12-03 19:07:42'),(4,'测试设备4','off',123,22,'echo',0,'private',1,'2023-11-03 19:07:45'),(5,'摄像头','off',122.44,22.33,'echo',0,'private',1,'2023-11-23 19:07:51'),(6,'测试设备6','off',122,23,'echo',0,'private',1,'2023-11-10 19:08:02'),(7,'测试设备7','off',123,23,'echo',0,'private',1,'2023-12-04 19:07:31'),(8,'测试8','off',123,21,'admin',0,'public',1,'2023-12-05 19:07:35'),(9,'测试11','off',123,21,'admin',1,'public',1,'2023-12-06 19:07:42'),(10,'测试设备10','off',112,23,'echo',0,'private',1,'2023-11-06 19:07:45'),(11,'测试设备11','off',123,24,'admin',0,'public',1,'2023-11-24 19:07:51'),(12,'demo','off',0,0,'admin',0,'private',1,'2023-12-04 12:50:46'),(14,'sdfsd','off',0,0,'echo',0,'public',1,'2023-12-04 13:16:36'),(15,'sensor15','off',0,0,'echo',0,'public',1,'2023-12-04 16:04:18');
+INSERT INTO `device` VALUES (1,'air-condition','on',116.37,39.86,'admin',0,'sensor',1,'2023-12-03 19:07:31'),(2,'sensor','off',121.47,31.23,'admin',0,'sensor',1,'2023-12-01 19:07:35'),(3,'fringe','off',110.21,22.66,'admin',0,'light',1,'2023-12-03 19:07:42'),(4,'测试设备4','off',123,22,'echo',0,'other',1,'2023-11-03 19:07:45'),(5,'摄像头','off',122.44,22.33,'echo',0,'sensor',1,'2023-11-23 19:07:51'),(6,'测试设备6','off',122,23,'echo',0,'light',1,'2023-11-10 19:08:02'),(7,'测试设备7','off',123,23,'echo',0,'sensor',1,'2023-12-04 19:07:31'),(8,'测试8','off',123,21,'admin',0,'other',1,'2023-12-05 19:07:35'),(9,'测试11','off',123,21,'admin',1,'light',1,'2023-12-06 19:07:42'),(10,'测试设备10','off',112,23,'echo',0,'sensor',1,'2023-11-06 19:07:45'),(11,'测试设备11','off',123,24,'admin',0,'other',1,'2023-11-24 19:07:51'),(12,'demo','off',0,0,'admin',0,'sensor',1,'2023-12-04 12:50:46'),(14,'sdfsd','off',0,0,'echo',0,'light',1,'2023-12-04 13:16:36'),(15,'sensor15','off',0,0,'echo',0,'sensor',1,'2023-12-04 16:04:18');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -234,6 +233,32 @@ INSERT INTO `normal_data` VALUES (1,2,19.5917,'2022-08-15 08:17:02',0,0),(2,1,28
 UNLOCK TABLES;
 
 --
+-- Table structure for table `threshold`
+--
+
+DROP TABLE IF EXISTS `threshold`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `threshold` (
+  `did` int NOT NULL,
+  `tid` int NOT NULL AUTO_INCREMENT,
+  `temp_max` float NOT NULL,
+  `humi_max` float NOT NULL,
+  `light_max` float NOT NULL,
+  PRIMARY KEY (`tid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `threshold`
+--
+
+LOCK TABLES `threshold` WRITE;
+/*!40000 ALTER TABLE `threshold` DISABLE KEYS */;
+/*!40000 ALTER TABLE `threshold` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `todolist`
 --
 
@@ -306,7 +331,7 @@ CREATE TABLE `worker_node` (
   `MODIFIED` timestamp NOT NULL COMMENT 'modified time',
   `CREATED` timestamp NOT NULL COMMENT 'created time',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='DB WorkerID Assigner for UID Generator';
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='DB WorkerID Assigner for UID Generator';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,7 +340,7 @@ CREATE TABLE `worker_node` (
 
 LOCK TABLES `worker_node` WRITE;
 /*!40000 ALTER TABLE `worker_node` DISABLE KEYS */;
-INSERT INTO `worker_node` VALUES (13,'192.168.7.1','1701001722632-33439',2,'2023-11-26','2023-11-26 12:28:42','2023-11-26 12:28:42'),(14,'192.168.7.1','1701065661883-10464',2,'2023-11-27','2023-11-27 06:14:21','2023-11-27 06:14:21'),(15,'192.168.7.1','1701066687883-99341',2,'2023-11-27','2023-11-27 06:31:27','2023-11-27 06:31:27'),(16,'192.168.7.1','1701066861760-79489',2,'2023-11-27','2023-11-27 06:34:21','2023-11-27 06:34:21'),(17,'192.168.7.1','1701066988392-12395',2,'2023-11-27','2023-11-27 06:36:28','2023-11-27 06:36:28'),(18,'192.168.7.1','1701067327067-49437',2,'2023-11-27','2023-11-27 06:42:07','2023-11-27 06:42:07'),(19,'192.168.7.1','1701067466121-61403',2,'2023-11-27','2023-11-27 06:44:26','2023-11-27 06:44:26'),(20,'192.168.7.1','1701067523747-26520',2,'2023-11-27','2023-11-27 06:45:23','2023-11-27 06:45:23'),(21,'192.168.7.1','1701067627778-41658',2,'2023-11-27','2023-11-27 06:47:07','2023-11-27 06:47:07'),(22,'192.168.7.1','1701067690572-33864',2,'2023-11-27','2023-11-27 06:48:10','2023-11-27 06:48:10'),(23,'192.168.7.1','1701068203440-15605',2,'2023-11-27','2023-11-27 06:56:43','2023-11-27 06:56:43'),(24,'192.168.7.1','1701068563273-83135',2,'2023-11-27','2023-11-27 07:02:43','2023-11-27 07:02:43'),(25,'192.168.7.1','1701068865942-88363',2,'2023-11-27','2023-11-27 07:07:45','2023-11-27 07:07:45'),(26,'192.168.7.1','1701068887356-48503',2,'2023-11-27','2023-11-27 07:08:07','2023-11-27 07:08:07'),(147,'192.168.173.222','1701676850364-62146',2,'2023-12-04','2023-12-04 08:00:50','2023-12-04 08:00:50'),(148,'192.168.173.222','1701677630811-23670',2,'2023-12-04','2023-12-04 08:13:50','2023-12-04 08:13:50');
+INSERT INTO `worker_node` VALUES (13,'192.168.7.1','1701001722632-33439',2,'2023-11-26','2023-11-26 12:28:42','2023-11-26 12:28:42'),(14,'192.168.7.1','1701065661883-10464',2,'2023-11-27','2023-11-27 06:14:21','2023-11-27 06:14:21'),(15,'192.168.7.1','1701066687883-99341',2,'2023-11-27','2023-11-27 06:31:27','2023-11-27 06:31:27'),(16,'192.168.7.1','1701066861760-79489',2,'2023-11-27','2023-11-27 06:34:21','2023-11-27 06:34:21'),(17,'192.168.7.1','1701066988392-12395',2,'2023-11-27','2023-11-27 06:36:28','2023-11-27 06:36:28'),(18,'192.168.7.1','1701067327067-49437',2,'2023-11-27','2023-11-27 06:42:07','2023-11-27 06:42:07'),(19,'192.168.7.1','1701067466121-61403',2,'2023-11-27','2023-11-27 06:44:26','2023-11-27 06:44:26'),(20,'192.168.7.1','1701067523747-26520',2,'2023-11-27','2023-11-27 06:45:23','2023-11-27 06:45:23'),(21,'192.168.7.1','1701067627778-41658',2,'2023-11-27','2023-11-27 06:47:07','2023-11-27 06:47:07'),(22,'192.168.7.1','1701067690572-33864',2,'2023-11-27','2023-11-27 06:48:10','2023-11-27 06:48:10'),(23,'192.168.7.1','1701068203440-15605',2,'2023-11-27','2023-11-27 06:56:43','2023-11-27 06:56:43'),(24,'192.168.7.1','1701068563273-83135',2,'2023-11-27','2023-11-27 07:02:43','2023-11-27 07:02:43'),(25,'192.168.7.1','1701068865942-88363',2,'2023-11-27','2023-11-27 07:07:45','2023-11-27 07:07:45'),(26,'192.168.7.1','1701068887356-48503',2,'2023-11-27','2023-11-27 07:08:07','2023-11-27 07:08:07'),(147,'192.168.173.222','1701676850364-62146',2,'2023-12-04','2023-12-04 08:00:50','2023-12-04 08:00:50'),(148,'192.168.173.222','1701677630811-23670',2,'2023-12-04','2023-12-04 08:13:50','2023-12-04 08:13:50'),(149,'192.168.7.1','1701696570615-54083',2,'2023-12-04','2023-12-04 13:29:30','2023-12-04 13:29:30'),(150,'192.168.7.1','1701696628283-86439',2,'2023-12-04','2023-12-04 13:30:28','2023-12-04 13:30:28'),(151,'192.168.7.1','1701696799009-86946',2,'2023-12-04','2023-12-04 13:33:19','2023-12-04 13:33:19'),(152,'192.168.7.1','1701697143140-54956',2,'2023-12-04','2023-12-04 13:39:03','2023-12-04 13:39:03'),(153,'192.168.7.1','1701697355539-72174',2,'2023-12-04','2023-12-04 13:42:35','2023-12-04 13:42:35'),(154,'192.168.7.1','1701697604384-44999',2,'2023-12-04','2023-12-04 13:46:44','2023-12-04 13:46:44'),(155,'192.168.7.1','1701697721457-57890',2,'2023-12-04','2023-12-04 13:48:41','2023-12-04 13:48:41'),(156,'192.168.7.1','1701697882263-21111',2,'2023-12-04','2023-12-04 13:51:22','2023-12-04 13:51:22'),(157,'192.168.7.1','1701697970499-98572',2,'2023-12-04','2023-12-04 13:52:50','2023-12-04 13:52:50'),(158,'192.168.7.1','1701698108822-99354',2,'2023-12-04','2023-12-04 13:55:08','2023-12-04 13:55:08'),(159,'192.168.7.1','1701698218859-45855',2,'2023-12-04','2023-12-04 13:56:58','2023-12-04 13:56:58'),(160,'192.168.7.1','1701699022695-68841',2,'2023-12-04','2023-12-04 14:10:22','2023-12-04 14:10:22');
 /*!40000 ALTER TABLE `worker_node` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -328,4 +353,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-04 17:39:29
+-- Dump completed on 2023-12-04 22:12:40

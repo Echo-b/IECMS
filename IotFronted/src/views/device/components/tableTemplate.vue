@@ -63,8 +63,9 @@ export default {
         { value: 'off', label: 'OFF' }
       ],
       options1: [
-        { value: 'public', label: 'PUBLIC' },
-        { value: 'private', label: 'PRIVATE' }
+        { value: 'sensor', label: 'sensor' },
+        { value: 'light', label: 'light' },
+        { value: 'other', label: 'other' }
       ],
       didRules: [
         { required: true, message: '请输入设备ID', trigger: 'blur' }
