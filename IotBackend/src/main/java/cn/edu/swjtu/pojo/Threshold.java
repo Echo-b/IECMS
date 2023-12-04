@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class Threshold {
-    private int tid;
     private int did;
     private float temp_max;
     private float humi_max;

@@ -6,6 +6,7 @@ import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.ThresholdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class ThresholdServiceImpl implements ThresholdService {
@@ -31,5 +32,41 @@ public class ThresholdServiceImpl implements ThresholdService {
             e.printStackTrace();
         }
         return ResponseData.error("设备阈值参数设置失败");
+    }
+
+    @Override
+    public ResponseData changeLightThreshold(int did) {
+        try {
+            if(mapper.changeLightThreshold(did) > 0){
+                return ResponseData.success("修改关照强度阈值成功");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseData.error("修改光照强度阈值失败");
+    }
+
+    @Override
+    public ResponseData changeHumiThreshold(int did) {
+        try {
+            if(mapper.changeHumiThreshold(did) > 0){
+                return ResponseData.success("修改湿度阈值成功");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseData.error("修改湿度阈值失败");
+    }
+
+    @Override
+    public ResponseData changeTempThreshold(int did) {
+        try {
+            if(mapper.changeTempThreshold(did) > 0){
+                return ResponseData.success("修改温度阈值成功");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseData.error("修改温度阈值失败");
     }
 }

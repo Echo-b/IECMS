@@ -241,11 +241,10 @@ DROP TABLE IF EXISTS `threshold`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `threshold` (
   `did` int NOT NULL,
-  `tid` int NOT NULL AUTO_INCREMENT,
   `temp_max` float NOT NULL,
   `humi_max` float NOT NULL,
   `light_max` float NOT NULL,
-  PRIMARY KEY (`tid`)
+  PRIMARY KEY (`did`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -353,4 +352,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-04 22:12:40
+-- Dump completed on 2023-12-04 22:53:27

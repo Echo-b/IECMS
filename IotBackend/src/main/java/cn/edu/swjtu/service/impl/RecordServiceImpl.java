@@ -20,6 +20,7 @@ public class RecordServiceImpl implements RecordService {
         int res = 0;
         try {
             res = mapper.InsertCommandRecord(c);
+            //todo : check command include params? if it has params then we should set task
         } catch (Exception e) {
             e.printStackTrace();
         }
