@@ -12,6 +12,7 @@ import cn.edu.swjtu.utils.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.xfvape.uid.UidGenerator;
 import jakarta.annotation.Resource;
+import org.apache.tomcat.Jar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class ChartDataServiceImpl implements ChartDataService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    private String[] weeks = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
     private String[] zhweeks = {"星期一","星期二","星期三","星期四","星期五","星期六","星期日"};
 
 
@@ -119,7 +121,7 @@ public class ChartDataServiceImpl implements ChartDataService {
         // handle data and map them into different weekdays.
         JSONObject datas = new JSONObject();
 
-        Vector<Integer> expectedData = new Vector<>(7,10);
+        int[] expectedData = new int[]{7, 12, 14, 10, 8, 15, 17};
 
         JSONObject groupdatas = new JSONObject();
         groupdatas.put("expectedData",expectedData);
@@ -163,5 +165,27 @@ public class ChartDataServiceImpl implements ChartDataService {
         datas.put("alterinfonums",alertInfos.size());
 
         return ResponseData.success("获取数据成功").data("totalnums",datas);
+    }
+
+    @Override
+    public ResponseData getPieData() throws ParseException {
+        ArrayList<AlertInfo> alertInfos = (ArrayList<AlertInfo>) redisTemplate.opsForValue().get("alertInfos");
+        JSONObject data = new JSONObject();
+        for(String key : zhweeks) {
+            data.put(key, 0);
+        }
+        for(AlertInfo ele : alertInfos) {
+            String key = DateToDay(ele.getDate());
+            data.put(key,data.getIntValue(key) +1);
+        }
+        JSONObject legend = new JSONObject();
+        legend.put("data",weeks);
+        JSONObject series = new JSONObject();
+        series.put("data",remap(data));
+
+        JSONObject chart = new JSONObject();
+        chart.put("legend",legend);
+        chart.put("series",series);
+        return ResponseData.success("获取数据成功").data("chart",chart);
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-editor-container">
-    <!-- <github-corner class="github-corner" /> -->
+    <github-corner class="github-corner" />
 
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
@@ -49,6 +49,7 @@ import BarChart from './components/BarChart'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
 import GroupMembersTable from './components/GroupMembersTable'
+import GithubCorner from '@/components/GithubCorner'
 
 import { getChartData } from '@/api/data.js'
 
@@ -62,7 +63,8 @@ export default {
     BarChart,
     GroupMembersTable,
     TodoList,
-    BoxCard
+    BoxCard,
+    GithubCorner
   },
   data() {
     return {

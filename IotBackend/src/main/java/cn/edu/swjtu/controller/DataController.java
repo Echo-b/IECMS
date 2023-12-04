@@ -27,6 +27,11 @@ public class DataController {
         return chartDataService.getTotalNums(username);
     }
 
+    @GetMapping("/chart/pie")
+    public ResponseData getPieData() throws  ParseException {
+        return chartDataService.getPieData();
+    }
+
     @GetMapping("/normal/all")
     public ResponseData getNormalData(@RequestParam(defaultValue = "1") int pageNum) {
         return dataService.getNormalData(pageNum);

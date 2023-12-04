@@ -24,6 +24,26 @@
           </el-popover>
         </template>
       </el-table-column>
+      <el-table-column label="创建人" prop="creator" width="200">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>创建人: {{ scope.row.creator }}</p>
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.creator }}</el-tag>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column label="设备类型" prop="type" width="200">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>设备类型: {{ scope.row.type }}</p>
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.type }}</el-tag>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="300">
         <template slot="header" slot-scope="scope">
           <el-input

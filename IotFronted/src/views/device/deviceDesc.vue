@@ -43,6 +43,20 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
+          <i class="el-icon-office-building" />
+          小组ID
+        </template>
+        {{ device.group_id }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          <i class="el-icon-office-building" />
+          设备类型
+        </template>
+        {{ device.type }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
           <i class="el-icon-video-play" />
           动作
         </template>
@@ -56,7 +70,6 @@
           type="danger"
           @click="handleCloseCommand"
         >关闭</el-button>
-
       </el-descriptions-item>
     </el-descriptions>
     <!-- <model-vue :did="device.did" /> -->

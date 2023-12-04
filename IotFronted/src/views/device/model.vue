@@ -43,7 +43,7 @@ export default {
     },
     guiset() {
       const gui = new dat.GUI({ autoPlace: false })
-      gui.domElement.style = 'position:absolute;top:10rem;right:10px;'
+      gui.domElement.style = 'position:absolute;top:12rem;right:10px;'
       const guiContainer = document.getElementById('device-model')
       guiContainer.appendChild(gui.domElement)
       const effectController = {
