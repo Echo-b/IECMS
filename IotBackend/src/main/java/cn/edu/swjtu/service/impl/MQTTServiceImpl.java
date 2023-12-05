@@ -106,37 +106,37 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                  *     }
                  * }
                  */
-                
-//              String defaultJson = "{\r\n  \"command\":{\r\n \"led\":{\"status\":\"on\"},\r\n \"htSensor\":{\r\n \"temperture\":23,\r\n \"humidity\":28,\r\n  \"status\":\"on\"\r\n }\r\n }\r\n}";
- 
-                JSONObject root = new JSONObject();
-                JSONObject command = new JSONObject();
-                JSONObject led = new JSONObject();
-                JSONObject htSensor = new JSONObject();
-                
-                switch (c.getCommand()){
-                    case "LEDON" : {
-                        led.put("status","on");
-                        break;
-                    } 
-                    case "LEDOFF" : {
-                        led.put("status","off");
-                        break;
-                    } 
-                }
-                
-                // 推送至mqtt的消息重新封装成标准的json格式，这样便于嵌入式部分解析
-                command.put("led",led);
-                command.put("htSensor",htSensor);
-                root.put("command",command);
+                // todo: if the command contain topic then we should parse and publish it to the mqtt server
+                if(!c.getTopic().equals("")) {
+                    JSONObject root = new JSONObject();
+                    JSONObject command = new JSONObject();
+                    JSONObject led = new JSONObject();
+                    JSONObject htSensor = new JSONObject();
+                    // todo: add more command type
+                    switch (c.getCommand()){
+                        case "LEDON" : {
+                            led.put("status","on");
+                            break;
+                        }
+                        case "LEDOFF" : {
+                            led.put("status","off");
+                            break;
+                        }
+                    }
 
-                System.out.println("root = " + root);
-                
-                MqttMessage message = new MqttMessage();
-                message.setPayload(root.toJSONString().getBytes());
-                System.out.println("message = " + message);
-                this.client.publish(c.getTopic(),message);
-                System.out.println("消息推送至mqtt server成功");
+                    // 推送至mqtt的消息重新封装成标准的json格式，这样便于嵌入式部分解析
+                    command.put("led",led);
+                    command.put("htSensor",htSensor);
+                    root.put("command",command);
+
+                    System.out.println("root = " + root);
+
+                    MqttMessage message = new MqttMessage();
+                    message.setPayload(root.toJSONString().getBytes());
+                    System.out.println("message = " + message);
+                    this.client.publish(c.getTopic(),message);
+                    System.out.println("消息推送至mqtt server成功");
+                }
 
                 c.setDate(getDate());
                 if(mapper.InsertCommandRecord(c) == 1){

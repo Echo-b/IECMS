@@ -9,6 +9,7 @@ spring:
     url: jdbc:mysql://localhost:3306/iott?characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: mysqlGlZtl20011223
+
   application:
     name: redis
     data:

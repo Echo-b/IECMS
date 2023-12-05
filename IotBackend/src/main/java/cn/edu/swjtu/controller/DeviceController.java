@@ -3,6 +3,7 @@ package cn.edu.swjtu.controller;
 import cn.edu.swjtu.pojo.Device;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.DeviceService;
+import cn.edu.swjtu.service.ThresholdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,11 @@ public class DeviceController {
     @PostMapping("/change")
     public ResponseData changeDeviceFlag(int did){
         return deviceService.changeDeviceFlag(did);
+    }
+
+    @GetMapping("/threshold/all")
+    public ResponseData getThresholdDevices(String username) {
+        return deviceService.getThresholdDevices(username);
     }
 
 }

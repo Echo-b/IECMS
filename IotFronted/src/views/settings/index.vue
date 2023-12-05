@@ -1,30 +1,8 @@
 <template>
   <div style="margin-left: 1rem; margin-top: 1rem;">
-    <!-- <el-descriptions
-      title="定时任务设置信息"
-      direction="vertical"
-      :column="3"
-      border
-      style="width: 50%; margin-top: 1rem"
-    >
-      <el-descriptions-item
-        label="当前定时时间"
-      >{{ timer }}s</el-descriptions-item>
-      <el-descriptions-item label="输入设置值">
-        <el-input-number
-          v-model="setvalue"
-          :min="1"
-          :max="60"
-          @change="handleChange"
-        />
-      </el-descriptions-item>
-      <el-descriptions-item label="修改">
-        <el-button type="success" @click="update">更新</el-button>
-      </el-descriptions-item>
-    </el-descriptions> -->
     <el-table
       :data="tableData"
-      style="width: 60%"
+      style="width: 100%"
       :row-class-name="tableRowClassName"
     >
       <el-table-column
@@ -50,7 +28,7 @@
           <el-button
             size="mini"
             type="success"
-            @click="handleEdit(scope.row.did)"
+            @click="handleEdit(scope.row)"
           >更新</el-button>
         </template>
       </el-table-column>
@@ -69,13 +47,14 @@
 </style>
 
 <script>
-import { get, update } from '@/api/task.js'
+import { getThresholdDevices } from '@/api/device.js'
 
 export default {
   data() {
     return {
       timer: 10,
       setvalue: 10,
+      thresDevice: [],
       tableData: [{
         task: '温湿度传感器温度设置',
         settingvalue: 'UPTEMPERATURE'
@@ -92,28 +71,13 @@ export default {
     }
   },
   created() {
-    this.getinfo()
+    this.fetchData()
   },
   methods: {
-    update() {
-      const taskparams = {
-        timer: this.setvalue,
-        corn: ''
-      }
-      update(taskparams).then((res) => {
-        this.timer = this.setvalue
-        this.$notify({
-          title: 'Success',
-          message: 'Set Successfully',
-          type: 'success',
-          duration: 2000
-        })
-      })
-    },
-    getinfo() {
-      get().then((res) => {
-        this.corn = res.data.corn
-        this.timer = res.data.timer / 1000
+    fetchData() {
+      getThresholdDevices(this.$store.getters.name).then((res) => {
+        console.log(res)
+        this.thresDevice = res.data.thresDevice
       })
     },
     handleChange(value) {
@@ -127,8 +91,8 @@ export default {
       }
       return ''
     },
-    handleEdit(id) {
-      console.log('test')
+    handleEdit(row) {
+      // console.log(this.thresDevice)
       // this.$router.push("/device/edit/" + id);
     }
   }
