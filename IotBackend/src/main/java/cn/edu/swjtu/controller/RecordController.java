@@ -28,4 +28,8 @@ public class RecordController {
         return service.getAllCommandRecord(operator);
     }
 
+    @PostMapping("/scheudle")
+    public ResponseData InsertCommandByScheudle(CommandInfo c) throws InterruptedException {
+            return service.InsertCommandByScheudle(c);
+    }
 }

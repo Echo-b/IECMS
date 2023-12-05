@@ -7,4 +7,6 @@ public interface RecordService {
     int InsertCommandRecord(CommandInfo c);
 
     ResponseData getAllCommandRecord(String operator);
+
+    public ResponseData InsertCommandByScheudle(CommandInfo c) throws InterruptedException;
 }
