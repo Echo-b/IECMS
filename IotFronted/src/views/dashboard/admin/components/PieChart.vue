@@ -60,8 +60,8 @@ export default {
       getPieData().then((res) => {
         console.log(res)
         this.legend = res.data.chart.legend.data
-        this.datavalue = res.data.chart.series.data;
-        for(let i = 0; i < this.piedata.length; ++i) {
+        this.datavalue = res.data.chart.series.data
+        for (let i = 0; i < this.piedata.length; ++i) {
           this.piedata[i].value = this.datavalue[i]
         }
         this.chart.setOption({

@@ -106,9 +106,6 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                  *     }
                  * }
                  */
-                
-//              String defaultJson = "{\r\n  \"command\":{\r\n \"led\":{\"status\":\"on\"},\r\n \"htSensor\":{\r\n \"temperture\":23,\r\n \"humidity\":28,\r\n  \"status\":\"on\"\r\n }\r\n }\r\n}";
- 
                 JSONObject root = new JSONObject();
                 JSONObject command = new JSONObject();
                 JSONObject led = new JSONObject();
