@@ -6,7 +6,7 @@ import cn.edu.swjtu.result.ResponseData;
 public interface ThresholdService {
     ResponseData getDeviceThreshold(int did);
     ResponseData InsertDeviceThreshold(Threshold th);
-    ResponseData changeLightThreshold(int did);
-    ResponseData changeHumiThreshold(int did);
-    ResponseData changeTempThreshold(int did);
+    ResponseData changeLightThreshold(Threshold th);
+    ResponseData changeHumiThreshold(Threshold th);
+    ResponseData changeTempThreshold(Threshold th);
 }

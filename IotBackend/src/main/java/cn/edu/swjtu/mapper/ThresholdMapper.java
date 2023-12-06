@@ -16,9 +16,9 @@ public interface ThresholdMapper {
     int InsertDeviceThreshold(Threshold th);
 
     @Update("update threshold set temp_max = #{temp_max} where did = #{did};")
-    int changeTempThreshold(int did);
+    int changeTempThreshold(Threshold th);
     @Update("update threshold set humi_max = #{humi_max} where did = #{did};")
-    int changeHumiThreshold(int did);
+    int changeHumiThreshold(Threshold th);
     @Update("update threshold set light_max = #{light_max} where did = #{did};")
-    int changeLightThreshold(int did);
+    int changeLightThreshold(Threshold th);
 }

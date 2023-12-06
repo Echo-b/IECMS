@@ -35,9 +35,9 @@ public class ThresholdServiceImpl implements ThresholdService {
     }
 
     @Override
-    public ResponseData changeLightThreshold(int did) {
+    public ResponseData changeLightThreshold(Threshold th) {
         try {
-            if(mapper.changeLightThreshold(did) > 0){
+            if(mapper.changeLightThreshold(th) > 0){
                 return ResponseData.success("修改关照强度阈值成功");
             }
         }catch (Exception e){
@@ -47,9 +47,9 @@ public class ThresholdServiceImpl implements ThresholdService {
     }
 
     @Override
-    public ResponseData changeHumiThreshold(int did) {
+    public ResponseData changeHumiThreshold(Threshold th) {
         try {
-            if(mapper.changeHumiThreshold(did) > 0){
+            if(mapper.changeHumiThreshold(th) > 0){
                 return ResponseData.success("修改湿度阈值成功");
             }
         }catch (Exception e){
@@ -59,9 +59,9 @@ public class ThresholdServiceImpl implements ThresholdService {
     }
 
     @Override
-    public ResponseData changeTempThreshold(int did) {
+    public ResponseData changeTempThreshold(Threshold th) {
         try {
-            if(mapper.changeTempThreshold(did) > 0){
+            if(mapper.changeTempThreshold(th) > 0){
                 return ResponseData.success("修改温度阈值成功");
             }
         }catch (Exception e){

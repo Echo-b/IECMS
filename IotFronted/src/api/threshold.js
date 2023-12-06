@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 /**
  * @brief get a device threshold
- * @param {*} did
+ * @param {*} data
  * @returns
  */
 export function getDeviceThreshold(did) {
@@ -28,39 +28,39 @@ export function setDeviceThreshold(data) {
 
 /**
  * @brief set device temperature threshold
- * @param {*} did
+ * @param {*} data
  * @returns
  */
-export function setDeviceTempThreshold(did) {
+export function setDeviceTempThreshold(data) {
   return request({
     url: '/threshold/set/temperature',
     method: 'post',
-    params: { did }
+    data
   })
 }
 
 /**
  * @brief set device humidity threshold
- * @param {*} did
+ * @param {*} data
  * @returns
  */
-export function setDeviceHumiThreshold(did) {
+export function setDeviceHumiThreshold(data) {
   return request({
     url: '/threshold/set/humidity',
     method: 'post',
-    params: { did }
+    data
   })
 }
 
 /**
  * @brief set device light threshold
- * @param {*} did
+ * @param {*} data
  * @returns
  */
-export function setDeviceLightThreshold(did) {
+export function setDeviceLightThreshold(data) {
   return request({
     url: '/threshold/set/light',
     method: 'post',
-    params: { did }
+    data
   })
 }

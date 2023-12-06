@@ -23,15 +23,15 @@ public class ThresholdController {
     }
 
     @PostMapping("/set/temperature")
-    public ResponseData setDeviceTempThreshold(int did){
-        return thresholdService.changeTempThreshold(did);
+    public ResponseData setDeviceTempThreshold(@RequestBody Threshold th){
+        return thresholdService.changeTempThreshold(th);
     }
     @PostMapping("/set/humidity")
-    public ResponseData setDeviceHumiThreshold(int did){
-        return thresholdService.changeHumiThreshold(did);
+    public ResponseData setDeviceHumiThreshold(@RequestBody Threshold th){
+        return thresholdService.changeHumiThreshold(th);
     }
     @PostMapping("/set/light")
-    public ResponseData setDeviceLightThreshold(int did){
-        return thresholdService.changeLightThreshold(did);
+    public ResponseData setDeviceLightThreshold(@RequestBody Threshold th){
+        return thresholdService.changeLightThreshold(th);
     }
 }
