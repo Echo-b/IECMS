@@ -2,7 +2,7 @@
 .\objects\sys.o: System\sys\sys.h
 .\objects\sys.o: .\Start\stm32f10x.h
 .\objects\sys.o: .\Start\core_cm3.h
-.\objects\sys.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\sys.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\sys.o: .\Start\system_stm32f10x.h
 .\objects\sys.o: .\User\stm32f10x_conf.h
 .\objects\sys.o: .\Library\stm32f10x_adc.h

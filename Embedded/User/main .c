@@ -11,19 +11,22 @@
 #include "LED.h"
 #include "usart.h"
 #include "dht11.h"
+#include "bh1750.h"
+#include "Buzzer.h"
 
 // C库
 #include <string.h>
 #include <stdio.h>
 
-const char devPubTopics[] = "/topics/led/pub";
-const char *devSubTopics[] = {"/topics/led/sub"};
+const char devPubTopics[] = "/topics/pub/data";
+const char *devSubTopics[] = {"/topics/sub/#"};
 
 u8 humidityH;	 // 湿度整数部分
 u8 humidityL;	 // 湿度小数部分
 u8 temperatureH; // 温度整数部分
 u8 temperatureL; // 温度小数部分
 u8 Led_Status = 0;
+float light;
 
 char PUB_BUF[256]; // 上传数据的buf
 
@@ -62,22 +65,25 @@ int main(void)
 
 	Hardware_Init(); // 初始化外围硬件
 
-	//	DHT11_Init();
+  //DHT11_Init();
 	LED_Init();
+	Buzzer_Init();
 	while (DHT11_Init())
 	{
 		UsartPrintf(USART_DEBUG, " DHT11 ERROR\r\n");
 		delay_ms(1000);
 	}
-
+	
+	BH1750_Init();
+	
 	ESP8266_Init(); // 初始化ESP8266
 
 	while (OneNet_DevLink()) // 接入OneNET
 		delay_ms(500);
 
-	LED_ON(); // 灯亮灭提示接入成功
+	Buzzer_ON(); // 灯亮灭提示接入成功
 	delay_ms(200);
-	LED_OFF();
+	Buzzer_OFF();
 
 	OneNet_Subscribe(devSubTopics, 1);
 
@@ -87,21 +93,26 @@ int main(void)
 		{
 			/********** 温湿度传感器获取数据**************/
 			DHT11_Read_Data(&humidityH, &humidityL, &temperatureH, &temperatureL);
+			/********** 光照度传感器获取数据**************/
+			if (!i2c_CheckDevice(BH1750_Addr))
+			{
+				light = LIght_Intensity();
+			}
 		}
-		if (++timeCount >= 600) // 发送间隔5s
+		if (++timeCount >= 200) // 发送间隔5s
 		{
 			Led_Status = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0); // 读取LED0的状态
 			DEBUG_LOG("==================================================================================");
 			DEBUG_LOG("publish data ----- OneNet_Publish");
-			sprintf(PUB_BUF, "{\"Hum\":%d.%d,\"Temp\":%d.%d,\"Led\":%d}",
-					humidityH, humidityL, temperatureH, temperatureL, Led_Status ? 0 : 1);
+			sprintf(PUB_BUF, "{\"Hum\":%d.%d,\"Temp\":%d.%d,\"Led\":%d, \"Light\":%.1f}",
+					humidityH, humidityL, temperatureH, temperatureL, Led_Status ? 0 : 1,light);
 			OneNet_Publish(devPubTopics, PUB_BUF);
 			DEBUG_LOG("==================================================================================");
 			timeCount = 0;
 			ESP8266_Clear();
 		}
 
-		dataPtr = ESP8266_GetIPD(0);
+		dataPtr = ESP8266_GetIPD(3);
 		if (dataPtr != NULL)
 			OneNet_RevPro(dataPtr);
 

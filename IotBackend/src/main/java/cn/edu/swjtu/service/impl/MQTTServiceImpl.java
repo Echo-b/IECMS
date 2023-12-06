@@ -1,5 +1,6 @@
 package cn.edu.swjtu.service.impl;
 
+import cn.edu.swjtu.config.JsonConfig;
 import cn.edu.swjtu.config.MQTTConfig;
 import cn.edu.swjtu.mapper.DeviceMapper;
 import cn.edu.swjtu.mapper.RecordMapper;
@@ -111,6 +112,7 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                     JSONObject root = new JSONObject();
                     JSONObject command = new JSONObject();
                     JSONObject led = new JSONObject();
+                    JSONObject beep = new JSONObject();
                     JSONObject htSensor = new JSONObject();
                     // todo: add more command type
                     switch (c.getCommand()){
@@ -122,10 +124,19 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                             led.put("status","off");
                             break;
                         }
+                        case "BEEPON" : {
+                            beep.put("status","on");
+                            break;
+                        }
+                        case "BEEPOFF" : {
+                            beep.put("status","off");
+                            break;
+                        }
                     }
 
                     // 推送至mqtt的消息重新封装成标准的json格式，这样便于嵌入式部分解析
                     command.put("led",led);
+                    command.put("beep",beep);
                     command.put("htSensor",htSensor);
                     root.put("command",command);
 

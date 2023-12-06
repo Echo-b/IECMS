@@ -23,7 +23,7 @@ mqtt:
   client_id: iot_sub
   user_name: admin
   password: 123456
-  subTopic: /topics/led/pub
+  subTopic: /topics/pub
   pubTopic: devPubTopics
   keep_alive: 60
   timeout: 60

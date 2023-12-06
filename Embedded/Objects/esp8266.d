@@ -1,7 +1,7 @@
 .\objects\esp8266.o: NET\device\esp8266.c
 .\objects\esp8266.o: .\Start\stm32f10x.h
 .\objects\esp8266.o: .\Start\core_cm3.h
-.\objects\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\esp8266.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\esp8266.o: .\Start\system_stm32f10x.h
 .\objects\esp8266.o: .\User\stm32f10x_conf.h
 .\objects\esp8266.o: .\Library\stm32f10x_adc.h
@@ -32,5 +32,5 @@
 .\objects\esp8266.o: .\System\delay\delay.h
 .\objects\esp8266.o: .\System\sys\sys.h
 .\objects\esp8266.o: .\System\usart\usart.h
-.\objects\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\esp8266.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\esp8266.o: D:\Software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

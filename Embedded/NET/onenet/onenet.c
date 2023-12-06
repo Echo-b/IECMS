@@ -12,6 +12,7 @@
 #include "usart.h"
 #include "delay.h"
 #include "LED.h"
+#include "Buzzer.h"
 
 // C库
 #include <string.h>
@@ -218,6 +219,8 @@ void OneNet_RevPro(unsigned char *cmd)
 			cJSON *cjson_command = NULL;
 			cJSON *cjson_led = NULL;
 			cJSON *cjson_led_status = NULL;
+			cJSON *cjson_beep = NULL;
+			cJSON *cjson_beep_status = NULL;
 			cJSON *cjson_htSensor = NULL;
 			cJSON *cjson_temperture = NULL;
 			cJSON *cjson_humidity = NULL;
@@ -229,28 +232,43 @@ void OneNet_RevPro(unsigned char *cmd)
 			else
 			{
 				/* 依次根据名称提取JSON数据（键值对） */
-				cjson_command = cJSON_GetObjectItem(json, "data");
+				cjson_command = cJSON_GetObjectItem(json, "command");
 
 				/* 解析嵌套json数据 */
 				cjson_led = cJSON_GetObjectItem(cjson_command, "led");
+				cjson_beep = cJSON_GetObjectItem(cjson_command, "beep");
 				cjson_htSensor = cJSON_GetObjectItem(cjson_command, "htSensor");
 
 				/* 解析led */
-				cjson_led_status = cJSON_GetObjectItem(cjson_led, "led_status");
-				
+				cjson_led_status = cJSON_GetObjectItem(cjson_led, "status");
+				cjson_beep_status = cJSON_GetObjectItem(cjson_beep, "status");
 
 				/* 解析htSensor数据 */
 				cjson_temperture = cJSON_GetObjectItem(cjson_htSensor, "temperature");
 				cjson_humidity = cJSON_GetObjectItem(cjson_htSensor, "humidity");
-				cjson_device_status = cJSON_GetObjectItem(cjson_htSensor, "status");			
-				
-				if (strcmp(cjson_led->valuestring,"on") == 0) // led status 为 on
-				{
-					LED_ON();
+				cjson_device_status = cJSON_GetObjectItem(cjson_htSensor, "status");
+				UsartPrintf(USART_DEBUG,"[%s]\n",cjson_beep_status->valuestring);
+				if(strstr(cjson_led_status->valuestring,"o")) {
+					UsartPrintf(USART_DEBUG,"input led\n");
+					if (strcmp(cjson_led_status->valuestring,"on") == 0) // led status 为 on
+					{
+						LED_ON();
+					}
+					else
+					{
+						LED_OFF(); // 关闭LED0
+					}
 				}
-				else
-				{
-					LED_OFF(); // 关闭LED0
+				else if(strstr(cjson_beep_status->valuestring,"o")) {
+					UsartPrintf(USART_DEBUG,"input beep\n");
+					if (strcmp(cjson_beep_status->valuestring,"on") == 0) // beep status 为 on
+					{
+						Buzzer_ON();
+					}
+					else
+					{
+						Buzzer_OFF(); // 关闭BEEP
+					}
 				}
 			}
 			cJSON_Delete(json);

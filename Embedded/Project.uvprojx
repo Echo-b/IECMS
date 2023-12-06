@@ -16,8 +16,8 @@
         <TargetCommonOption>
           <Device>STM32F103C8</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.2.4.1</PackID>
-          <PackURL>https://www.keil.com/pack/</PackURL>
+          <PackID>Keil.STM32F1xx_DFP.2.2.0</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00005000) IROM(0x08000000,0x00010000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\User;.\Library;.\System\delay;.\NET\cJSON;.\NET\device;.\NET\MQTT;.\NET\onenet;.\System\EXTI;.\System\sys;.\System\TIMER;.\System\usart;.\Hardware\LED;.\Hardware\OLED;.\Hardware\LightSensor;.\Hardware\Buzzer;.\Hardware\DHT11</IncludePath>
+              <IncludePath>.\Start;.\User;.\Library;.\System\delay;.\NET\cJSON;.\NET\device;.\NET\MQTT;.\NET\onenet;.\System\EXTI;.\System\sys;.\System\TIMER;.\System\usart;.\Hardware\LED;.\Hardware\OLED;.\Hardware\Buzzer;.\Hardware\DHT11;.\Hardware\BH1750</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -771,11 +771,6 @@
               <FilePath>.\Hardware\OLED\OLED.c</FilePath>
             </File>
             <File>
-              <FileName>LightSensor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\LightSensor\LightSensor.c</FilePath>
-            </File>
-            <File>
               <FileName>Buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\Buzzer\Buzzer.c</FilePath>
@@ -784,6 +779,11 @@
               <FileName>dht11.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\DHT11\dht11.c</FilePath>
+            </File>
+            <File>
+              <FileName>bh1750.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\BH1750\bh1750.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -2,10 +2,10 @@
 #define __BH1750_H
 #include "sys.h"
 
-// BH1750µÄµØÖ·
+// BH1750çš„åœ°å€
 #define BH1750_Addr 0x46
 
-// BH1750Ö¸ÁîÂë
+// BH1750æŒ‡ä»¤ç 
 #define POWER_OFF 0x00
 #define POWER_ON 0x01
 #define MODULE_RESET 0x07
@@ -16,10 +16,10 @@
 #define ONE_TIME_H_MODE2 0x21
 #define ONE_TIME_L_MODE 0x23
 
-// ²âÁ¿Ä£Ê½
+// æµ‹é‡æ¨¡å¼
 #define Measure_Mode CONTINUE_H_MODE
 
-// ·Ö±æÂÊ	¹âÕÕÇ¿¶È£¨µ¥Î»lx£©=£¨High Byte  + Low Byte£©/ 1.2 * ²âÁ¿¾«¶È
+// åˆ†è¾¨ç‡	å…‰ç…§å¼ºåº¦ï¼ˆå•ä½lxï¼‰=ï¼ˆHigh Byte  + Low Byteï¼‰/ 1.2 * æµ‹é‡ç²¾åº¦
 #if ((Measure_Mode == CONTINUE_H_MODE2) | (Measure_Mode == ONE_TIME_H_MODE2))
 #define Resolurtion 0.5
 #elif ((Measure_Mode == CONTINUE_H_MODE) | (Measure_Mode == ONE_TIME_H_MODE))
@@ -28,33 +28,33 @@
 #define Resolurtion 4
 #endif
 
-#define BH1750_I2C_WR 0 /* Ğ´¿ØÖÆbit */
-#define BH1750_I2C_RD 1 /* ¶Á¿ØÖÆbit */
+#define BH1750_I2C_WR 0 /* å†™æ§åˆ¶bit */
+#define BH1750_I2C_RD 1 /* è¯»æ§åˆ¶bit */
 
-/* ¶¨ÒåI2C×ÜÏßÁ¬½ÓµÄGPIO¶Ë¿Ú, Ö»ĞèÒªĞŞ¸ÄÏÂÃæ4ĞĞ´úÂë¼´¿ÉÈÎÒâ¸Ä±äSCLºÍSDAµÄÒı½Å */
-#define BH1750_GPIO_PORT_I2C GPIOB				 /* GPIO¶Ë¿Ú */
-#define BH1750_RCC_I2C_PORT RCC_APB2Periph_GPIOB /* GPIO¶Ë¿ÚÊ±ÖÓ */
-#define BH1750_I2C_SCL_PIN GPIO_Pin_6			 /* Á¬½Óµ½SCLÊ±ÖÓÏßµÄGPIO */
-#define BH1750_I2C_SDA_PIN GPIO_Pin_7			 /* Á¬½Óµ½SDAÊı¾İÏßµÄGPIO */
+/* å®šä¹‰I2Cæ€»çº¿è¿æ¥çš„GPIOç«¯å£, åªéœ€è¦ä¿®æ”¹ä¸‹é¢4è¡Œä»£ç å³å¯ä»»æ„æ”¹å˜SCLå’ŒSDAçš„å¼•è„š */
+#define BH1750_GPIO_PORT_I2C GPIOB				 /* GPIOç«¯å£ */
+#define BH1750_RCC_I2C_PORT RCC_APB2Periph_GPIOB /* GPIOç«¯å£æ—¶é’Ÿ */
+#define BH1750_I2C_SCL_PIN GPIO_Pin_6			 /* è¿æ¥åˆ°SCLæ—¶é’Ÿçº¿çš„GPIO */
+#define BH1750_I2C_SDA_PIN GPIO_Pin_7			 /* è¿æ¥åˆ°SDAæ•°æ®çº¿çš„GPIO */
 
-/* ¶¨Òå¶ÁĞ´SCLºÍSDAµÄºê£¬ÒÑÔö¼Ó´úÂëµÄ¿ÉÒÆÖ²ĞÔºÍ¿ÉÔÄ¶ÁĞÔ */
-#if 0																				/* Ìõ¼ş±àÒë£º 1 Ñ¡ÔñGPIOµÄ¿âº¯ÊıÊµÏÖIO¶ÁĞ´ */
+/* å®šä¹‰è¯»å†™SCLå’ŒSDAçš„å®ï¼Œå·²å¢åŠ ä»£ç çš„å¯ç§»æ¤æ€§å’Œå¯é˜…è¯»æ€§ */
+#if 0																				/* æ¡ä»¶ç¼–è¯‘ï¼š 1 é€‰æ‹©GPIOçš„åº“å‡½æ•°å®ç°IOè¯»å†™ */
 #define BH1750_I2C_SCL_1() GPIO_SetBits(BH1750_GPIO_PORT_I2C, BH1750_I2C_SCL_PIN)	/* SCL = 1 */
 #define BH1750_I2C_SCL_0() GPIO_ResetBits(BH1750_GPIO_PORT_I2C, BH1750_I2C_SCL_PIN) /* SCL = 0 */
 
 #define BH1750_I2C_SDA_1() GPIO_SetBits(BH1750_GPIO_PORT_I2C, BH1750_I2C_SDA_PIN)	/* SDA = 1 */
 #define BH1750_I2C_SDA_0() GPIO_ResetBits(BH1750_GPIO_PORT_I2C, BH1750_I2C_SDA_PIN) /* SDA = 0 */
 
-#define BH1750_I2C_SDA_READ() GPIO_ReadInputDataBit(BH1750_GPIO_PORT_I2C, BH1750_I2C_SDA_PIN) /* ¶ÁSDA¿ÚÏß×´Ì¬ */
-#else																						  /* Õâ¸ö·ÖÖ§Ñ¡ÔñÖ±½Ó¼Ä´æÆ÷²Ù×÷ÊµÏÖIO¶ÁĞ´ */
-																							  /*¡¡×¢Òâ£ºÈçÏÂĞ´·¨£¬ÔÚIAR×î¸ß¼¶±ğÓÅ»¯Ê±£¬»á±»±àÒëÆ÷´íÎóÓÅ»¯ */
+#define BH1750_I2C_SDA_READ() GPIO_ReadInputDataBit(BH1750_GPIO_PORT_I2C, BH1750_I2C_SDA_PIN) /* è¯»SDAå£çº¿çŠ¶æ€ */
+#else																						  /* è¿™ä¸ªåˆ†æ”¯é€‰æ‹©ç›´æ¥å¯„å­˜å™¨æ“ä½œå®ç°IOè¯»å†™ */
+																							  /*ã€€æ³¨æ„ï¼šå¦‚ä¸‹å†™æ³•ï¼Œåœ¨IARæœ€é«˜çº§åˆ«ä¼˜åŒ–æ—¶ï¼Œä¼šè¢«ç¼–è¯‘å™¨é”™è¯¯ä¼˜åŒ– */
 #define BH1750_I2C_SCL_1() BH1750_GPIO_PORT_I2C->BSRR = BH1750_I2C_SCL_PIN					  /* SCL = 1 */
 #define BH1750_I2C_SCL_0() BH1750_GPIO_PORT_I2C->BRR = BH1750_I2C_SCL_PIN					  /* SCL = 0 */
 
 #define BH1750_I2C_SDA_1() BH1750_GPIO_PORT_I2C->BSRR = BH1750_I2C_SDA_PIN /* SDA = 1 */
 #define BH1750_I2C_SDA_0() BH1750_GPIO_PORT_I2C->BRR = BH1750_I2C_SDA_PIN  /* SDA = 0 */
 
-#define BH1750_I2C_SDA_READ() ((BH1750_GPIO_PORT_I2C->IDR & BH1750_I2C_SDA_PIN) != 0) /* ¶ÁSDA¿ÚÏß×´Ì¬ */
+#define BH1750_I2C_SDA_READ() ((BH1750_GPIO_PORT_I2C->IDR & BH1750_I2C_SDA_PIN) != 0) /* è¯»SDAå£çº¿çŠ¶æ€ */
 #endif
 
 void i2c_Start(void);
@@ -66,8 +66,8 @@ void i2c_Ack(void);
 void i2c_NAck(void);
 uint8_t i2c_CheckDevice(uint8_t _Address);
 
-void BH1750_Init(void);		 // Î´°üº¬IIC³õÊ¼»¯
-float LIght_Intensity(void); // ¶ÁÈ¡¹âÕÕÇ¿¶ÈµÄÖµ
+void BH1750_Init(void);		 // æœªåŒ…å«IICåˆå§‹åŒ–
+float LIght_Intensity(void); // è¯»å–å…‰ç…§å¼ºåº¦çš„å€¼
 uint8_t BH1750_Byte_Write(uint8_t data);
 uint16_t BH1750_Read_Measure(void);
 void BH1750_Power_ON(void);

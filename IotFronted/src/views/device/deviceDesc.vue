@@ -115,12 +115,16 @@ export default {
   },
   methods: {
     handleOpenCommand() {
+      const topic = `/topics/sub/${this.device.deviceName}`
+      const upperName = this.device.deviceName.toUpperCase()
+      const command = `${upperName}ON`
       const form = {
         did: this.device.did,
-        command: 'LEDON',
+        command: command,
         deviceName: this.device.deviceName,
-        topic: '/topics/led/sub',
+        topic: topic,
         date: '',
+        param: '',
         operator: this.$store.getters.name
       }
       insertRecord(form).then((res) => {
@@ -136,11 +140,16 @@ export default {
       })
     },
     handleCloseCommand() {
+      const topic = `/topics/sub/${this.device.deviceName}`
+      const upperName = this.device.deviceName.toUpperCase()
+      const command = `${upperName}OFF`
+      // const UpperDeviceName = this.device.deviceName.toUpperCase
       const form = {
         did: this.device.did,
-        command: 'LEDOFF',
+        command: command,
         deviceName: this.device.deviceName,
-        topic: '/topics/led/sub',
+        topic: topic,
+        param: '',
         operator: this.$store.getters.name
       }
       insertRecord(form).then((res) => {
