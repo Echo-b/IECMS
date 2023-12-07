@@ -21,6 +21,7 @@
           v-model="scope.row.setvalue"
           placeholder="请输入设置值"
           clearable
+          @blur="validateSetValue(scope.row)"
         />
       </template>
       <!-- <el-input-number
@@ -82,6 +83,7 @@ import { setDeviceHumiThreshold, setDeviceLightThreshold, setDeviceTempThreshold
 export default {
   data() {
     return {
+      numberInput: '',
       setvalue: 10,
       options: [],
       tableData: [{
@@ -111,6 +113,25 @@ export default {
     this.fetchData()
   },
   methods: {
+    validateSetValue(row) {
+      const regNumber1 = /^(0|[1-9]\d*)(\.\d{0,2})?$/;
+      const regInteger = /^[1-9]\d*$/;
+      if (row.rowIndex < 3) {
+        // 对前三行进行整数或小数验证
+        if (!regNumber1.test(row.setvalue)) {
+          this.$message.error('请输入有效的数字，可以是整数或最多两位小数');
+          row.setvalue = '';  // 清空不符合规则的值
+      }else{
+        if(row.setvalue <= 0 || row.setvalue >= 9999) {
+          this.$message.error('请输入0-9999范围的数值');
+          row.setvalue = ''; }
+      }
+      } else{
+          if (!regInteger.test(row.setvalue)) {
+            this.$message.error('请输入大于0的整数');
+            row.setvalue = '';  }
+      }
+    },
     fetchData() {
       getThresholdDevices(this.$store.getters.name).then((res) => {
         console.log(res)
