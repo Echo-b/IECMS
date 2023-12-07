@@ -15,4 +15,7 @@ public interface RecordMapper {
 
     @Select("select * from command_record where operator = #{operator}")
     ArrayList<CommandInfo> getAllCommandRecord(String operator);
+
+    @Select("select * from command_record where operator = #{operator} order by date DESC limit 1")
+    CommandInfo getUserNewestActivity(String operator);
 }

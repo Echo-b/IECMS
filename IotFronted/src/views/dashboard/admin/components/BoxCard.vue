@@ -5,22 +5,18 @@
     </div>
     <div style="position:relative;">
       <pan-thumb :image="require('@/assets/images/' + avatar)" class="panThumb" />
-      <mallki class-name="mallki-text" text="vue-element-admin" />
+      <mallki class-name="mallki-text" text="IECMS Lite" />
       <div style="padding-top:35px;" class="progress-item">
-        <span>Vue</span>
+        <span>GroupMembers</span>
         <el-progress :percentage="70" />
       </div>
       <div class="progress-item">
-        <span>JavaScript</span>
+        <span>Devices</span>
         <el-progress :percentage="18" />
       </div>
       <div class="progress-item">
-        <span>CSS</span>
+        <span>Activities</span>
         <el-progress :percentage="12" />
-      </div>
-      <div class="progress-item">
-        <span>ESLint</span>
-        <el-progress :percentage="100" status="success" />
       </div>
     </div>
   </el-card>

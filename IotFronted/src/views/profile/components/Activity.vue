@@ -2,9 +2,9 @@
   <div class="user-activity">
     <div v-for="(item, index) of activities" :key="index" class="post">
       <div class="user-block">
-        <img class="img-circle" :src="item.avatar">
+        <img class="img-circle" :src="require('@/assets/images/' + item.avatar)">
         <span class="username text-muted">{{ item.username }}</span>
-        <span class="description">{{ item.command }} - {{ item.timestap }}</span>
+        <span class="description">{{ item.command }} - {{ item.timestamp }}</span>
       </div>
       <p>
         {{ item.summary }}
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { getGroupActivity } from '@/api/record.js'
+
 export default {
   data() {
     return {
@@ -22,24 +24,39 @@ export default {
           avatar: 'https://wpimg.wallstcn.com/9e2a5d0a-bd5b-457f-ac8e-86554616c87b.jpg',
           username: 'Spider Man',
           command: 'Shared publicly',
-          timestap: '7:30 PM today',
+          timestamp: '7:30 PM today',
           summary: 'Lorem ipsum represents a long-held tradition for designers'
         },
         {
           avatar: 'https://wpimg.wallstcn.com/fb57f689-e1ab-443c-af12-8d4066e202e2.jpg',
           username: 'Captain American',
           command: 'Sent you a message',
-          timestap: 'yesterday',
+          timestamp: 'yesterday',
           summary: 'Lorem ipsum represents a #### long-held tradition for designers'
         },
         {
           avatar: 'https://wpimg.wallstcn.com/fb57f689-e1ab-443c-af12-8d4066e202e2.jpg',
           username: 'EchoBai',
           command: 'test',
-          timestap: 'now',
+          timestamp: 'now',
           summary: 'test it and watch it'
         }
       ]
+    }
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    fetchData() {
+      getGroupActivity(this.$store.getters.groupid).then((res) => {
+        console.log(res)
+        if (res.data.activity.length > 8) {
+          this.activities = res.data.activity.slice(-8)
+        } else {
+          this.activities = res.data.activity
+        }
+      })
     }
   }
 }

@@ -16,3 +16,10 @@ export function getRecords(operator) {
   })
 }
 
+export function getGroupActivity(group_id) {
+  return request({
+    url: '/record/activity',
+    method: 'get',
+    params: { group_id }
+  })
+}

@@ -79,6 +79,9 @@ export default {
     fetchData() {
       getAllTodoListTask().then((res) => {
         console.log(res)
+        if (res.data.tasks.length > 8) {
+          res.data.tasks = res.data.tasks.slice(-8)
+        }
         res.data.tasks.forEach((item) => {
           var tmpdone = true
           var tmptext = 'handle ' + item.apply + ' add ' + item.deviceName + ' request'

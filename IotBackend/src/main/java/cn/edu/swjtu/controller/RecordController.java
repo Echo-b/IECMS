@@ -40,4 +40,9 @@ public class RecordController {
         return service.getAllCommandRecord(operator);
     }
 
+    @GetMapping("/activity")
+    public ResponseData getGroupActivity(int group_id) {
+        return service.getGroupActivity(group_id);
+    }
+
 }

@@ -7,4 +7,6 @@ public interface RecordService {
     int InsertCommandRecord(CommandInfo c);
 
     ResponseData getAllCommandRecord(String operator);
+
+    ResponseData getGroupActivity(int group_id);
 }

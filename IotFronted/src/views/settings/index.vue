@@ -21,7 +21,6 @@
           v-model="scope.row.setvalue"
           placeholder="请输入设置值"
           clearable
-          type="number"
         />
       </template>
       <!-- <el-input-number
@@ -37,7 +36,7 @@
       width="250"
     >
       <template slot-scope="scope">
-        <el-select v-model="scope.row.value" placeholder="请选择设备" @change="handleChange(scope.row)">
+        <el-select v-model.number="scope.row.value" placeholder="请选择设备" @change="handleChange(scope.row)">
           <el-option-group
             v-for="group in options"
             :key="group.label"
@@ -146,7 +145,8 @@ export default {
               const r = {
                 did: row.value.value,
                 deviceName: row.value.deviceName,
-                command: row.command
+                command: row.command,
+                operator: this.$store.getters.name
               }
               insertRecord(r).then((res) => {
                 console.log(res)
@@ -186,7 +186,8 @@ export default {
               const r = {
                 did: row.value.value,
                 deviceName: row.value.deviceName,
-                command: row.command
+                command: row.command,
+                operator: this.$store.getters.name
               }
               insertRecord(r).then((res) => {
                 console.log(res)
@@ -226,7 +227,8 @@ export default {
               const r = {
                 did: row.value.value,
                 deviceName: row.value.deviceName,
-                command: row.command
+                command: row.command,
+                operator: this.$store.getters.name
               }
               insertRecord(r).then((res) => {
                 console.log(res)
@@ -260,6 +262,7 @@ export default {
             did: row.value.value,
             deviceName: row.value.deviceName,
             command: row.command,
+            operator: this.$store.getters.name,
             topic: `/topics/sub/${row.value.deviceName}`,
             param: row.setvalue
           }
@@ -287,6 +290,7 @@ export default {
             did: row.value.value,
             deviceName: row.value.deviceName,
             command: row.command,
+            operator: this.$store.getters.name,
             topic: `/topics/sub/${row.value.deviceName}`,
             param: row.setvalue
           }

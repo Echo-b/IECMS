@@ -26,7 +26,7 @@ export default {
   methods: {
     getRecordsData() {
       getRecords(this.$store.getters.name).then(response => {
-        this.timeline = response.data.records
+        this.timeline = response.data.records.slice(-8)
       })
     }
   }

@@ -18,33 +18,29 @@
     </div>
 
     <div class="user-bio">
-      <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Education</span></div>
+      <div class="user-documentation user-bio-section">
+        <div class="user-bio-section-header"><svg-icon icon-class="documentation" /><span>Brief</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            JS in Computer Science from the University of Technology
+            Intelligent equipment control and management system lite
           </div>
         </div>
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>Skills</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>Infos</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
-            <span>Vue</span>
+            <span>GroupMembers</span>
             <el-progress :percentage="70" />
           </div>
           <div class="progress-item">
-            <span>JavaScript</span>
+            <span>Devices</span>
             <el-progress :percentage="18" />
           </div>
           <div class="progress-item">
-            <span>Css</span>
+            <span>Activities</span>
             <el-progress :percentage="12" />
-          </div>
-          <div class="progress-item">
-            <span>ESLint</span>
-            <el-progress :percentage="100" status="success" />
           </div>
         </div>
       </div>
