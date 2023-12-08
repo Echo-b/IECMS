@@ -123,17 +123,28 @@ CREATE TABLE `device` (
   PRIMARY KEY (`did`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+drop trigger if exists trigger_Add;
 Create Trigger trigger_Add after INSERT on device for each row
 begin
     INSERT into command_record(did, command, deviceName, date, operator)
     VALUES(new.did, 'Add_device', new.deviceName, now(), new.creator);
 end;
-
+drop trigger if exists trigger_INIT;
+Create Trigger trigger_INIT after insert on device for each row
+begin
+    if new.type = 'sensor' or new.type = 'light' then
+        INSERT into threshold(did, temp_max, humi_max, light_max)
+        VALUES(new.did, 35, 65, 150);
+    end if;
+end;
+drop trigger if exists trigger_Delete;
 Create Trigger trigger_Delete after delete on device for each row
 begin
     INSERT into command_record(did, command, deviceName, date, operator)
     VALUES(old.did, 'Delete_device', old.deviceName, now(), old.creator);
 end;
+
+
 --
 -- Dumping data for table `device`
 --
