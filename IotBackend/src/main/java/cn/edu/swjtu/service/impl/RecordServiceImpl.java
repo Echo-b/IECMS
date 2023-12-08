@@ -53,7 +53,7 @@ public class RecordServiceImpl implements RecordService {
                     CommandInfo c = mapper.getUserNewestActivity(u.getUsername());
                     item.put("command",c.getCommand());
                     item.put("timestamp", c.getDate());
-                    item.put("summary",c.getOperator()+ " " + c.getCommand() + " " -m + c.getDeviceName());
+                    item.put("summary",c.getOperator()+ " " + c.getCommand() + " " + c.getDeviceName());
                 }catch (Exception e){
                     e.printStackTrace();
                 }
