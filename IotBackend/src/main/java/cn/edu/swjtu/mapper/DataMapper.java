@@ -2,6 +2,7 @@ package cn.edu.swjtu.mapper;
 
 
 import cn.edu.swjtu.pojo.AlertInfo;
+import cn.edu.swjtu.pojo.AverageData;
 import cn.edu.swjtu.pojo.NormalData;
 import cn.edu.swjtu.pojo.TData;
 import org.apache.ibatis.annotations.Delete;
@@ -109,4 +110,10 @@ public interface DataMapper {
 
     @Select("select did,temperature,date from average_data where did = #{did} ;")
     ArrayList<TData> getAverageTemperature(int did);
+
+    @Select("select * from average_data order by date DESC limit 1")
+    AverageData getNewestAverageData();
+
+    @Select("select * from average_data;")
+    ArrayList<AverageData> getAllAverageData();
 }

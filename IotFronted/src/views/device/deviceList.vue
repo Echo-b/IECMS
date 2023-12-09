@@ -56,11 +56,13 @@
           <el-button
             size="mini"
             type="primary"
+            :disabled="forbidBtn(scope.row)"
             @click="handleEdit(scope.row.did)"
           >编辑</el-button>
           <el-button
             size="mini"
             type="danger"
+            :disabled="forbidBtn(scope.row)"
             @click="handleDelete(scope.row.did)"
           >删除</el-button>
           <el-button
@@ -126,7 +128,8 @@ export default {
         creator: '',
         group_id: 0
       },
-      search: ''
+      search: '',
+      btnflag: this.$store.getters.name === 'admin'
     }
   },
   computed: {
@@ -244,6 +247,12 @@ export default {
     },
     cancelShow() {
       this.editShow = false
+    },
+    forbidBtn(row) {
+      if (this.$store.getters.name === row.creator || this.btnflag === true) {
+        return false
+      }
+      return true
     }
   }
 }

@@ -18,4 +18,7 @@ public interface ChartDataService {
     String DateToDay(String date) throws ParseException;
     Vector<Integer> remap(JSONObject data);
 
+    ResponseData getLightData() throws ParseException;
+    ResponseData getRadderData();
+
 }

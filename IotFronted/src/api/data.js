@@ -94,3 +94,17 @@ export function getPieData() {
     method: 'get'
   })
 }
+
+export function getLightData() {
+  return request({
+    url: '/data/chart/light',
+    method: 'get'
+  })
+}
+
+export function getRadarData() {
+  return request({
+    url: '/data/chart/radar',
+    method: 'get'
+  })
+}

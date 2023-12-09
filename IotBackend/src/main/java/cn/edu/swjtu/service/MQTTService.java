@@ -12,8 +12,7 @@ public interface MQTTService {
 
     /**
      * 向对应的topic发送消息
-     * @param topic
-     * @param msg
+     * @param c
      */
     public ResponseData pubMqttMsg(CommandInfo c);
 

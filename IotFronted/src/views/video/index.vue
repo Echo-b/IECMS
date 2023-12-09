@@ -1,6 +1,6 @@
 <template>
   <div id="imgbox">
-    <img style="height: 60%; width: 60%;" src="http://192.168.183.62/mjpeg/1">
+    <img style="height: 40%; width: 100%;" src="http://192.168.104.62/mjpeg/1">
   </div>
 </template>
 

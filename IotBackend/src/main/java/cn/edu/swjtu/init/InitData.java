@@ -1,12 +1,10 @@
 package cn.edu.swjtu.init;
 
-import cn.edu.swjtu.mapper.DataMapper;
-import cn.edu.swjtu.mapper.DeviceMapper;
-import cn.edu.swjtu.mapper.InitMapper;
-import cn.edu.swjtu.mapper.UserMapper;
+import cn.edu.swjtu.mapper.*;
 import cn.edu.swjtu.pojo.AlertInfo;
 import cn.edu.swjtu.pojo.Init;
 import cn.edu.swjtu.pojo.NormalData;
+import cn.edu.swjtu.pojo.Threshold;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -33,6 +31,9 @@ public class InitData implements ApplicationRunner {
 
     @Autowired
     private InitMapper initMapper;
+
+    @Autowired
+    private ThresholdMapper thresholdMapper;
     @Override
     public void run(ApplicationArguments args) {
         System.out.println(".....Init data into redis......");
@@ -49,6 +50,11 @@ public class InitData implements ApplicationRunner {
         ArrayList<AlertInfo> alertInfos = dataMapper.getAllAlertData();
         redisTemplate.opsForValue().set("normalDatas",normalDatas);
         redisTemplate.opsForValue().set("alertInfos",alertInfos);
+
+        ArrayList<Threshold> thresholds = thresholdMapper.getAllDeviceThreshold();
+        for(Threshold t: thresholds){
+            redisTemplate.opsForValue().set(t.getDid(),t);
+        }
         System.out.println(".....Init data successful......");
     }
 }

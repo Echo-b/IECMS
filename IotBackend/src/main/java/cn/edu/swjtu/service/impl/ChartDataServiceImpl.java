@@ -1,14 +1,13 @@
 package cn.edu.swjtu.service.impl;
 
+import cn.edu.swjtu.mapper.DataMapper;
 import cn.edu.swjtu.mapper.DeviceMapper;
 import cn.edu.swjtu.mapper.UserMapper;
-import cn.edu.swjtu.pojo.AlertInfo;
-import cn.edu.swjtu.pojo.Device;
-import cn.edu.swjtu.pojo.NormalData;
-import cn.edu.swjtu.pojo.User;
+import cn.edu.swjtu.pojo.*;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.ChartDataService;
 import cn.edu.swjtu.utils.DateUtil;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xfvape.uid.UidGenerator;
 import jakarta.annotation.Resource;
@@ -31,6 +30,9 @@ public class ChartDataServiceImpl implements ChartDataService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private DataMapper dataMapper;
 
     private String[] weeks = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
     private String[] zhweeks = {"星期一","星期二","星期三","星期四","星期五","星期六","星期日"};
@@ -57,6 +59,115 @@ public class ChartDataServiceImpl implements ChartDataService {
             remaps.add(data.getIntValue(zhweeks[i]));
         }
         return remaps;
+    }
+
+    @Override
+    public ResponseData getLightData() throws ParseException {
+        try {
+            JSONObject cnt = new JSONObject();
+            JSONObject data = new JSONObject();
+            ArrayList<AverageData> allAverageData = dataMapper.getAllAverageData();
+            for(String key : zhweeks) {
+                cnt.put(key, 0);
+                data.put(key,0);
+            }
+            for(AverageData ele : allAverageData) {
+                String key = DateToDay(ele.getDate());
+                cnt.put(key,cnt.getIntValue(key) +1);
+                data.put(key,data.getDoubleValue(key) + ele.getLight());
+            }
+            Vector<Double> lightData = new Vector<>();
+            for(int i = 0; i < weeks.length; ++i){
+                lightData.add((Double) data.getDoubleValue(zhweeks[i]) / cnt.getIntValue(zhweeks[i]));
+            }
+            return ResponseData.success("获取温一周光照数据成功").data("lightData",lightData);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return ResponseData.error("获取一周光照数据失败");
+    }
+
+    @Override
+    public ResponseData getRadderData() {
+        try {
+            AverageData data = dataMapper.getNewestAverageData();
+            int[] value;
+            JSONArray datas = new JSONArray();
+            // todo: add complex way to compute the weight, the baseline is ten
+            //  { name: 'dressing' },
+            //  { name: 'sun protection' },
+            //  { name: 'travel' },
+            //  { name: 'sports' },
+            //  { name: 'fishing' },
+            //  { name: 'Car Wash' }
+            // handle light
+            if(data.getLight() >= 300 ){
+                JSONObject item = new JSONObject();
+                value = new int[]{5, 8, 5, 5, 8, 5};
+                item.put("name","light");
+                item.put("value",value);
+                datas.add(item);
+            } else if (data.getLight() <= 100 ){
+                JSONObject item = new JSONObject();
+                value = new int[]{2, 2, 8, 8, 8, 2};
+                item.put("name","light");
+                item.put("value",value);
+                datas.add(item);
+            } else {
+                JSONObject item = new JSONObject();
+                value = new int[]{5, 5, 7, 7, 8, 2};
+                item.put("name","Light");
+                item.put("value",value);
+                datas.add(item);
+            }
+
+            // handle temperature
+            if(data.getTemperature() >= 35 ){
+                JSONObject item = new JSONObject();
+                value = new int[]{3, 6, 6, 6, 8, 9};
+                item.put("name","temperature");
+                item.put("value",value);
+                datas.add(item);
+            } else if (data.getTemperature() <= 15 ){
+                JSONObject item = new JSONObject();
+                value = new int[]{8, 2, 6, 7, 8, 1};
+                item.put("name","temperature");
+                item.put("value",value);
+                datas.add(item);
+            } else {
+                JSONObject item = new JSONObject();
+                value = new int[]{5, 5, 7, 7, 8, 2};
+                item.put("name","temperature");
+                item.put("value",value);
+                datas.add(item);
+            }
+
+            // handle humidity
+            if(data.getHumidity() >= 65 ){
+                JSONObject item = new JSONObject();
+                value = new int[]{2, 1, 4, 3, 8, 1};
+                item.put("name","humidity");
+                item.put("value",value);
+                datas.add(item);
+            } else if (data.getHumidity() <= 20 ){
+                JSONObject item = new JSONObject();
+                value = new int[]{3, 2, 9, 9, 8, 6};
+                item.put("name","humidity");
+                item.put("value",value);
+                datas.add(item);
+            } else {
+                JSONObject item = new JSONObject();
+                value = new int[]{5, 5, 7, 7, 8, 2};
+                item.put("name","humidity");
+                item.put("value",value);
+                datas.add(item);
+            }
+            return ResponseData.success("获取最新温湿度数据成功").data("radarData",datas);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseData.error("获取最新温湿度数据失败");
     }
 
     public Vector<Integer> mapUsersIntoWeeks(ArrayList<User> users) throws ParseException {

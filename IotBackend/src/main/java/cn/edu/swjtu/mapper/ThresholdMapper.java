@@ -6,10 +6,15 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.ArrayList;
+
 @Mapper
 public interface ThresholdMapper {
     @Select("select * from threshold where did = #{did};")
     Threshold getDeviceThreshold(int did);
+
+    @Select("select * from threshold;")
+    ArrayList<Threshold> getAllDeviceThreshold();
 
     @Insert("insert into threshold did,temp_max,humi_max,light_max) " +
             "values (#{did},#{temp_max},#{humi_max},#{light_max});")

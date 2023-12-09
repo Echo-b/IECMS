@@ -5,6 +5,7 @@ import cn.edu.swjtu.pojo.Threshold;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.ThresholdService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ThresholdServiceImpl implements ThresholdService {
     @Autowired
     private ThresholdMapper mapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Override
     public ResponseData getDeviceThreshold(int did) {
         try {
@@ -38,6 +42,7 @@ public class ThresholdServiceImpl implements ThresholdService {
     public ResponseData changeLightThreshold(Threshold th) {
         try {
             if(mapper.changeLightThreshold(th) > 0){
+                redisTemplate.opsForValue().set(th.getDid(),th);
                 return ResponseData.success("修改关照强度阈值成功");
             }
         }catch (Exception e){
@@ -50,6 +55,7 @@ public class ThresholdServiceImpl implements ThresholdService {
     public ResponseData changeHumiThreshold(Threshold th) {
         try {
             if(mapper.changeHumiThreshold(th) > 0){
+                redisTemplate.opsForValue().set(th.getDid(),th);
                 return ResponseData.success("修改湿度阈值成功");
             }
         }catch (Exception e){
@@ -62,6 +68,7 @@ public class ThresholdServiceImpl implements ThresholdService {
     public ResponseData changeTempThreshold(Threshold th) {
         try {
             if(mapper.changeTempThreshold(th) > 0){
+                redisTemplate.opsForValue().set(th.getDid(),th);
                 return ResponseData.success("修改温度阈值成功");
             }
         }catch (Exception e){

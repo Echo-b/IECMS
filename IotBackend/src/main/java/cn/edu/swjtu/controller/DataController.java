@@ -32,6 +32,16 @@ public class DataController {
         return chartDataService.getPieData();
     }
 
+    @GetMapping("/chart/radar")
+    public ResponseData getRadderData(){
+        return chartDataService.getRadderData();
+    }
+
+    @GetMapping("/chart/light")
+    public ResponseData getLightData() throws  ParseException {
+        return chartDataService.getLightData();
+    }
+
     @GetMapping("/normal/all")
     public ResponseData getNormalData(@RequestParam(defaultValue = "1") int pageNum) {
         return dataService.getNormalData(pageNum);
