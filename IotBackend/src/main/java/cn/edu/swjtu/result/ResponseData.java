@@ -12,11 +12,9 @@ public class ResponseData {
     private String type;
     private Boolean success;
     private Map<String, Object> data = new HashMap<String, Object>();
-//    private Object data;
 
     public static ResponseData success(String msg){
         ResponseData r = new ResponseData();
-//        r.setData(null);
         r.setCode(ResultCode.SUCCESS);
         r.setSuccess(true);
         r.setType("success");

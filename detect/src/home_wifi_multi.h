@@ -1,2 +1,2 @@
-#define SSID1 "iQOONeo5"
-#define PWD1 "echopi314159"
+#define SSID1 "YOUR WIFI NAME"
+#define PWD1 "YOUR WIFI PASSWORD"
