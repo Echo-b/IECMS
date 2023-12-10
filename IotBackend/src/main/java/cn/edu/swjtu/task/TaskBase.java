@@ -9,10 +9,7 @@ import javax.swing.*;
 public class TaskBase {
     //任务参数，根据业务需求多少都行
     private CommandInfo commandInfo;
-
     public TaskBase(CommandInfo deviceAction) {
         this.commandInfo = deviceAction;
     }
-
-
 }
