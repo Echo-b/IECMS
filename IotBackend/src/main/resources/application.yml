@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/iott?characterEncoding=utf8&serverTimezone=UTC
-    username: root
-    password: bsb010306
+    url: jdbc:mysql://localhost:3306/[your database]?characterEncoding=utf8&serverTimezone=UTC
+    username: [your username]
+    password: [your password]
   application:
     name: redis
     data:
@@ -21,8 +21,8 @@ spring:
 mqtt:
   address: tcp://127.0.0.1:1883
   client_id: iot_sub
-  user_name: admin
-  password: 123456
+  user_name: your username
+  password: your password
   subTopic: /topics/pub
   pubTopic: devPubTopics
   keep_alive: 60
