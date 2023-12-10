@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @Slf4j
@@ -55,7 +54,25 @@ public class DelayQueueManager implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("初始化延时队列");
-        Executors.newSingleThreadExecutor().execute(new Thread(this::excuteThread));
+       // Executors.newSingleThreadExecutor().execute(new Thread(this::excuteThread));
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2, 2, 0, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(10), new ThreadFactory() {
+            private final AtomicInteger threadNumber = new AtomicInteger(1);
+
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r);
+                thread.setName("Number" + threadNumber.getAndIncrement());
+                return thread;
+            }
+        }, new RejectedExecutionHandler() {
+            @Override
+            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                System.out.println("进入了拒绝策略");
+            }
+        });
+        threadPoolExecutor.execute(this::excuteThread);
+
     }
 
     /**
@@ -68,6 +85,7 @@ public class DelayQueueManager implements CommandLineRunner {
                 //执行任务
                 TimeUnit unit = TimeUnit.SECONDS;
                 if(task.getDelay(unit) <= 0) {
+                    System.out.println(Thread.currentThread().getName()+"正在执行任务");
                     processTask(task);
                     remove(task);
                 }
@@ -79,7 +97,6 @@ public class DelayQueueManager implements CommandLineRunner {
 
     /**
      * 内部执行延时任务
-     *
      * @param task
      */
     private void processTask(DelayTask task) {
