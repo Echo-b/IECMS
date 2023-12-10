@@ -71,31 +71,8 @@ public class DelayQueueManager implements CommandLineRunner {
                 System.out.println("进入了拒绝策略");
             }
         });
-
-
-        //threadPoolExecutor.execute(this::excuteThread);
-        while (true) {
-            try {
-                DelayTask task = delayQueue.take();
-                //执行任务
-                TimeUnit unit = TimeUnit.SECONDS;
-                if(task.getDelay(unit) <= 0) {
-                    threadPoolExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            processTask(task);
-                            remove(task);
-                        }
-                    });
-                }
-            } catch (InterruptedException e) {
-                break;
-            }
-        }
+        threadPoolExecutor.execute(this::excuteThread);
     }
-
-
-
     /**
      * 单个线程
      * 延时任务执行线程
@@ -107,6 +84,7 @@ public class DelayQueueManager implements CommandLineRunner {
                 //执行任务
                 TimeUnit unit = TimeUnit.SECONDS;
                 if(task.getDelay(unit) <= 0) {
+                    System.out.println(Thread.currentThread().getName()+"正在执行任务");
                     processTask(task);
                     remove(task);
                 }
@@ -125,8 +103,4 @@ public class DelayQueueManager implements CommandLineRunner {
         log.info("执行延时任务：{}", task);
         mqttService.pubMqttMsg(task.getData().getCommandInfo());
     }
-
-    /**
-     *新定义的runnable，供线程池使用
-     */
 }
