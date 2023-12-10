@@ -5,12 +5,21 @@ import cn.edu.swjtu.config.MQTTConfig;
 import cn.edu.swjtu.mapper.DeviceMapper;
 import cn.edu.swjtu.mapper.RecordMapper;
 import cn.edu.swjtu.pojo.CommandInfo;
+import cn.edu.swjtu.pojo.TData;
+import cn.edu.swjtu.pojo.Threshold;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.MQTTService;
+import cn.edu.swjtu.utils.DateUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 import static cn.edu.swjtu.utils.DateUtil.getDate;
 
@@ -26,6 +35,9 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
 
     @Autowired
     private RecordMapper mapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     private MqttClient client;
     private MqttConnectOptions options;
@@ -113,23 +125,43 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                     JSONObject command = new JSONObject();
                     JSONObject led = new JSONObject();
                     JSONObject beep = new JSONObject();
+                    JSONObject delay = new JSONObject();
                     JSONObject htSensor = new JSONObject();
                     // todo: add more command type
                     switch (c.getCommand()){
                         case "LEDON" : {
                             led.put("status","on");
+                            led.put("delay",0);
                             break;
                         }
                         case "LEDOFF" : {
                             led.put("status","off");
+                            led.put("delay",0);
                             break;
                         }
                         case "BEEPON" : {
                             beep.put("status","on");
+                            beep.put("delay",0);
                             break;
                         }
                         case "BEEPOFF" : {
                             beep.put("status","off");
+                            beep.put("delay",0);
+                            break;
+                        }
+                        case "BEEPALERT" : {
+                            beep.put("status","on");
+                            beep.put("delay",500);
+                            break;
+                        }
+                        case "DELAYOPEN" : {
+                            delay.put("status","on");
+                            delay.put("did",c.getDid());
+                            break;
+                        }
+                        case "DELAYCLOSE" : {
+                            delay.put("status","off");
+                            delay.put("did",c.getDid());
                             break;
                         }
                     }
@@ -138,6 +170,7 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
                     command.put("led",led);
                     command.put("beep",beep);
                     command.put("htSensor",htSensor);
+                    command.put("delay",delay);
                     root.put("command",command);
 
                     System.out.println("root = " + root);
@@ -185,14 +218,39 @@ public class MQTTServiceImpl implements MQTTService, MqttCallbackExtended {
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         String sender = s.substring(s.indexOf("/") + 1);
-        System.out.println("sender = " + sender);
+//        System.out.println("sender = " + sender);
         /**
          * 下述到达消息为嵌入式设备采集并发送至mqtt服务器的温湿度，需将温湿度进行处理存入normal_data数据表
          * 如果温湿度过高，那么存入alter_info数据表，基准值自由设置
          * 此外为了防止数据存入过多，应采集一段数据然后求平均值在进行存入，或者设备端控制发送数据的时间
          */
         String str = new String(mqttMessage.getPayload());
-        System.out.println("str = " + str);
+        JSONObject data = JSON.parseObject(str);
+        JSONObject lightSensor = (JSONObject) data.get("lightSensor");
+        JSONObject htSensor = (JSONObject) data.get("htSensor");
+        JSONObject led = (JSONObject) data.get("Led");
+        Double temperature = ((BigDecimal)htSensor.get("Temp")).doubleValue();
+        Double humidity = ((BigDecimal)htSensor.get("Humi")).doubleValue();
+        int htSensorDid = htSensor.getIntValue("did");
+        Double light = ((BigDecimal) lightSensor.get("Light")).doubleValue();
+        int lightDid = lightSensor.getIntValue("did");
+        int ledStatus = led.getIntValue("status");
+        int ledDid = led.getIntValue("did");
+
+        Threshold htSensorThreshold = (Threshold) redisTemplate.opsForValue().get(htSensorDid);
+        Threshold lightSensorThreshold = (Threshold) redisTemplate.opsForValue().get(lightDid);
+
+//        System.out.println("light = " + light);
+        if(light > lightSensorThreshold.getLight_max() || temperature > htSensorThreshold.getTemp_max() || humidity > htSensorThreshold.getHumi_max()) {
+            CommandInfo c = new CommandInfo();
+            c.setDid(lightDid);
+            c.setCommand("BEEPALERT");
+            c.setTopic("/topics/sub/beep");
+            c.setDeviceName("beep");
+            c.setDate(DateUtil.getDate());
+            pubMqttMsg(c);
+        }
+//        System.out.println("str = " + str);
 
     }
 

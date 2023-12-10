@@ -31,9 +31,11 @@ public class RecordController {
         // if command has params then we should set delay task
         if(!c.getParam().equals("")){
             delayQueueManager.put(new DelayTask(new TaskBase(c),parseLong(c.getParam()) * 1000));
+            return ResponseData.success("设置任务成功");
         }
         return mqttService.pubMqttMsg(c);
     }
+
 
     @GetMapping("/all")
     public ResponseData getAllCommandRecord(String operator){

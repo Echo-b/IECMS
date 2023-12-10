@@ -46,9 +46,9 @@ public class UserServiceImpl implements UserService {
         String username = JwtUtils.getClaimsByToken(token).getSubject();
         System.out.println("username = " + username);
         // from redis get user info
-        User user = (User) redisTemplate.opsForValue().get(username);
-        System.out.println("user = " + user);
-//        User user = mapper.getSingleUserInfo(username);
+//        User user = (User) redisTemplate.opsForValue().get(username);
+//        System.out.println("user = " + user);
+        User user = mapper.getSingleUserInfo(username);
         return ResponseData.success("success").data("uid",user.getUid()).data("name",username).data("avatar",user.getAvatar()).data("roles",user.getRoles()).data("email",user.getEmail()).data("groupid",user.getGroup_id());
     }
 

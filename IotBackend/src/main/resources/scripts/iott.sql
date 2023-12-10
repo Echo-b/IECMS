@@ -139,9 +139,13 @@ end;
 
 Create Trigger trigger_INIT after insert on device for each row
 begin
-    if NEW.type = 'sensor' or NEW.type = 'light' then
+    if NEW.type = 'sensor' then
         INSERT into threshold(did, temp_max, humi_max, light_max)
-        VALUES(NEW.did, 35, 65, 150);
+        VALUES(NEW.did, 35, 80, 0);
+    else if NEW.type = 'light' then
+        INSERT into threshold(did, temp_max, humi_max, light_max)
+        VALUES(NEW.did, 0, 0, 150);
+    end if;
     end if;
 end;
 

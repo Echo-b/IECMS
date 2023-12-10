@@ -15,7 +15,7 @@
 #define WIFI_SSID "iQOONeo5"	 //	WIFI的名称 必须用2.4G的wifi不能用5G的，且不能用中文、空格
 #define WIFI_PSWD "echopi314159" //	WIFI密码
 
-#define SERVER_HOST "192.168.104.133" //	MQTT服务器域名或IP
+#define SERVER_HOST "192.168.72.133" //	MQTT服务器域名或IP
 #define SERVER_PORT "1883"			 //	MQTT服务器端口（一般为1883不用改）
 
 #define ESP8266_WIFI_INFO "AT+CWJAP=\"" WIFI_SSID "\",\"" WIFI_PSWD "\"\r\n"

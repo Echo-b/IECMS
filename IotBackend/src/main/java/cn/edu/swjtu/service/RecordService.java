@@ -9,4 +9,5 @@ public interface RecordService {
     ResponseData getAllCommandRecord(String operator);
 
     ResponseData getGroupActivity(int group_id);
+
 }

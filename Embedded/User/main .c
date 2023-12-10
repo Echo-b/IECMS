@@ -99,12 +99,12 @@ int main(void)
 				light = LIght_Intensity();
 			}
 		}
-		if (++timeCount >= 200) // 发送间隔5s
+		if (++timeCount >= 200) // 发送间隔10s
 		{
 			Led_Status = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0); // 读取LED0的状态
 			DEBUG_LOG("==================================================================================");
 			DEBUG_LOG("publish data ----- OneNet_Publish");
-			sprintf(PUB_BUF, "{\"Hum\":%d.%d,\"Temp\":%d.%d,\"Led\":%d, \"Light\":%.1f}",
+			sprintf(PUB_BUF, "{ \"htSensor\": {\"did\": 3, \"Humi\":%d.%d,\"Temp\":%d.%d },\"Led\":{\"did\": 1,\"status\":%d},  \"lightSensor\":{\"did\": 4,\"Light\":%.1f}}",
 					humidityH, humidityL, temperatureH, temperatureL, Led_Status ? 0 : 1,light);
 			OneNet_Publish(devPubTopics, PUB_BUF);
 			DEBUG_LOG("==================================================================================");

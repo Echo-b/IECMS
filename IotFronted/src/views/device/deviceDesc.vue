@@ -72,7 +72,7 @@
         >关闭</el-button>
       </el-descriptions-item>
     </el-descriptions>
-    <!-- <model-vue :did="device.did" /> -->
+    <model-vue :did="device.did" />
 
   </div>
 
@@ -82,12 +82,12 @@
 import { getDeviceById } from '@/api/device'
 import { insertRecord } from '@/api/record'
 
-// import modelVue from './model.vue'
+import modelVue from './model.vue'
 
 export default {
-  // components: {
-  //   modelVue
-  // },
+  components: {
+    modelVue
+  },
   data() {
     return {
       device: {
@@ -129,6 +129,7 @@ export default {
       }
       insertRecord(form).then((res) => {
         if (res.success) {
+          this.device.status = 'on'
           this.$notify({
             title: '设置完毕',
             message: res.msg,
@@ -154,6 +155,7 @@ export default {
       }
       insertRecord(form).then((res) => {
         if (res.success) {
+          this.device.status = 'off'
           this.$notify({
             title: '设置完毕',
             message: res.msg,

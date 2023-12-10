@@ -61,13 +61,13 @@ export default {
     initMarker() {
       this.devices = this.$store.getters.devices
       // console.log('map devices infor', this.devices)
-      for (const device of this.devices) {
+      this.devices.array.forEach(ele => {
         const marker = new this.AMap.Marker({
-          position: new this.AMap.LngLat(Number(device.longitude), Number(device.latitude)),
-          title: device.deviceName
+          position: new this.AMap.LngLat(Number(ele.longitude), Number(ele.latitude)),
+          title: ele.deviceName
         })
         this.markerList.push(marker)
-      }
+      })
       console.log(this.markerList)
     },
     showMarker() {

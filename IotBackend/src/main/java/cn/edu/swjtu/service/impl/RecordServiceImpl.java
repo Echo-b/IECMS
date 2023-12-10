@@ -1,10 +1,15 @@
 package cn.edu.swjtu.service.impl;
 
 import cn.edu.swjtu.mapper.RecordMapper;
+import cn.edu.swjtu.mapper.UserMapper;
 import cn.edu.swjtu.pojo.CommandInfo;
 import cn.edu.swjtu.pojo.User;
 import cn.edu.swjtu.result.ResponseData;
 import cn.edu.swjtu.service.RecordService;
+import cn.edu.swjtu.task.DelayQueueManager;
+import cn.edu.swjtu.task.DelayTask;
+import cn.edu.swjtu.task.TaskBase;
+import cn.edu.swjtu.utils.DateUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +24,7 @@ public class RecordServiceImpl implements RecordService {
     private RecordMapper mapper;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private UserMapper userMapper;
 
 
     @Override
@@ -43,7 +48,7 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public ResponseData getGroupActivity(int group_id) {
         try {
-            ArrayList<User> users = (ArrayList<User>) redisTemplate.opsForValue().get("usergroup" + group_id);
+            ArrayList<User> users = userMapper.getAllGroupUser(group_id);
             JSONArray activity = new JSONArray();
             for (User u: users) {
                 JSONObject item = new JSONObject();
@@ -65,4 +70,5 @@ public class RecordServiceImpl implements RecordService {
         }
         return ResponseData.error("获取小组成员活动信息失败");
     }
+
 }

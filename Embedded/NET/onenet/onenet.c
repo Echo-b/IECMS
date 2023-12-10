@@ -63,7 +63,7 @@ _Bool OneNet_DevLink(void)
 				switch (MQTT_UnPacketConnectAck(dataPtr))
 				{
 				case 0:
-					UsartPrintf(USART_DEBUG, "Tips:	连接成功\r\n");
+					UsartPrintf(USART_DEBUG, "Tips:	Connect Success\r\n");
 					status = 0;
 					break;
 				case 1:
@@ -219,8 +219,13 @@ void OneNet_RevPro(unsigned char *cmd)
 			cJSON *cjson_command = NULL;
 			cJSON *cjson_led = NULL;
 			cJSON *cjson_led_status = NULL;
+			cJSON *cjson_led_delay = NULL;
 			cJSON *cjson_beep = NULL;
 			cJSON *cjson_beep_status = NULL;
+			cJSON *cjson_beep_delay = NULL;
+			cJSON *cjson_delay = NULL;
+			cJSON *cjson_delay_status = NULL;
+			cJSON *cjson_delay_did = NULL;
 			cJSON *cjson_htSensor = NULL;
 			cJSON *cjson_temperture = NULL;
 			cJSON *cjson_humidity = NULL;
@@ -237,22 +242,32 @@ void OneNet_RevPro(unsigned char *cmd)
 				/* 解析嵌套json数据 */
 				cjson_led = cJSON_GetObjectItem(cjson_command, "led");
 				cjson_beep = cJSON_GetObjectItem(cjson_command, "beep");
+				cjson_delay = cJSON_GetObjectItem(cjson_command, "delay");
 				cjson_htSensor = cJSON_GetObjectItem(cjson_command, "htSensor");
-
+				
 				/* 解析led */
 				cjson_led_status = cJSON_GetObjectItem(cjson_led, "status");
+				cjson_led_delay = cJSON_GetObjectItem(cjson_led, "delay");
 				cjson_beep_status = cJSON_GetObjectItem(cjson_beep, "status");
+				cjson_beep_delay = cJSON_GetObjectItem(cjson_beep, "delay");
+			  cjson_delay_status = cJSON_GetObjectItem(cjson_delay, "status");
+				cjson_delay_did = cJSON_GetObjectItem(cjson_delay, "did");
 
 				/* 解析htSensor数据 */
 				cjson_temperture = cJSON_GetObjectItem(cjson_htSensor, "temperature");
 				cjson_humidity = cJSON_GetObjectItem(cjson_htSensor, "humidity");
 				cjson_device_status = cJSON_GetObjectItem(cjson_htSensor, "status");
-				UsartPrintf(USART_DEBUG,"[%s]\n",cjson_beep_status->valuestring);
 				if(strstr(cjson_led_status->valuestring,"o")) {
 					UsartPrintf(USART_DEBUG,"input led\n");
-					if (strcmp(cjson_led_status->valuestring,"on") == 0) // led status 为 on
+					if (strcmp(cjson_led_status->valuestring,"on") == 0 && cjson_led_delay->valueint == 0 ) // led status 为 on
 					{
 						LED_ON();
+					}
+					else if (strcmp(cjson_led_status->valuestring,"on") == 0 && cjson_led_delay->valueint > 0 ) // beep status 为 on
+					{
+						LED_ON();
+						delay_ms(cjson_led_delay->valueint);
+						LED_OFF();
 					}
 					else
 					{
@@ -261,17 +276,39 @@ void OneNet_RevPro(unsigned char *cmd)
 				}
 				else if(strstr(cjson_beep_status->valuestring,"o")) {
 					UsartPrintf(USART_DEBUG,"input beep\n");
-					if (strcmp(cjson_beep_status->valuestring,"on") == 0) // beep status 为 on
+					if (strcmp(cjson_beep_status->valuestring,"on") == 0 && cjson_beep_delay->valueint == 0) // beep status 为 on
 					{
 						Buzzer_ON();
+	
+					}
+					else if (strcmp(cjson_beep_status->valuestring,"on") == 0 && cjson_beep_delay->valueint > 0) // beep status 为 on
+					{
+						Buzzer_ON();
+						delay_ms(cjson_beep_delay->valueint);
+						Buzzer_OFF();
 					}
 					else
 					{
 						Buzzer_OFF(); // 关闭BEEP
 					}
 				}
+				else if(strstr(cjson_delay_status->valuestring,"o")) {
+					if(strcmp(cjson_delay_status->valuestring,"on") == 0){
+						if(cjson_delay_did->valueint == 1)
+							LED_ON();
+						else if(cjson_delay_did->valueint == 2)
+							Buzzer_ON();
+					} 
+					else if(strcmp(cjson_delay_status->valuestring,"off") == 0){
+						if(cjson_delay_did->valueint == 1)
+							LED_OFF();
+						else if(cjson_delay_did->valueint == 2)
+							Buzzer_OFF();
+					}
+				}
 			}
 			cJSON_Delete(json);
+			
 		}
 		break;
 
